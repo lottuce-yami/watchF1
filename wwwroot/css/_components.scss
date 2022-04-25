@@ -1,0 +1,54 @@
+﻿// Palette
+  $background: #2A2A2A;
+  $foreground: #1F1F1F;
+  $contrast: #FCEEEF;
+  $accent: #DB222A;
+
+// Fonts
+  @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap');
+  
+  @mixin font($font, $generic) {
+    font-family: $font, $generic;
+    color: $contrast;
+  }
+  
+  %main-font {
+    @include font(Rubik, sans-serif);
+  }
+  
+  %spec-font {
+    @include font(Righteous, sans-serif);
+  }
+  
+// Components
+  %logo {
+    @extend %spec-font;
+    font-size: xx-large;
+  }
+  
+  %header {
+    @extend %main-font;
+    font-size: x-large;
+  }
+  
+  %small-video {
+    @extend %main-font;
+    font-size: larger;
+    text-decoration: none;
+  }
+  
+  %text {
+    @extend %main-font;
+  }
+  
+  %button {
+    @extend %text;
+    text-align: center;
+    text-decoration: none;
+    background-color: $foreground;
+    border-radius: 1em;
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    align-items: center;
+  }

@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
+header a {
+  font-family: Rubik, sans-serif;
+  color: #FCEEEF;
+}
+
+header h1 {
+  font-family: Righteous, sans-serif;
+  color: #FCEEEF;
+}
+
+header h1 {
+  font-size: xx-large;
+}
+
+header a {
+  text-align: center;
+  text-decoration: none;
+  background-color: #1F1F1F;
+  border-radius: 1em;
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #2A2A2A;
+}
+
+header h1 {
+  letter-spacing: 0.1em;
+}
+header span {
+  color: #DB222A;
+}
+header a #online {
+  color: deepskyblue;
+}
+header a #offline {
+  color: #DB222A;
+}
+
+/*# sourceMappingURL=layout.css.map */

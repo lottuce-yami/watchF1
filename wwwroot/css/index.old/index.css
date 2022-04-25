@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
+.about {
+  font-family: Rubik, sans-serif;
+  color: #FCEEEF;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/*# sourceMappingURL=index.css.map */

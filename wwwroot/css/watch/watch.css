@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
+.video a, .other-videos a, .video h2 {
+  font-family: Rubik, sans-serif;
+  color: #FCEEEF;
+}
+
+.video h2 {
+  font-size: x-large;
+}
+
+.other-videos a {
+  font-size: larger;
+  text-decoration: none;
+}
+
+.video a {
+  text-align: center;
+  text-decoration: none;
+  background-color: #1F1F1F;
+  border-radius: 1em;
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.video a {
+  font-size: larger;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=watch.css.map */

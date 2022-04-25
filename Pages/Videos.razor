@@ -1,0 +1,81 @@
+﻿@page "/Videos/{*path}"
+@using F1Project.Data
+@inject VideoService _vs
+@inject NavigationManager _nav
+
+<PageTitle>watchF1 - Видео</PageTitle>
+<head>
+    <link rel="stylesheet" href="css/videos/composition.css">
+    <link rel="stylesheet" href="css/videos/videos.css">
+</head>
+
+<div class="filters">
+    <label for="championship">
+        Чемпионат:
+        <select name="championship" id="championship" disabled>
+            <option value="f1" selected>F1</option>
+        </select>
+    </label>
+    <label for="season">
+        Сезон:
+        <select name="season" id="season" disabled>
+            <option value="2022">2022</option>
+        </select>
+    </label>
+    <label for="grandPrix">
+        Гран-при:
+        <select name="grandPrix" id="grandPrix" disabled>
+            <option value="all" selected>Все</option>
+            <option value="australia">Гран-при Австралии</option>
+            <option value="emilia-romagna">Гран-при Эмилии-Романьи</option>
+        </select>
+    </label>
+    <label for="type">
+        Тип:
+        <select name="type" id="type" disabled>
+            <option value="all" selected>Все</option>
+            <option value="practice">Свободный заезд</option>
+            <option value="qualifying">Квалификация</option>
+            <option value="sprint-qualifying">Спринт-квалификация</option>
+            <option value="race">Гонка</option>
+        </select>
+    </label>
+    <label for="sound">
+        Звуковая дорожка:
+        <select name="sound" id="sound" disabled>
+            <option value="all" selected>Все</option>
+            <option value="fx">Интершум</option>
+            <option value="commentaries">Комментарии</option>
+        </select>
+    </label>
+</div>
+<br>
+<div class="videos">
+    @foreach(var video in _videos.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
+    {
+        <a href="watch/@video.Id">
+            <img src="@video.Preview" alt=""><br>
+            <h2>@video.Title</h2>
+            <br>
+        </a>
+    }
+</div>
+<br><br><br><br><br>
+
+@code
+{
+    [Parameter]
+    public string? Path { get; set; }
+    
+    private HashSet<Video> _videos = null!;
+
+    private void UpdateVideos(VideoService.SelectionOptions option, string value)
+    {
+        _videos = _vs.GetVideosBy(option, value).Reverse().ToHashSet();
+    }
+    
+    protected override void OnParametersSet()
+    {
+        UpdateVideos(VideoService.SelectionOptions.Path, Path ?? _vs.DefaultPath);
+    }
+}

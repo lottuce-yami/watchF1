@@ -1,0 +1,57 @@
+﻿@use "sass:math";
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.frame {
+    img {
+        width: 100vw;
+        position: fixed;
+    }
+    #top {
+        top: 0;
+    }
+    #bot {
+        bottom: 0;
+    }
+}
+
+.content-box {
+    height: 100%;
+    width: 100%;
+    padding: 4% 12%;
+}
+
+nav {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 1em;
+    
+    h1 {
+        grid-column: 1 / 4;
+    }
+
+    #live {
+        grid-column: 4 / 6;
+    }
+    #videos {
+        grid-column: 6 / 8;
+    }
+    #vk {
+        grid-column: 9 / 11;
+    }
+    #tg {
+        grid-column: 11 / 13;
+    }
+}
+
+.page {
+    height: 100%;
+    display: flex;
+}
+
+img {
+    width: 100%;
+}

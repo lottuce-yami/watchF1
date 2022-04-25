@@ -1,0 +1,34 @@
+﻿using System.Runtime.InteropServices;
+using System.Text.Json;
+
+namespace F1Project.Data;
+
+public class VideoService
+{
+    public readonly string Extension = JsonDocument.Parse(
+        File.OpenRead("/data/settings.json")).RootElement.GetProperty("extension").ToString();
+    
+    public DirectoryInfo Dir = new DirectoryInfo(
+        JsonDocument.Parse(
+            File.OpenRead("/data/settings.json")).RootElement.GetProperty("defaultPath").ToString()
+    );
+
+    public HashSet<Video> GetVideos([Optional] string? path)
+    {
+        var videos = new HashSet<Video>();
+        foreach (var videoFile in Dir.GetFiles("*.mp4", SearchOption.AllDirectories))
+        {
+            var preview = $"/videos/{videoFile.Name.Replace(Extension, ".png")}";
+
+            var video = new Video(
+                videoFile.Name,
+                videoFile.Name.Replace(Extension, ""),
+                preview
+                );
+            
+            videos.Add(video);
+        }
+        
+        return videos;
+    }
+}

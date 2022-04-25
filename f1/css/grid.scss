@@ -1,0 +1,50 @@
+﻿@use "sass:math";
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.frame {
+    img {
+        width: 100%;
+        position: fixed;
+    }
+    #top {
+        top: 0;
+    }
+    #bot {
+        bottom: 0;
+    }
+}
+
+.content-box {
+    height: 100%;
+    width: 100%;
+    padding: math.div(60, 1080) * 65% math.div(130, 1920) * 100%;
+}
+
+header {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: math.div(20, 1920) * 100%;
+    
+    h1 {
+        grid-column: 1 / 4;
+    }
+
+    #live {
+        grid-column: 4 / 6;
+    }
+    #videos {
+        grid-column: 6 / 8;
+    }
+    #vk {
+        grid-column: 9 / 11;
+    }
+    #tg {
+        grid-column: 11 / 13;
+    }
+}
+        

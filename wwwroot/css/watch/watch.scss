@@ -1,0 +1,19 @@
+﻿@use "../components";
+
+.video {
+  h2 {
+    @extend %header;
+  }
+  
+  a {
+    @extend %button;
+    font-size: larger;
+    cursor: pointer;
+  }
+}
+
+.other-videos {
+  a {
+    @extend %small-video;
+  }
+}

@@ -1,0 +1,68 @@
+﻿@page "/Watch/{videoId}"
+@using F1Project.Data
+@inject VideoService _vs
+@inject IJSRuntime _js
+@inject NavigationManager _nav
+
+<PageTitle>watchF1 - @_video.Title</PageTitle>
+<head>
+    <link rel="stylesheet" href="css/watch/composition.css">
+    <link rel="stylesheet" href="css/watch/watch.css">
+</head>
+
+<div class="video">
+    <div id="player"></div>
+    <br>
+    <div class="video-info">
+        <h2>@_video.Title</h2>
+        <a @onclick="DownloadVideo">Скачать 💾</a>
+    </div>
+</div>
+<br><br>
+<div class="other-videos">
+    @foreach (var video in _otherVideos.Where(video => video.Id != _video.Id))
+    {
+        <a href="watch/@video.Id">
+            <img src="@video.Preview" alt=""><br>
+            <h2>@video.Title</h2>
+        </a>
+        <br>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? VideoId { get; set; }
+
+    Video _video = null!;
+    HashSet<Video> _otherVideos = null!;
+
+    protected override void OnParametersSet()
+    {
+        if (VideoId == null)
+        {
+            _nav.NavigateTo("videos");
+            return;
+        }
+        try
+        {
+            _video = _vs.GetVideo(VideoId);
+        }
+        catch
+        {
+            _nav.NavigateTo("videos");
+            return;
+        }
+        _otherVideos = _vs.GetVideosBy(VideoService.SelectionOptions.Path, $"/{_video.Championship}/{_video.Season}/{_video.GrandPrix}");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _js.InvokeVoidAsync("getPlayer", _video.File);
+    }
+
+    private async void DownloadVideo()
+    {
+        await _js.InvokeVoidAsync("download", _video.File, _video.Title);
+    }
+}

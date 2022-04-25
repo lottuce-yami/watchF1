@@ -1,0 +1,4 @@
+﻿{
+  "database": "wwwroot/data/website.db",
+  "defaultVideosPath": "/f1/2022"
+}

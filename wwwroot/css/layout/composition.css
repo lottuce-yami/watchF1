@@ -1,0 +1,53 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+.frame img {
+  width: 100vw;
+  position: fixed;
+}
+.frame #top {
+  top: 0;
+}
+.frame #bot {
+  bottom: 0;
+}
+
+.content-box {
+  height: 100%;
+  width: 100%;
+  padding: 4% 12%;
+}
+
+nav {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1em;
+}
+nav h1 {
+  grid-column: 1/4;
+}
+nav #live {
+  grid-column: 4/6;
+}
+nav #videos {
+  grid-column: 6/8;
+}
+nav #vk {
+  grid-column: 9/11;
+}
+nav #tg {
+  grid-column: 11/13;
+}
+
+.page {
+  height: 100%;
+  display: flex;
+}
+
+img {
+  width: 100%;
+}
+
+/*# sourceMappingURL=composition.css.map */

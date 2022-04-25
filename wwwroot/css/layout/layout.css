@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
+nav > a {
+  font-family: Rubik, sans-serif;
+  color: #FCEEEF;
+}
+
+nav h1 {
+  font-family: Righteous, sans-serif;
+  color: #FCEEEF;
+}
+
+nav h1 {
+  font-size: xx-large;
+}
+
+nav > a {
+  text-align: center;
+  text-decoration: none;
+  background-color: #1F1F1F;
+  border-radius: 1em;
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #2A2A2A;
+}
+
+nav h1 {
+  letter-spacing: 0.25em;
+}
+nav h1 a {
+  text-decoration: none;
+  color: #FCEEEF;
+}
+nav span {
+  color: #DB222A;
+}
+nav > a #online {
+  color: deepskyblue;
+}
+nav > a #offline {
+  color: #DB222A;
+}
+
+/*# sourceMappingURL=layout.css.map */

@@ -1,0 +1,32 @@
+﻿@use "../components";
+
+body {
+  background-color: components.$background;
+}
+
+nav {
+  h1 {
+    @extend %logo;
+    letter-spacing: 0.25em;
+
+    a {
+      text-decoration: none;
+      color: components.$contrast;
+    }
+  }
+  
+  span {
+    color: components.$accent;
+  }
+  
+  > a {
+    @extend %button;
+      #online {
+        color: deepskyblue;
+      }
+      #offline {
+        color: components.$accent;
+      }
+  }
+  
+}
