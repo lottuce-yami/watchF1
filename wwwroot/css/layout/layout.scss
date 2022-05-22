@@ -1,32 +1,120 @@
 ﻿@use "../components";
 
-body {
-  background-color: components.$background;
-}
+// Layout
+  #tg-login-widget {
+    display: none;
+  }
 
-nav {
-  h1 {
-    @extend %logo;
-    letter-spacing: 0.25em;
-
+  html, body, main, header, footer, nav, img {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background-color: components.$background;
+    color: components.$contrast;
+  }
+  
+  header, footer {
+    position: fixed;
+    z-index: 1;
+    line-height: 2.5em;
+    background-color: components.$foreground;
+  }
+  
+  header {
+    top: 0;
+    border-bottom: components.$border;
+  
+    h1 {
+      @extend %logo;
+      text-align: center;
+      letter-spacing: 0.25em;
+    }
+  
     a {
       text-decoration: none;
       color: components.$contrast;
     }
+  
+    span {
+      color: components.$accent;
+    }
   }
   
-  span {
-    color: components.$accent;
+  footer {
+    bottom: 0;
+    border-top: components.$border;
   }
   
-  > a {
-    @extend %button;
-      #online {
-        color: deepskyblue;
+  nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  
+    a {
+      @extend %nav-link;
+    }
+  
+    #live {
+      font-size: xx-large;
+      @media screen and (min-width: 768px) {
+        font-size: larger;
       }
-      #offline {
-        color: components.$accent;
+    }
+  
+    h3 {
+      display: none;
+      @media screen and (min-width: 768px) {
+        display: initial;
       }
+    }
   }
   
-}
+  main {
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    @media screen and (orientation: landscape) {
+      flex-flow: row wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+      gap: 1em;
+    }
+    gap: 1em;
+    padding: 3.7em components.$small-padding;
+    @media screen and (orientation: portrait) {
+      @media (min-width: 600px) {
+        padding-left: components.$medium-padding;
+        padding-right: components.$medium-padding;
+      }
+      @media (min-width: 768px) {
+        padding-left: components.$x_large-padding;
+        padding-right: components.$x_large-padding;
+      }
+      @media (min-width: 992px) {
+        padding-left: components.$xx_large-padding;
+        padding-right: components.$xx_large-padding;
+      }
+    }
+    
+    @media screen and (orientation: landscape) {
+      @media (min-width: 992px) {
+        padding-left: components.$large-padding;
+        padding-right: components.$large-padding;
+      }
+      @media (min-width: 1200px) {
+        padding-left: components.$x_large-padding;
+        padding-right: components.$x_large-padding;
+      }
+      @media (min-width: 1440px) {
+        padding-left: components.$xx_large-padding;
+        padding-right: components.$xx_large-padding;
+      }
+    }
+  }
+
+  

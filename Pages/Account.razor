@@ -1,0 +1,111 @@
+﻿@page "/Account"
+@using F1Project.Data
+@layout AuthLayout
+@inject IJSRuntime _js
+
+<PageTitle>watchF1 - Аккаунт</PageTitle>
+<head>
+    <link rel="stylesheet" href="css/account/account.css">
+</head>
+
+@if (IsConnected)
+{
+    if (IsAuthorized && User is not null)
+    {
+        <section id="account-info">
+            <p>
+                ID:
+                <b @onclick="CopyId" class="user-id">@User.Id</b>
+            </p>
+            <br>
+            <p>
+                Доступ к трансляции:
+                @if (User.Subscribed)
+                {
+                    <span class="true">оплачен</span>
+                }
+                else
+                {
+                    <span class="false">не оплачен</span>
+                }
+            </p>
+        </section>
+        if (!User.Subscribed)
+        {
+            <section id="manual">
+                <h2>Инструкция: Как получить доступ к трансляции?</h2>
+                <br>
+                <p>
+                    Поздравляем, теперь у вас есть учётная запись, которая непосредственно связана с вашим аккаунтом в Telegram. 
+                    Стоимость доступа к трансляции на время одного гоночного уик-энда (полноценного Гран-при) - <strong>150 у.е..</strong>
+                </p>
+                <br>
+                <ol>
+                    <li>
+                        Перейти на сайт для оплаты - <a href="@SettingsService.GetSetting("donationLink")" target="_blank">DonationAlerts</a>
+                    </li>
+                    <br>
+                    <li>
+                        В форме заполнить все поля согласно следующей инструкции:
+                        <ul>
+                            <br>
+                            <li>
+                                <b>Имя:</b> вставьте в это поле ваш ID - <strong @onclick="CopyId" class="user-id">@User.Id</strong> <i>(нажмите, чтобы скопировать)</i>.
+                                <strong>Важно:</strong> если вы укажете неверный ID или не укажете его вовсе, то доступ не будет предоставлен в автоматическом режиме и вам придётся связаться с поддержкой.
+                            </li>
+                            <br>
+                            <li>
+                                <b>Сумма:</b> не менее 150 у.е., в качестве валюты <strong>обязательно</strong> должен быть выбран CURRENCY - если вы оплачиваете со счёта в другой валюте, то позже сможете выбрать соответствующий способ оплаты.
+                                Вы можете ввести большую сумму, за что мы будем вам глубоко благодарны, но это не даёт вам права доступа к трансляциям больше чем на <strong>один Гран-при</strong>.
+                            </li>
+                            <br>
+                            <li>
+                                <b>Сообщение:</b> можно оставить пустым, но рекомендуем указать ссылку на ваш профиль Telegram или электронную почту.
+                                По этим данным мы сможем связаться с вами в будущем, если возникнут какие-то проблемы.
+                            </li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li>
+                        Нажать на кнопку “Поддержать” и после выбора удобного способа оплаты произвести её.
+                    </li>
+                </ol>
+                <br>
+                <p>
+                    После оплаты необходимо некоторое время (не более 10 минут) для предоставления доступа к трансляциям в автоматическом режиме.
+                    Через 10 минут после оплаты попробуйте снова посетить эту страницу (обновить), и если вы всё ещё видите эту инструкцию - свяжитесь со <a href="@SettingsService.GetSetting("supportLink")" target="_blank">службой поддержки</a> для решения данной ситуации.
+                </p>
+                
+            </section>
+        }
+    }
+    else
+    {
+        <h2>Авторизуйтесь, чтобы получить доступ к этой странице.</h2>
+        <a href="login" role="button">
+            <i class="fa-brands fa-telegram"></i>
+            Войти через Telegram
+        </a>
+    }
+}
+else
+{
+    <h2>Загрузка...</h2>
+}
+
+
+@code {
+    [CascadingParameter (Name = "IsConnected")]
+    private bool IsConnected { get; set; }
+    
+    [CascadingParameter (Name = "IsAuthorized")]
+    private bool IsAuthorized { get; set; }
+
+    [CascadingParameter(Name = "User")]
+    private User? User { get; set; }
+
+    private void CopyId()
+    {
+        _js.InvokeVoidAsync("clipboardCopy.copyText", User?.Id);
+    }
+}

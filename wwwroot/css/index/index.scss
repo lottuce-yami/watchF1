@@ -1,0 +1,78 @@
+@use "../components";
+
+main {
+    justify-content: space-between;
+}
+
+#about {
+    @media screen and (orientation: landscape) {
+        width: 70%;
+    }
+    letter-spacing: 0.1em;
+    line-height: 1.25em;
+
+    p {
+        @extend %text;
+    }
+    a {
+        @extend %link;
+    }
+    h2 {
+        @extend %header;
+    }
+    span {
+        @extend %logo;
+        font-size: x-large;
+    }
+    b {
+        color: components.$accent;
+    }
+}
+
+#support {
+    @media screen and (orientation: landscape) {
+        width: 28%;
+    }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    
+    a {
+        @extend %button;
+        line-height: 3.5em;
+    }
+}
+
+hr {
+    width: 100%;
+}
+
+#schedule {
+    @extend %text;
+    margin: 0 auto;
+    @media screen and (orientation: landscape) {
+        line-height: 0.80em;
+    }
+    
+    h3 {
+        font-size: larger;    
+    }
+    
+    ol {
+        list-style-type: none;
+        list-style-position: inside;
+        @media screen and (orientation: landscape) {
+            text-align: center; 
+        }
+    }
+    
+    li > ol {
+        list-style-type: disc;
+        padding-inline-start: 1em;
+        line-height: 1.15em;
+        @media screen and (orientation: landscape) {
+            text-align: initial;
+        }
+    }
+}

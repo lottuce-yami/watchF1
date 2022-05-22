@@ -1,25 +1,29 @@
-﻿@page "/Watch/{videoId}"
+﻿@page "/Watch"
+@page "/Watch/{videoId}"
 @using F1Project.Data
-@inject VideoService _vs
 @inject IJSRuntime _js
 @inject NavigationManager _nav
 
 <PageTitle>watchF1 - @_video.Title</PageTitle>
 <head>
-    <link rel="stylesheet" href="css/watch/composition.css">
     <link rel="stylesheet" href="css/watch/watch.css">
 </head>
 
-<div class="video">
+<section id="video">
     <div id="player"></div>
     <br>
-    <div class="video-info">
+    <div id="video-info">
         <h2>@_video.Title</h2>
-        <a @onclick="DownloadVideo">Скачать 💾</a>
+        <a @onclick="DownloadVideo" role="button">
+            <i class="fa-solid fa-download"></i>
+            <p>Скачать</p>
+        </a>
     </div>
-</div>
-<br><br>
-<div class="other-videos">
+</section>
+<hr>
+<section id="other-videos">
+    <h2>Другие видео:</h2>
+    <br>
     @foreach (var video in _otherVideos.Where(video => video.Id != _video.Id))
     {
         <a href="watch/@video.Id">
@@ -28,7 +32,7 @@
         </a>
         <br>
     }
-</div>
+</section>
 
 @code {
     [Parameter]
@@ -39,26 +43,28 @@
 
     protected override void OnParametersSet()
     {
-        if (VideoId == null)
-        {
-            _nav.NavigateTo("videos");
-            return;
-        }
         try
         {
-            _video = _vs.GetVideo(VideoId);
+            _video = VideoService.GetVideo(VideoId ?? "");
+            _otherVideos = VideoService.GetVideosBy(
+                VideoService.SelectionOptions.Path,
+                $"/{_video.Championship}/{_video.Season}/{_video.GrandPrix}");
         }
         catch
         {
             _nav.NavigateTo("videos");
-            return;
         }
-        _otherVideos = _vs.GetVideosBy(VideoService.SelectionOptions.Path, $"/{_video.Championship}/{_video.Season}/{_video.GrandPrix}");
+    }
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrWhiteSpace(VideoId)) return;
+        _nav.NavigateTo("videos");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await _js.InvokeVoidAsync("getPlayer", _video.File);
+        await _js.InvokeVoidAsync("getPlayer", _video.File, _video.Preview);
     }
 
     private async void DownloadVideo()

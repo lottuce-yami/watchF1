@@ -5,11 +5,10 @@
 
 <PageTitle>watchF1 - Видео</PageTitle>
 <head>
-    <link rel="stylesheet" href="css/videos/composition.css">
     <link rel="stylesheet" href="css/videos/videos.css">
 </head>
 
-<div class="filters">
+@*<section id="filters">
     <label for="championship">
         Чемпионат:
         <select name="championship" id="championship" disabled>
@@ -48,9 +47,8 @@
             <option value="commentaries">Комментарии</option>
         </select>
     </label>
-</div>
-<br>
-<div class="videos">
+</section>*@
+<section id="videos-list">
     @foreach(var video in _videos.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
     {
         <a href="watch/@video.Id">
@@ -59,8 +57,7 @@
             <br>
         </a>
     }
-</div>
-<br><br><br><br><br>
+</section>
 
 @code
 {
@@ -71,7 +68,7 @@
 
     private void UpdateVideos(VideoService.SelectionOptions option, string value)
     {
-        _videos = _vs.GetVideosBy(option, value).Reverse().ToHashSet();
+        _videos = VideoService.GetVideosBy(option, value).Reverse().ToHashSet();
     }
     
     protected override void OnParametersSet()

@@ -1,10 +1,72 @@
 ﻿@page "/Live"
+@using F1Project.Data
+@layout AuthLayout
+@inject NavigationManager _nav
 
-<PageTitle>watchF1 - Трансляция</PageTitle>
+<PageTitle>watchF1 - @SettingsService.GetSetting("liveTitle")</PageTitle>
 <head>
     <link rel="stylesheet" href="css/live/live.css">
 </head>
 
-<div id="page__player">
-    <iframe src="https://vk.com/video_ext.php?oid=-212511564&id=456239038&hash=593f18b8f5ab60ac&hd=1" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" frameborder="0" allowfullscreen></iframe>
-</div>
+@if (IsConnected)
+{
+    if (IsAuthorized && User is not null)
+    {
+        if (User.Subscribed)
+        {
+            <LivePlayer/>
+            <section id="links">
+                <a href="@SettingsService.GetSetting("backupStream")" target="_blank">
+                    <i class="fa-solid fa-wheelchair-move"></i>
+                    Резервная трансляция
+                </a>
+                <a href="@SettingsService.GetSetting("supportLink")" target="_blank">
+                    <i class="fa-brands fa-telegram"></i>
+                    Поддержка
+                </a>
+            </section>
+        }
+        else
+        {
+            <h2>Оплатите доступ, чтобы смотреть трансляцию.</h2>
+            <a href="account" role="button">
+                <i class="fa-solid fa-file-lines"></i> 
+                Инструкция
+            </a>
+        }
+        <hr>
+        <Schedule/>
+    }
+    else
+    {
+        <h2>Авторизуйтесь, чтобы получить доступ к этой странице.</h2>
+        <a href="login" role="button">
+            <i class="fa-brands fa-telegram"></i>
+            Войти через Telegram
+        </a>
+    }
+}
+else
+{
+    <h2>Загрузка...</h2>
+}
+
+@code
+{
+    [CascadingParameter (Name = "IsConnected")]
+    private bool IsConnected { get; set; }
+    
+    [CascadingParameter (Name = "IsAuthorized")]
+    private bool IsAuthorized { get; set; }
+
+    [CascadingParameter(Name = "User")]
+    private User? User { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (SettingsService.GetSetting("test") == "true")
+        {
+            _nav.NavigateTo("test");
+        }
+    }
+}

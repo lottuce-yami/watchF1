@@ -1,32 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
-.video a, .other-videos a, .video h2 {
+#video a, #other-videos a, #video h2, #other-videos h2 {
   font-family: Rubik, sans-serif;
   color: #FCEEEF;
 }
 
-.video h2 {
+#video h2, #other-videos h2 {
   font-size: x-large;
 }
 
-.other-videos a {
+#other-videos a {
   font-size: larger;
   text-decoration: none;
 }
 
-.video a {
+#video a {
   text-align: center;
   text-decoration: none;
-  background-color: #1F1F1F;
+  background-color: #262626;
+  border: thin solid #3a3a3a;
   border-radius: 1em;
-  display: flex;
-  gap: 0.5em;
-  justify-content: center;
-  align-items: center;
+}
+@media screen and (hover) {
+  #video a:hover {
+    border: thin solid #DE363D;
+  }
 }
 
-.video a {
+#video a {
   font-size: larger;
   cursor: pointer;
+}
+@media screen and (orientation: landscape) {
+  #video {
+    width: 80%;
+  }
+}
+
+#video-info {
+  display: flex;
+  justify-content: space-between;
+}
+#video-info h2 {
+  width: 80%;
+}
+#video-info a {
+  padding: 0.35em;
+}
+#video-info p {
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  #video-info p {
+    width: initial;
+    display: initial;
+  }
+}
+
+hr {
+  width: 100%;
+}
+@media screen and (orientation: landscape) {
+  hr {
+    display: none;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  #other-videos {
+    width: 18%;
+  }
 }
 
 /*# sourceMappingURL=watch.css.map */

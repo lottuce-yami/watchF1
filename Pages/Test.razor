@@ -1,0 +1,26 @@
+﻿@page "/Test"
+@using F1Project.Data
+@inject NavigationManager _nav
+
+<PageTitle>watchF1 - Тестовая трансляция</PageTitle>
+<head>
+    <link rel="stylesheet" href="css/live/live.css">
+</head>
+
+<LivePlayer/>
+<section id="links">
+    <a href="@SettingsService.GetSetting("supportLink")" target="_blank">
+        <i class="fa-brands fa-telegram"></i>
+        Поддержка
+    </a>
+</section>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (SettingsService.GetSetting("test") != "true")
+        {
+            _nav.NavigateTo("live");
+        }
+    }
+}

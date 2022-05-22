@@ -1,0 +1,70 @@
+﻿@use "../components";
+
+main {
+  .user-id{
+    cursor: pointer;
+  }
+  
+  h2 {
+    @extend %header;
+  }
+
+  a[role=button] {
+    @extend %button;
+    line-height: 2.5em;
+  }
+  
+  p, ol {
+    @extend %text;
+  }
+  
+  b {
+    font-weight: bold;
+  }
+  
+  strong {
+    color: components.$accent;
+  }
+}
+
+#account-info {
+  border: components.$border;
+  border-radius: 1em;
+  padding: 0.5em;
+  @media screen and (orientation: landscape) {
+    width: 20%;
+  }
+}
+
+#manual {
+  ol {
+    list-style-type: decimal;
+    list-style-position: inside;
+  }
+  
+  ul {
+    list-style-type: circle;
+    list-style-position: inside;
+    padding-inline-start: 1em;
+  }
+  
+  a {
+    @extend %link;
+  }
+
+  i {
+    font-style: italic;
+  }
+  
+  @media screen and (orientation: landscape) {
+    width: 80%;
+  }
+}
+
+.true {
+  color: components.$accent-contrast;
+}
+
+.false {
+  color: components.$accent;
+}

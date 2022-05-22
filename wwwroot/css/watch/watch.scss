@@ -1,6 +1,6 @@
 ﻿@use "../components";
 
-.video {
+#video {
   h2 {
     @extend %header;
   }
@@ -10,10 +10,45 @@
     font-size: larger;
     cursor: pointer;
   }
+  @media screen and (orientation: landscape) {
+    width: 80%;
+  }
 }
 
-.other-videos {
+#video-info {
+  display: flex;
+  justify-content: space-between;
+  
+  h2 {
+    width: 80%;
+  }
   a {
-    @extend %small-video;
+    padding: 0.35em;
+  }
+  p {
+    display: none;
+    @media screen and (min-width: 768px) {
+      width: initial;
+      display: initial;
+    }
+  }
+}
+
+hr {
+  width: 100%;
+  @media screen and (orientation: landscape) {
+    display: none;
+  }
+}
+
+#other-videos {
+  h2 {
+    @extend %header;
+  }
+  a {
+    @extend %video;
+  }
+  @media screen and (orientation: landscape) {
+    width: 18%;
   }
 }

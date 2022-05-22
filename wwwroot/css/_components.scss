@@ -1,8 +1,19 @@
 ﻿// Palette
-  $background: #2A2A2A;
-  $foreground: #1F1F1F;
+  $background: #1a1a1a;
+  $foreground: #262626;
+  $foreground-lighter: #3a3a3a;
   $contrast: #FCEEEF;
-  $accent: #DB222A;
+  $accent: #DE363D;
+  $accent-contrast: deepskyblue;
+
+// Decor & alignment
+  $border: thin solid $foreground-lighter;
+  $selection-border: thin solid $accent;
+  $small-padding: 5%;
+  $medium-padding: 10%;
+  $large-padding: 12%;
+  $x_large-padding: 15%;
+  $xx_large-padding: 20%;
 
 // Fonts
   @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap');
@@ -31,7 +42,7 @@
     font-size: x-large;
   }
   
-  %small-video {
+  %video {
     @extend %main-font;
     font-size: larger;
     text-decoration: none;
@@ -39,16 +50,36 @@
   
   %text {
     @extend %main-font;
+    font-size: large;
+  }
+  
+  %link {
+    @extend %main-font;
+    color: $accent;
+  }
+  
+  %nav-link {
+    @extend %main-font;
+    text-decoration: none;
+    font-size: larger;
+    border-top: thin solid $foreground;
+
+    &:hover, &.active {
+      border-top: $selection-border;
+    }
   }
   
   %button {
-    @extend %text;
+    @extend %main-font;
     text-align: center;
     text-decoration: none;
     background-color: $foreground;
+    border: $border;
     border-radius: 1em;
-    display: flex;
-    gap: 0.5em;
-    justify-content: center;
-    align-items: center;
+    @media screen and (hover) {
+      &:hover {
+        border: $selection-border;
+      }
+    }
   }
+  

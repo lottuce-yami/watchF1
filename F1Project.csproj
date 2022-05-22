@@ -12,12 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="wwwroot\data\settings.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.css" />
       <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.scss" />
@@ -46,6 +40,31 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\watch\watch.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\css\watch\watch.scss" />
       <_ContentIncludedByDefault Remove="wwwroot\css\_components.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\telegram-auth\onAuth.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Data\Database\Database.cs" />
+      <Compile Remove="Data\Database\Services\SettingService.cs" />
+      <Compile Remove="Data\Database\Services\ServerService.cs" />
+      <Compile Remove="Data\Database\Services\VideoService.cs" />
+      <Compile Remove="Data\Database\Services\UserService.cs" />
+      <Compile Remove="Data\Database\Types\DatabaseType.cs" />
+      <Compile Remove="Data\Database\Types\Setting.cs" />
+      <Compile Remove="Data\Database\Types\Server.cs" />
+      <Compile Remove="Data\Database\Types\Video.cs" />
+      <Compile Remove="Data\BotOptions.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\Database\Services" />
+      <Folder Include="Data\Database\Types" />
     </ItemGroup>
 
 </Project>

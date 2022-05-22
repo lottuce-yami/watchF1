@@ -1,49 +1,11 @@
 ﻿using System.Data;
-using System.Data.SQLite;
-using System.Text.Json;
 
 namespace F1Project.Data;
 
 public class VideoService
 {
-    private readonly string _database = JsonDocument.Parse(
-        File.OpenRead("wwwroot/data/settings.json")).RootElement.GetProperty("database").ToString();
-    
-    public readonly string DefaultPath = JsonDocument.Parse(
-            File.OpenRead("wwwroot/data/settings.json")).RootElement.GetProperty("defaultVideosPath").ToString();
-    
-    private int Write(string query, Dictionary<string, object> args)
-    {
-        using var conn = new SQLiteConnection($"Data Source={_database}");
-            conn.Open();
+    public readonly string DefaultPath = SettingsService.GetSetting("defaultVideosPath");
 
-            using var cmd = new SQLiteCommand(query, conn);
-            foreach (var (key, value) in args)
-            {
-                cmd.Parameters.AddWithValue(key, value);
-            }
-            
-            return cmd.ExecuteNonQuery();
-    }
-
-    private DataTable Read(string query, Dictionary<string, object> args)
-    {
-        using var conn = new SQLiteConnection($"Data Source={_database}");
-            conn.Open();
-
-            using var cmd = new SQLiteCommand(query, conn);
-            foreach (var (key, value) in args)
-            {
-                cmd.Parameters.AddWithValue(key, value);
-            }
-            
-            var dataTable = new DataTable();
-            var dataAdapter = new SQLiteDataAdapter(cmd);
-            dataAdapter.Fill(dataTable);
-            dataAdapter.Dispose();
-            return dataTable;
-    }
-    
     private static Video Deserialize(DataRow row)
     {
         return new Video
@@ -59,7 +21,7 @@ public class VideoService
         };
     }
 
-    public int AddVideo(Video video)
+    public static int AddVideo(Video video)
     {
         const string query =
             "INSERT INTO Videos VALUES(@id, @file, @title, @preview, @championship, @season, @grandPrix, @type)";
@@ -75,10 +37,10 @@ public class VideoService
             {"@type", video.Type}
         };
 
-        return Write(query, args);
+        return Database.Write(query, args);
     }
 
-    public int EditVideo(Video video)
+    public static int EditVideo(Video video)
     {
         const string query =
             "UPDATE Videos SET File = @file, Title = @title, Preview = @preview, Championship = @championship, Season = @season, GrandPrix = @grandPrix, Type = @type WHERE Id = @id";
@@ -94,10 +56,10 @@ public class VideoService
             {"@type", video.Type}
         };
 
-        return Write(query, args);
+        return Database.Write(query, args);
     }
 
-    public int DeleteVideo(string videoId)
+    public static int DeleteVideo(string videoId)
     {
         const string query =
             "DELETE FROM Videos WHERE Id = @id";
@@ -106,10 +68,10 @@ public class VideoService
             {"@id", videoId}
         };
 
-        return Write(query, args);
+        return Database.Write(query, args);
     }
 
-    public Video GetVideo(string videoId)
+    public static Video GetVideo(string videoId)
     {
         const string query =
             "SELECT * FROM Videos WHERE Id = @id";
@@ -117,9 +79,9 @@ public class VideoService
         {
             {"@id", videoId}
         };
-        var data = Read(query, args);
+        var data = Database.Read(query, args);
 
-        return Deserialize(data.Rows[0]);
+        return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : new Video();
     }
 
     public enum SelectionOptions
@@ -131,7 +93,7 @@ public class VideoService
         Type
     }
 
-    public HashSet<Video> GetVideosBy(SelectionOptions selectionOption, string value)
+    public static HashSet<Video> GetVideosBy(SelectionOptions selectionOption, string value)
     {
         string selection;
         if (selectionOption == SelectionOptions.Path)
@@ -157,7 +119,7 @@ public class VideoService
         var query =
             $"SELECT * FROM Videos {selection}";
         var args = new Dictionary<string, object>();
-        var data = Read(query, args);
+        var data = Database.Read(query, args);
 
         var videos = new HashSet<Video>();
         foreach (DataRow row in data.Rows)

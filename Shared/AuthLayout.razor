@@ -1,0 +1,54 @@
+﻿@using F1Project.Data
+@inherits LayoutComponentBase
+@layout MainLayout
+@inject ProtectedLocalStorage _localStorage
+
+<CascadingValue Value="IsConnected" Name="IsConnected">
+    <CascadingValue Value="IsAuthorized" Name="IsAuthorized">
+        <CascadingValue Value="User" Name="User">
+            @Body
+        </CascadingValue>
+    </CascadingValue>
+</CascadingValue>
+
+
+@code {
+    private bool IsConnected { get; set; }
+    private bool IsAuthorized { get; set; }
+    private User? User { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsConnected = true;
+            await LoadAuthAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadAuthAsync()
+    {
+        try
+        {
+            var authFile = await _localStorage.GetAsync<string>("tgAuth");
+            var authValue = authFile.Success ? authFile.Value : null;
+            if (authValue is null || string.IsNullOrWhiteSpace(authValue))
+            {
+                IsAuthorized = false;
+            }
+            else
+            {
+                IsAuthorized = UserService.ValidateAuthKey(authValue.Split('#'));
+                if (IsAuthorized)
+                {
+                    User = UserService.GetUser(authValue.Split('#')[0]);
+                }
+            }
+        }
+        catch
+        {
+            IsAuthorized = false;
+        }
+    }
+}

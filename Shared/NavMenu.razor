@@ -1,0 +1,24 @@
+﻿@using F1Project.Data
+
+<nav>
+    <NavLink id="home" href="/" Match="NavLinkMatch.All">
+        <i class="fa-solid fa-house"></i>
+        <h3>Главная</h3>
+    </NavLink>
+    <NavLink class="button" id="tg" href="@SettingsService.GetSetting("tgLink")" target="_blank">
+        <i class="fa-brands fa-telegram"></i>
+        <h3>Telegram</h3>
+    </NavLink>
+    <NavLink id="live" href="live">
+        <i class="fa-solid fa-circle-play"></i>
+        <h3>Трансляция</h3>
+    </NavLink>
+    <NavLink id="videos" href="videos">
+        <i class="fa-solid fa-folder"></i>
+        <h3>Записи</h3>
+    </NavLink>
+    <NavLink id="account" href="account">
+        <i class="fa-solid fa-user"></i>
+        <h3>Аккаунт</h3>
+    </NavLink>
+</nav>

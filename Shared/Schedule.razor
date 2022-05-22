@@ -1,0 +1,23 @@
+﻿@using F1Project.Data
+
+<section id="schedule">
+    <h3>@SettingsService.GetSetting("scheduleTitle")</h3>
+    <ol>
+        @foreach (var day in SettingsService.GetSetting("schedule").Split(" / "))
+        {
+            <br>
+            <li>
+                @day.Split(" [] ")[0]
+                <br><br>
+                <ol>
+                    @foreach (var livestream in day.Split(" [] ")[1].Split(" , "))
+                    {
+                        <li>
+                            @livestream
+                        </li>
+                    } 
+                </ol>
+            </li>
+        }
+    </ol>
+</section>
