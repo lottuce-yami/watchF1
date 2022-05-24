@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using F1Project.Data.Database.Types;
 
-namespace F1Project.Data;
+namespace F1Project.Data.Database.Services;
 
-public class UserService
+internal class UserService : Database<User>
 {
     private static User Deserialize(DataRow row)
     {
@@ -35,7 +36,7 @@ public class UserService
             {"@hash", user.Hash ?? ""}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static int EditUser(User user)
@@ -53,7 +54,7 @@ public class UserService
             {"@hash", user.Hash ?? ""}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static int DeleteUser(string userId)
@@ -65,7 +66,7 @@ public class UserService
             {"@id", userId}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static User GetUser(string userId)
@@ -76,7 +77,7 @@ public class UserService
         {
             {"@id", userId}
         };
-        var data = Database.Read(query, args);
+        var data = Data.Database.Read(query, args);
 
         return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : new User();
     }

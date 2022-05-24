@@ -1,8 +1,8 @@
-﻿namespace F1Project.Data;
+﻿namespace F1Project.Data.Database.Types;
 
-public class User
+public class User : DatabaseType
 {
-    public string Id { get; init; } = null!;
+    public override string Id { get; init; } = null!;
     public bool Subscribed { get; set; }
     public string FirstName { get; set; } = null!;
     public string? LastName { get; set; }
@@ -11,8 +11,8 @@ public class User
     public int? AuthDate { get; set; }
     public string? Hash { get; set; }
     
-    public User(){}
-    /*public User(string id, bool subscribed, string firstName, string lastName, string username, string photo)
+    /*public User(){}
+    public User(string id, bool subscribed, string firstName, string lastName, string username, string photo)
     {
         Id = id;
         Subscribed = subscribed;

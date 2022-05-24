@@ -50,21 +50,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Data\Database\Database.cs" />
-      <Compile Remove="Data\Database\Services\SettingService.cs" />
-      <Compile Remove="Data\Database\Services\ServerService.cs" />
-      <Compile Remove="Data\Database\Services\VideoService.cs" />
-      <Compile Remove="Data\Database\Services\UserService.cs" />
-      <Compile Remove="Data\Database\Types\DatabaseType.cs" />
-      <Compile Remove="Data\Database\Types\Setting.cs" />
-      <Compile Remove="Data\Database\Types\Server.cs" />
-      <Compile Remove="Data\Database\Types\Video.cs" />
-      <Compile Remove="Data\BotOptions.cs" />
+      <None Remove="Data\VideoService.cs.old" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Database\Services" />
-      <Folder Include="Data\Database\Types" />
+      <Compile Remove="Data\SettingsService.cs" />
+      <Compile Remove="Data\ServerService.cs" />
+      <Compile Remove="Data\VideoService.cs" />
+      <Compile Remove="Data\UserService.cs" />
+      <Compile Remove="Data\Database.cs" />
+      <Compile Remove="Data\Video.cs" />
+      <Compile Remove="Data\User.cs" />
     </ItemGroup>
 
 </Project>

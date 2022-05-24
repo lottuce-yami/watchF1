@@ -1,12 +1,13 @@
 ﻿using System.Data;
+using F1Project.Data.Database.Types;
 
-namespace F1Project.Data;
+namespace F1Project.Data.Database.Services;
 
-public class VideoService
+internal class VideoService : Service<Video>
 {
-    public readonly string DefaultPath = SettingsService.GetSetting("defaultVideosPath");
+    public readonly string DefaultPath = SettingService.GetSetting("defaultVideosPath");
 
-    private static Video Deserialize(DataRow row)
+    protected override Video Deserialize(DataRow row)
     {
         return new Video
         {
@@ -21,7 +22,7 @@ public class VideoService
         };
     }
 
-    public static int AddVideo(Video video)
+    /*public static int AddVideo(Video video)
     {
         const string query =
             "INSERT INTO Videos VALUES(@id, @file, @title, @preview, @championship, @season, @grandPrix, @type)";
@@ -37,7 +38,7 @@ public class VideoService
             {"@type", video.Type}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static int EditVideo(Video video)
@@ -56,7 +57,7 @@ public class VideoService
             {"@type", video.Type}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static int DeleteVideo(string videoId)
@@ -68,7 +69,7 @@ public class VideoService
             {"@id", videoId}
         };
 
-        return Database.Write(query, args);
+        return Data.Database.Write(query, args);
     }
 
     public static Video GetVideo(string videoId)
@@ -79,10 +80,10 @@ public class VideoService
         {
             {"@id", videoId}
         };
-        var data = Database.Read(query, args);
+        var data = Data.Database.Read(query, args);
 
         return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : new Video();
-    }
+    }*/
 
     public enum SelectionOptions
     {
@@ -119,7 +120,7 @@ public class VideoService
         var query =
             $"SELECT * FROM Videos {selection}";
         var args = new Dictionary<string, object>();
-        var data = Database.Read(query, args);
+        var data = Data.Database.Read(query, args);
 
         var videos = new HashSet<Video>();
         foreach (DataRow row in data.Rows)

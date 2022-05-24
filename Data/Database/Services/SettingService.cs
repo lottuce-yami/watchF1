@@ -1,14 +1,14 @@
 ﻿using System.Data;
 
-namespace F1Project.Data;
+namespace F1Project.Data.Database.Services;
 
-public class SettingsService
+internal class SettingService : Database<string>
 {
     private static string Deserialize(DataRow row)
     {
         return row["Value"].ToString() ?? "";
     }
-    
+
     public static string GetSetting(string id)
     {
         const string query =
@@ -17,7 +17,7 @@ public class SettingsService
         {
             {"@id", id}
         };
-        var data = Database.Read(query, args);
+        var data = Data.Database.Read(query, args);
 
         return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : "";
     }

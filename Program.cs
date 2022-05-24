@@ -1,5 +1,5 @@
 using F1Project.AppOptions;
-using F1Project.Data;
+using F1Project.Data.Database.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 
@@ -10,7 +10,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
-builder.Services.AddSingleton<SettingsService>();
+builder.Services.AddSingleton<SettingService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<VideoService>();
 builder.Services.AddSingleton<ServerService>();

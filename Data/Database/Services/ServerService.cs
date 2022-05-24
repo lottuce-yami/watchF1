@@ -1,15 +1,22 @@
 ﻿using System.Data;
+using F1Project.Data.Database.Types;
 
-namespace F1Project.Data;
+namespace F1Project.Data.Database.Services;
 
-public class ServerService
+internal class ServerService : Service<Server>
 {
-    private static string Deserialize(DataRow row)
+    protected override Server Deserialize(DataRow row)
     {
-        return row["Url"].ToString() ?? "";
+        return new Server
+        {
+            Id = row["Id"].ToString() ?? "",
+            Url = row["Url"].ToString() ?? ""
+        };
     }
+
     
-    public static List<string> GetServers()
+
+    /*public static List<string> GetServers()
     {
         const string query =
             "SELECT * FROM Servers";
@@ -21,5 +28,5 @@ public class ServerService
         servers.AddRange(from DataRow row in data.Rows select Deserialize(row));
 
         return servers;
-    }
+    }*/
 }
