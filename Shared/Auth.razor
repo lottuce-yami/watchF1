@@ -6,9 +6,9 @@
 @using System.Web
 @using F1Project.AppOptions
 @using Microsoft.Extensions.Options
-@inject IOptions<BotOptions> _botOptions
-@inject ProtectedLocalStorage _localStorage
-@inject NavigationManager _nav
+@inject IOptions<BotOptions> BotOptions
+@inject ProtectedLocalStorage LocalStorage
+@inject NavigationManager Nav
 
 <head>
     <style>
@@ -54,7 +54,7 @@
         {
             if (!CheckData())
             {
-                _nav.NavigateTo("/");
+                Nav.NavigateTo("/");
             }
             else
             {
@@ -70,9 +70,9 @@
                 };
         
                 UserService.Authorize(user);
-                await _localStorage.SetAsync("tgAuth", $"{user.Id}#{Hash}");
+                await LocalStorage.SetAsync("tgAuth", $"{user.Id}#{Hash}");
         
-                _nav.NavigateTo("account");
+                Nav.NavigateTo("account");
             }
         }
     }
@@ -86,9 +86,9 @@
 
         try
         {
-            var botToken = _botOptions.Value.Token;
+            var botToken = BotOptions.Value.Token;
             
-            var decodedUrl = HttpUtility.UrlDecode(_nav.GetUriWithQueryParameter("hash", (string?) null));
+            var decodedUrl = HttpUtility.UrlDecode(Nav.GetUriWithQueryParameter("hash", (string?) null));
             var queryParameters = decodedUrl.Split('?')[1].Split('&').ToList();
             queryParameters.Sort();
             var checkString = Encoding.UTF8.GetBytes(string.Join("\n", queryParameters));

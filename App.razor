@@ -3,9 +3,7 @@
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
+        <PageTitle>404 - Не найдено</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)"/>
     </NotFound>
 </Router>

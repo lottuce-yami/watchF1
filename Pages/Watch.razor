@@ -1,38 +1,45 @@
 ﻿@page "/Watch"
 @page "/Watch/{videoId}"
 @using F1Project.Data
-@inject IJSRuntime _js
-@inject NavigationManager _nav
+@inject IJSRuntime JsRuntime
+@inject NavigationManager Nav
 
 <PageTitle>watchF1 - @_video.Title</PageTitle>
 <head>
     <link rel="stylesheet" href="css/watch/watch.css">
 </head>
 
-<section id="video">
-    <div id="player"></div>
-    <br>
-    <div id="video-info">
-        <h2>@_video.Title</h2>
-        <a @onclick="DownloadVideo" role="button">
-            <i class="fa-solid fa-download"></i>
-            <p>Скачать</p>
-        </a>
-    </div>
-</section>
-<hr>
-<section id="other-videos">
-    <h2>Другие видео:</h2>
-    <br>
-    @foreach (var video in _otherVideos.Where(video => video.Id != _video.Id))
-    {
-        <a href="watch/@video.Id">
-            <img src="@video.Preview" alt=""><br>
-            <h2>@video.Title</h2>
-        </a>
+@if (SettingsService.GetSetting("live") != "true")
+{
+    <section id="video">
+        <div id="player"></div>
         <br>
-    }
-</section>
+        <div id="video-info">
+            <h2>@_video.Title</h2>
+            <a @onclick="DownloadVideo" role="button">
+                <i class="fa-solid fa-download"></i>
+                <p>Скачать</p>
+            </a>
+        </div>
+    </section>
+    <hr>
+    <section id="other-videos">
+        <h2>Другие видео:</h2>
+        <br>
+        @foreach (var video in _otherVideos.Where(video => video.Id != _video.Id))
+        {
+            <a href="watch/@video.Id">
+                <img src="@video.Preview" alt=""><br>
+                <h2>@video.Title</h2>
+            </a>
+            <br>
+        }
+    </section>
+}
+else
+{
+    Nav.NavigateTo("");
+}
 
 @code {
     [Parameter]
@@ -52,23 +59,23 @@
         }
         catch
         {
-            _nav.NavigateTo("videos");
+            Nav.NavigateTo("videos");
         }
     }
 
     protected override void OnInitialized()
     {
         if (!string.IsNullOrWhiteSpace(VideoId)) return;
-        _nav.NavigateTo("videos");
+        Nav.NavigateTo("videos");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await _js.InvokeVoidAsync("getPlayer", _video.File, _video.Preview);
+        await JsRuntime.InvokeVoidAsync("getPlayer", _video.File, _video.Preview);
     }
 
     private async void DownloadVideo()
     {
-        await _js.InvokeVoidAsync("download", _video.File, _video.Title);
+        await JsRuntime.InvokeVoidAsync("download", _video.File, _video.Title);
     }
 }

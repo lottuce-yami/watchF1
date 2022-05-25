@@ -1,6 +1,6 @@
 ﻿@page "/Test"
 @using F1Project.Data
-@inject NavigationManager _nav
+@inject NavigationManager Nav
 
 <PageTitle>watchF1 - Тестовая трансляция</PageTitle>
 <head>
@@ -20,7 +20,7 @@
     {
         if (SettingsService.GetSetting("test") != "true")
         {
-            _nav.NavigateTo("live");
+            Nav.NavigateTo("live");
         }
     }
 }

@@ -12,26 +12,4 @@ public class Video
     public string Type { get; set; } = null!;
 
     public Video(){}
-
-    public Video(string file, string title, string preview, string championship, string season, string grandPrix, string type)
-    {
-        Id = RandomId();
-        File = file;
-        Title = title;
-        Preview = preview;
-        Championship = championship;
-        Season = season;
-        GrandPrix = grandPrix;
-        Type = type;
-    }
-
-    private static string RandomId()
-    {
-        return Convert.ToBase64String(
-            Guid.NewGuid().ToByteArray()
-        )
-            .Replace("/", "_")
-            .Replace("+", "-")
-            .Replace("=", "");
-    }
 }

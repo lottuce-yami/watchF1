@@ -1,7 +1,7 @@
 ﻿@using F1Project.Data
 @inherits LayoutComponentBase
 @layout MainLayout
-@inject ProtectedLocalStorage _localStorage
+@inject ProtectedLocalStorage LocalStorage
 
 <CascadingValue Value="IsConnected" Name="IsConnected">
     <CascadingValue Value="IsAuthorized" Name="IsAuthorized">
@@ -31,7 +31,7 @@
     {
         try
         {
-            var authFile = await _localStorage.GetAsync<string>("tgAuth");
+            var authFile = await LocalStorage.GetAsync<string>("tgAuth");
             var authValue = authFile.Success ? authFile.Value : null;
             if (authValue is null || string.IsNullOrWhiteSpace(authValue))
             {

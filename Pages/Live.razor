@@ -1,7 +1,7 @@
 ﻿@page "/Live"
 @using F1Project.Data
 @layout AuthLayout
-@inject NavigationManager _nav
+@inject NavigationManager Nav
 
 <PageTitle>watchF1 - @SettingsService.GetSetting("liveTitle")</PageTitle>
 <head>
@@ -34,8 +34,6 @@
                 Инструкция
             </a>
         }
-        <hr>
-        <Schedule/>
     }
     else
     {
@@ -45,6 +43,8 @@
             Войти через Telegram
         </a>
     }
+    <hr>
+    <Schedule/>
 }
 else
 {
@@ -66,7 +66,7 @@ else
     {
         if (SettingsService.GetSetting("test") == "true")
         {
-            _nav.NavigateTo("test");
+            Nav.NavigateTo("test");
         }
     }
 }

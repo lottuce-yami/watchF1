@@ -1,7 +1,6 @@
 ﻿@page "/Videos/{*path}"
 @using F1Project.Data
-@inject VideoService _vs
-@inject NavigationManager _nav
+@inject VideoService VidServ
 
 <PageTitle>watchF1 - Видео</PageTitle>
 <head>
@@ -48,16 +47,27 @@
         </select>
     </label>
 </section>*@
-<section id="videos-list">
-    @foreach(var video in _videos.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
-    {
-        <a href="watch/@video.Id">
-            <img src="@video.Preview" alt=""><br>
-            <h2>@video.Title</h2>
-            <br>
-        </a>
-    }
-</section>
+@if (SettingsService.GetSetting("live") != "true")
+{
+    <section id="videos-list">
+        @foreach(var video in _videos.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
+        {
+            <a href="watch/@video.Id">
+                <img src="@video.Preview" alt=""><br>
+                <h2>@video.Title</h2>
+                <br>
+            </a>
+        }
+    </section> 
+}
+else
+{
+    <h2>В данный момент проводится трансляция, записи временно недоступны. Зайдите позже.</h2>
+    <a href="live" role="button">
+        <i class="fa-solid fa-circle-play"></i>
+        Трансляция
+    </a>
+}
 
 @code
 {
@@ -73,6 +83,6 @@
     
     protected override void OnParametersSet()
     {
-        UpdateVideos(VideoService.SelectionOptions.Path, Path ?? _vs.DefaultPath);
+        UpdateVideos(VideoService.SelectionOptions.Path, Path ?? VidServ.DefaultPath);
     }
 }
