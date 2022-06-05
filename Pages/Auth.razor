@@ -1,22 +1,16 @@
 ﻿@page "/Auth"
 @layout EmptyLayout
-@using F1Project.Data
 @using System.Security.Cryptography
 @using System.Text
 @using System.Web
-@using F1Project.AppOptions
+@using F1Project.Data.AppSettings
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
 @using Microsoft.Extensions.Options
-@inject IOptions<BotOptions> BotOptions
+@inject IOptions<BotOptions> Bot
+@inject UserService UserServ
 @inject ProtectedLocalStorage LocalStorage
 @inject NavigationManager Nav
-
-<head>
-    <style>
-        #tg-login-widget {
-            display: none;
-          }
-    </style>
-</head>
 
 @code
 {
@@ -66,10 +60,10 @@
                     Username = Username,
                     Photo = Photo,
                     AuthDate = AuthDate,
-                    Hash = Hash
+                    Hash = Hash ?? ""
                 };
         
-                UserService.Authorize(user);
+                UserServ.Authorize(user);
                 await LocalStorage.SetAsync("tgAuth", $"{user.Id}#{Hash}");
         
                 Nav.NavigateTo("account");
@@ -86,7 +80,7 @@
 
         try
         {
-            var botToken = BotOptions.Value.Token;
+            var botToken = Bot.Value.Token;
             
             var decodedUrl = HttpUtility.UrlDecode(Nav.GetUriWithQueryParameter("hash", (string?) null));
             var queryParameters = decodedUrl.Split('?')[1].Split('&').ToList();

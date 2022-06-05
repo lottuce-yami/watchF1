@@ -1,15 +1,13 @@
 ﻿@page "/Test"
-@using F1Project.Data
+@using F1Project.Data.Database.Services
 @inject NavigationManager Nav
+@inject SettingService Settings
 
 <PageTitle>watchF1 - Тестовая трансляция</PageTitle>
-<head>
-    <link rel="stylesheet" href="css/live/live.css">
-</head>
 
-<LivePlayer/>
+<VideoPlayer Live Title="@Settings.Get("liveTitle").Value"/>
 <section id="links">
-    <a href="@SettingsService.GetSetting("supportLink")" target="_blank">
+    <a href="@Settings.Get("supportLink").Value" target="_blank">
         <i class="fa-brands fa-telegram"></i>
         Поддержка
     </a>
@@ -18,7 +16,7 @@
 @code {
     protected override void OnInitialized()
     {
-        if (SettingsService.GetSetting("test") != "true")
+        if (Settings.Get("test").Value != "true")
         {
             Nav.NavigateTo("live");
         }

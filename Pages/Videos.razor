@@ -1,48 +1,89 @@
-﻿@page "/Videos/{*path}"
-@using F1Project.Data
-@inject VideoService VidServ
+﻿@page "/Videos"
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject VideoService VideoServ
 
 <PageTitle>watchF1 - Видео</PageTitle>
-<head>
-    <link rel="stylesheet" href="css/videos/videos.css">
-</head>
 
-@if (SettingsService.GetSetting("live") != "true")
-{
-    <section id="videos-list">
-        @foreach(var video in _videos.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
-        {
-            <a href="watch/@video.Id">
-                <img src="@video.Preview" alt=""><br>
-                <h2>@video.Title</h2>
-                <br>
-            </a>
-        }
-    </section> 
-}
-else
-{
-    <h2>В данный момент проводится трансляция, записи временно недоступны. Зайдите позже.</h2>
-    <a href="live" role="button">
-        <i class="fa-solid fa-circle-play"></i>
-        Трансляция
-    </a>
-}
+<main>
+    <section class="filters">
+        <label for="championship">
+            Чемпионат:
+            <select name="championship" id="championship">
+                @foreach (var option in VideoList.DistinctBy(video => video.Championship))
+                {
+                    <option value="@option">@option</option>
+                }
+            </select>
+        </label>
+        <label for="season">
+            Сезон:
+            <select name="season" id="season">
+                @foreach (var option in VideoList.DistinctBy(video => video.Season))
+                {
+                    <option value="@option">@option</option>
+                }
+            </select>
+        </label>
+        <label for="grandPrix">
+            Гран-при:
+            <select name="grandPrix" id="grandPrix">
+                @foreach (var option in VideoList.DistinctBy(video => video.GrandPrix))
+                {
+                    <option value="@option">@option</option>
+                }
+            </select>
+        </label>
+        <label for="type">
+            Тип:
+            <select name="type" id="type">
+                @foreach (var option in VideoList.DistinctBy(video => video.Type))
+                {
+                    <option value="@option">@option</option>
+                }
+            </select>
+        </label>
+    </section>
+    <section class="video-list">
+        <VideoList List="@VideoList"/>
+    </section>
+</main>
 
 @code
 {
-    [Parameter]
-    public string? Path { get; set; }
+    private List<Video> VideoList { get; set; } = null!;
     
-    private HashSet<Video> _videos = null!;
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Championship { get; set; }
+    
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Season { get; set; }
+    
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? GrandPrix { get; set; }
+    
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Type { get; set; }
 
-    private void UpdateVideos(VideoService.SelectionOptions option, string value)
+    private void UpdateVideos()
     {
-        _videos = VideoService.GetVideosBy(option, value).Reverse().ToHashSet();
+        VideoList = VideoServ.Get();
+        VideoList.Reverse();
+    }
+    
+    private void Filter()
+    {
+        var filterOptions = GetType().GetProperties().TakeWhile(property => property.GetValue(this) != null);
+        
     }
     
     protected override void OnParametersSet()
     {
-        UpdateVideos(VideoService.SelectionOptions.Path, Path ?? VidServ.DefaultPath);
+        UpdateVideos();
+        
     }
 }

@@ -1,61 +1,38 @@
 ﻿@page "/Watch"
-@page "/Watch/{videoId}"
-@using F1Project.Data
-@inject IJSRuntime JsRuntime
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
 @inject NavigationManager Nav
+@inject VideoService VideoServ
 
-<PageTitle>watchF1 - @_video.Title</PageTitle>
-<head>
-    <link rel="stylesheet" href="css/watch/watch.css">
-</head>
+<PageTitle>watchF1 - @Video.Title</PageTitle>
 
-@if (SettingsService.GetSetting("live") != "true")
-{
-    <section id="video">
-        <div id="player"></div>
-        <br>
-        <div id="video-info">
-            <h2>@_video.Title</h2>
-            <a @onclick="DownloadVideo" role="button">
-                <i class="fa-solid fa-download"></i>
-                <p>Скачать</p>
-            </a>
-        </div>
-    </section>
-    <hr>
-    <section id="other-videos">
-        <h2>Другие видео:</h2>
-        <br>
-        @foreach (var video in _otherVideos.Where(video => video.Id != _video.Id))
-        {
-            <a href="watch/@video.Id">
-                <img src="@video.Preview" alt=""><br>
-                <h2>@video.Title</h2>
-            </a>
-            <br>
-        }
-    </section>
-}
-else
-{
-    Nav.NavigateTo("");
-}
+<VideoPlayer Source="@Video.File" Preview="@Video.Preview" Title="@Video.Title"/>
+<hr>
+<section id="other-videos">
+    <h2>Другие видео:</h2>
+    <br>
+    <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id)"/>
+</section>
 
 @code {
     [Parameter]
-    public string? VideoId { get; set; }
+    [SupplyParameterFromQuery(Name = "v")]
+    public string? Id { get; set; }
 
-    Video _video = null!;
-    HashSet<Video> _otherVideos = null!;
+    private Video Video { get; set; } = null!;
+
+    private IList<Video> OtherVideos { get; set; } = null!;
 
     protected override void OnParametersSet()
     {
+        if (Id == null)
+        {
+            Nav.NavigateTo("videos");
+        }
         try
         {
-            _video = VideoService.GetVideo(VideoId ?? "");
-            _otherVideos = VideoService.GetVideosBy(
-                VideoService.SelectionOptions.Path,
-                $"/{_video.Championship}/{_video.Season}/{_video.GrandPrix}");
+            Video = VideoServ.Get(Id ?? "");
+            OtherVideos = VideoServ.GetBy("GrandPrix", Video.GrandPrix);
         }
         catch
         {
@@ -63,7 +40,7 @@ else
         }
     }
 
-    protected override void OnInitialized()
+    /*protected override void OnInitialized()
     {
         if (!string.IsNullOrWhiteSpace(VideoId)) return;
         Nav.NavigateTo("videos");
@@ -71,11 +48,11 @@ else
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JsRuntime.InvokeVoidAsync("getPlayer", _video.File, _video.Preview);
+        await Js.InvokeVoidAsync("getPlayer", Video.File, Video.Preview);
     }
 
     private async void DownloadVideo()
     {
-        await JsRuntime.InvokeVoidAsync("download", _video.File, _video.Title);
-    }
+        await Js.InvokeVoidAsync("download", Video.File, Video.Title);
+    }*/
 }

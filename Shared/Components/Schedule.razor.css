@@ -1,0 +1,30 @@
+﻿#schedule {
+    margin: 0 auto;
+}
+@media screen and (orientation: landscape) {
+    #schedule {
+        line-height: 0.8em;
+    }
+}
+#schedule h3 {
+    font-size: larger;
+}
+#schedule ol {
+    list-style-type: none;
+    list-style-position: inside;
+}
+@media screen and (orientation: landscape) {
+    #schedule ol {
+        text-align: center;
+    }
+}
+#schedule li > ol {
+    list-style-type: disc;
+    padding-inline-start: 1em;
+    line-height: 1.15em;
+}
+@media screen and (orientation: landscape) {
+    #schedule li > ol {
+        text-align: initial;
+    }
+}

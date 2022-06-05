@@ -3,9 +3,9 @@ using F1Project.Data.Database.Types;
 
 namespace F1Project.Data.Database.Services;
 
-internal class UserService : Database<User>
+internal class UserService : Service<User>
 {
-    private static User Deserialize(DataRow row)
+    /*private static User Deserialize(DataRow row)
     {
         return new User
         {
@@ -80,25 +80,25 @@ internal class UserService : Database<User>
         var data = Data.Database.Read(query, args);
 
         return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : new User();
-    }
+    }*/
 
-    public static void Authorize(User user)
+    public void Authorize(User user)
     {
-        if (string.IsNullOrWhiteSpace(GetUser(user.Id).Id))
+        if (string.IsNullOrWhiteSpace(Get(user.Id).Id))
         {
-            AddUser(user);
+            Add(user);
         }
         else
         {
-            EditUser(user);
+            Edit(user);
         }
     }
 
-    public static bool ValidateAuthKey(string[] key)
+    public bool ValidateAuthKey(string[] key)
     {
         var userId = key[0];
         var hash = key[1];
 
-        return GetUser(userId).Hash == hash;
+        return Get(userId).Hash == hash;
     }
 }

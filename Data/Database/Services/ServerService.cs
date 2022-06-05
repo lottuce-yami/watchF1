@@ -1,21 +1,9 @@
-﻿using System.Data;
-using F1Project.Data.Database.Types;
+﻿using F1Project.Data.Database.Types;
 
 namespace F1Project.Data.Database.Services;
 
 internal class ServerService : Service<Server>
 {
-    protected override Server Deserialize(DataRow row)
-    {
-        return new Server
-        {
-            Id = row["Id"].ToString() ?? "",
-            Url = row["Url"].ToString() ?? ""
-        };
-    }
-
-    
-
     /*public static List<string> GetServers()
     {
         const string query =

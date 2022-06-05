@@ -1,12 +1,11 @@
 ﻿@page "/Live"
-@using F1Project.Data
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
 @layout AuthLayout
 @inject NavigationManager Nav
+@inject SettingService Settings
 
-<PageTitle>watchF1 - @SettingsService.GetSetting("liveTitle")</PageTitle>
-<head>
-    <link rel="stylesheet" href="css/live/live.css">
-</head>
+<PageTitle>watchF1 - @Title</PageTitle>
 
 @if (IsConnected)
 {
@@ -14,37 +13,22 @@
     {
         if (User.Subscribed)
         {
-            <LivePlayer/>
-            <section id="links">
-                <a href="@SettingsService.GetSetting("backupStream")" target="_blank">
-                    <i class="fa-solid fa-wheelchair-move"></i>
-                    Резервная трансляция
-                </a>
-                <a href="@SettingsService.GetSetting("supportLink")" target="_blank">
-                    <i class="fa-brands fa-telegram"></i>
-                    Поддержка
-                </a>
-            </section>
+            <VideoPlayer Live Title="@Title"/>
+            <LinkButtons LinksArray="@(new [] {LinkButtons.Link.BackupLive, LinkButtons.Link.Support})"/>
         }
         else
         {
             <h2>Оплатите доступ, чтобы смотреть трансляцию.</h2>
-            <a href="account" role="button">
-                <i class="fa-solid fa-file-lines"></i> 
-                Инструкция
-            </a>
+            <LinkButtons LinksArray="@(new [] {LinkButtons.Link.Manual})"/>
         }
+        <hr>
+        <Schedule/>
     }
     else
     {
         <h2>Авторизуйтесь, чтобы получить доступ к этой странице.</h2>
-        <a href="login" role="button">
-            <i class="fa-brands fa-telegram"></i>
-            Войти через Telegram
-        </a>
+        <LinkButtons LinksArray="@(new [] {LinkButtons.Link.Login})"/>
     }
-    <hr>
-    <Schedule/>
 }
 else
 {
@@ -58,13 +42,24 @@ else
     
     [CascadingParameter (Name = "IsAuthorized")]
     private bool IsAuthorized { get; set; }
-
+    
     [CascadingParameter(Name = "User")]
     private User? User { get; set; }
+    
+    [Parameter]
+    public string Title { get; set; } = "Прямая трансляция";
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(Settings.Get("liveTitle").Value))
+        {
+            Title = Settings.Get("liveTitle").Value;
+        }
+    }
 
     protected override void OnInitialized()
     {
-        if (SettingsService.GetSetting("test") == "true")
+        if (Settings.Get("test").Value == "true")
         {
             Nav.NavigateTo("test");
         }

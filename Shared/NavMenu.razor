@@ -1,11 +1,13 @@
 ﻿@using F1Project.Data
+@using F1Project.Data.Database.Services
+@inject SettingService Settings
 
 <nav>
-    <NavLink id="home" href="/" Match="NavLinkMatch.All">
+    <NavLink id="home" href="" Match="NavLinkMatch.All">
         <i class="fa-solid fa-house"></i>
         <h3>Главная</h3>
     </NavLink>
-    <NavLink class="button" id="tg" href="@SettingsService.GetSetting("tgLink")" target="_blank">
+    <NavLink id="tg" href="@Settings.Get("tgLink").Value" target="_blank">
         <i class="fa-brands fa-telegram"></i>
         <h3>Telegram</h3>
     </NavLink>

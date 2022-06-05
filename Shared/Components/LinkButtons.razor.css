@@ -1,0 +1,22 @@
+﻿.link-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+}
+
+a {
+    line-height: 3em;
+    text-align: center;
+    text-decoration: none;
+    color: #FCEEEF;
+    background-color: #262626;
+    border: medium solid #3a3a3a;
+    border-radius: .5em;
+}
+
+@media (hover) {
+    a:hover {
+        border-color: #DE363D;
+    }
+}

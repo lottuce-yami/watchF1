@@ -1,0 +1,71 @@
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject ServerService ServerServ
+@inject SettingService Settings
+@inject IJSRuntime Js
+
+<section id="video">
+    <div id="player">
+        @if (Live)
+        {
+            <iframe src="@Source" allow="fullscreen"></iframe>
+        }
+    </div>
+    <div class="video-info">
+        <h2>@Title</h2>
+        @if (!Live)
+        {
+            <a @onclick="Download" role="button">
+                <i class="fa-solid fa-download"></i>
+                <p>Скачать</p>
+            </a>
+        }
+    </div>
+</section>
+
+@code
+{
+    [Parameter]
+    public bool Live { get; set; }
+    
+    [Parameter]
+    public string? Source { get; set; }
+    
+    [Parameter]
+    public string? Preview { get; set; }
+    
+    [Parameter]
+    public string? Title { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (!Live) return;
+        Source ??= RandomServer().Url;
+        Title ??= Settings.Get("liveTitle").Value;
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Live) return;
+        await Js.InvokeVoidAsync("getPlayer", Source, Preview);
+    }
+    
+    private async void Download()
+    {
+        await Js.InvokeVoidAsync("download", Source, Title);
+    }
+
+    private Server RandomServer()
+    {
+        var servers = ServerServ.Get();
+        try
+        {
+            return servers.Single();
+        }
+        catch
+        {
+            var random = new Random();
+            return servers[random.Next(servers.Count)];
+        }
+    }
+}

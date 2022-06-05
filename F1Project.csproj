@@ -4,7 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <ScopedCssEnabled>false</ScopedCssEnabled>
+        <ScopedCssEnabled>true</ScopedCssEnabled>
     </PropertyGroup>
 
     <ItemGroup>
@@ -47,6 +47,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.scss" />
       <_ContentIncludedByDefault Remove="wwwroot\js\telegram-auth\onAuth.js" />
+      <_ContentIncludedByDefault Remove="Components\Schedule.razor" />
+      <_ContentIncludedByDefault Remove="Components\VideoPlayer.razor" />
     </ItemGroup>
 
     <ItemGroup>
@@ -61,6 +63,11 @@
       <Compile Remove="Data\Database.cs" />
       <Compile Remove="Data\Video.cs" />
       <Compile Remove="Data\User.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Shared\Components\Schedule.razor" />
+      <AdditionalFiles Include="Shared\Components\VideoPlayer.razor" />
     </ItemGroup>
 
 </Project>

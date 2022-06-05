@@ -1,0 +1,60 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Righteous&family=Rubik&display=swap");
+
+#tg-login-widget {
+    display: none;
+}
+
+html, body, .page, img {
+    width: 100%;
+    max-width: 100%;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    color: #FCEEEF;
+    font-family: Rubik, sans-serif;
+}
+
+.page {
+    height: 100%;
+    overflow: auto;
+    padding: 3.5em 5%;
+}
+@media screen and (orientation: portrait) and (min-width: 600px) {
+    .page {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+}
+@media screen and (orientation: portrait) and (min-width: 768px) {
+    .page {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+}
+@media screen and (orientation: portrait) and (min-width: 992px) {
+    .page {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+}
+@media screen and (orientation: landscape) and (min-width: 992px) {
+    .page {
+        padding-left: 12%;
+        padding-right: 12%;
+    }
+}
+@media screen and (orientation: landscape) and (min-width: 1200px) {
+    .page {
+        padding-left: 15%;
+        padding-right: 15%;
+    }
+}
+@media screen and (orientation: landscape) and (min-width: 1440px) {
+    .page {
+        padding-left: 20%;
+        padding-right: 20%;
+    }
+}

@@ -1,0 +1,45 @@
+.flex, section {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.flex {
+    gap: 2em;
+}
+
+section {
+    gap: 1em;
+}
+
+main {
+    
+}
+@media (orientation: landscape) {
+    main {
+        width: 75%;
+    }
+}
+
+.greeting {
+    font-size: 1.5em;
+    margin-bottom: .25em;
+}
+
+.greeting span {
+    font-family: Righteous, sans-serif;
+    letter-spacing: .1em;
+}
+
+.about a, .greeting span b {
+    color: #DE363D;
+}
+
+.about {
+    line-height: 1.25em;
+    letter-spacing: .025em;
+    text-align: justify;
+}
+
+hr {
+    margin: 1em 0;
+}

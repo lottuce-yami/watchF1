@@ -1,12 +1,11 @@
 ﻿@page "/Account"
-@using F1Project.Data
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
 @layout AuthLayout
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime Js
+@inject SettingService Settings
 
 <PageTitle>watchF1 - Аккаунт</PageTitle>
-<head>
-    <link rel="stylesheet" href="css/account/account.css">
-</head>
 
 @if (IsConnected)
 {
@@ -42,7 +41,7 @@
                 <br>
                 <ol>
                     <li>
-                        Перейти на сайт для оплаты - <a href="@SettingsService.GetSetting("donationLink")" target="_blank">DonationAlerts</a>
+                        Перейти на сайт для оплаты - <a href="@Settings.Get("donationLink")" target="_blank">DonationAlerts</a>
                     </li>
                     <br>
                     <li>
@@ -73,9 +72,8 @@
                 <br>
                 <p>
                     После оплаты необходимо некоторое время (не более 10 минут) для предоставления доступа к трансляциям в автоматическом режиме.
-                    Через 10 минут после оплаты попробуйте снова посетить эту страницу (обновить), и если вы всё ещё видите эту инструкцию - свяжитесь со <a href="@SettingsService.GetSetting("supportLink")" target="_blank">службой поддержки</a> для решения данной ситуации.
+                    Через 10 минут после оплаты попробуйте снова посетить эту страницу (обновить), и если вы всё ещё видите эту инструкцию - свяжитесь со <a href="@Settings.Get("supportLink")" target="_blank">службой поддержки</a> для решения данной ситуации.
                 </p>
-                
             </section>
         }
     }
@@ -106,6 +104,6 @@ else
 
     private void CopyId()
     {
-        JsRuntime.InvokeVoidAsync("clipboardCopy.copyText", User?.Id);
+        Js.InvokeVoidAsync("clipboardCopy.copyText", User?.Id);
     }
 }

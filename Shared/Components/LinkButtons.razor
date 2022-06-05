@@ -1,0 +1,60 @@
+﻿@using F1Project.Data.Database.Services
+@inject SettingService Settings
+
+@if (LinksArray != null)
+{
+    <section class="link-buttons">
+        @foreach (var link in LinksArray)
+        {
+            switch (link)
+            {
+                case Link.Support:
+                    <a href="https://t.me/watchF1" target="_blank" role="button">
+                        <i class="fa-brands fa-telegram"></i>
+                        Поддержка
+                    </a>
+                    break;
+                case Link.Donation:
+                    <a href="https://www.donationalerts.com/r/watchf1_" target="_blank" role="button">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        Пожертвование
+                    </a>
+                    break;
+                case Link.Login:
+                    <a href="login" role="button">
+                        <i class="fa-brands fa-telegram"></i>
+                        Войти через Telegram
+                    </a>
+                    break;
+                case Link.Manual:
+                    <a href="account" role="button">
+                        <i class="fa-solid fa-file-lines"></i> 
+                        Инструкция
+                    </a>
+                    break;
+                case Link.BackupLive:
+                    <a href="@Settings.Get("backupStream").Value" target="_blank" role="button">
+                        <i class="fa-solid fa-wheelchair-move"></i>
+                        Резервная трансляция
+                    </a>
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+    </section>
+}
+
+@code {
+    [Parameter]
+    public Link[]? LinksArray { get; set; }
+
+    public enum Link
+    {
+        Support,
+        Donation,
+        Login,
+        Manual,
+        BackupLive
+    }
+}

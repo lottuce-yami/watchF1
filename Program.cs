@@ -1,4 +1,4 @@
-using F1Project.AppOptions;
+using F1Project.Data.AppSettings;
 using F1Project.Data.Database.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;

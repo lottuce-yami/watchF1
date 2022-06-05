@@ -1,6 +1,8 @@
-﻿@using F1Project.Data
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
 @inherits LayoutComponentBase
 @layout MainLayout
+@inject UserService UserServ
 @inject ProtectedLocalStorage LocalStorage
 
 <CascadingValue Value="IsConnected" Name="IsConnected">
@@ -39,10 +41,10 @@
             }
             else
             {
-                IsAuthorized = UserService.ValidateAuthKey(authValue.Split('#'));
+                IsAuthorized = UserServ.ValidateAuthKey(authValue.Split('#'));
                 if (IsAuthorized)
                 {
-                    User = UserService.GetUser(authValue.Split('#')[0]);
+                    User = UserServ.Get(authValue.Split('#')[0]);
                 }
             }
         }

@@ -1,10 +1,10 @@
-﻿using System.Data;
+﻿using F1Project.Data.Database.Types;
 
 namespace F1Project.Data.Database.Services;
 
-internal class SettingService : Database<string>
+internal class SettingService : Service<Setting>
 {
-    private static string Deserialize(DataRow row)
+    /*private static string Deserialize(DataRow row)
     {
         return row["Value"].ToString() ?? "";
     }
@@ -20,5 +20,5 @@ internal class SettingService : Database<string>
         var data = Data.Database.Read(query, args);
 
         return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : "";
-    }
+    }*/
 }

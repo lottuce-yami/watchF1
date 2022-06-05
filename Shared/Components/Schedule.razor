@@ -1,9 +1,10 @@
-﻿@using F1Project.Data
+﻿@using F1Project.Data.Database.Services
+@inject SettingService Settings
 
 <section id="schedule">
-    <h3>@SettingsService.GetSetting("scheduleTitle")</h3>
+    <h3>@Settings.Get("scheduleTitle").Value</h3>
     <ol>
-        @foreach (var day in SettingsService.GetSetting("schedule").Split(" / "))
+        @foreach (var day in Settings.Get("schedule").Value.Split(" / "))
         {
             <br>
             <li>
