@@ -6,52 +6,19 @@
 <PageTitle>watchF1 - Видео</PageTitle>
 
 <main>
-    <section class="filters">
-        <label for="championship">
-            Чемпионат:
-            <select name="championship" id="championship">
-                @foreach (var option in VideoList.DistinctBy(video => video.Championship))
-                {
-                    <option value="@option">@option</option>
-                }
-            </select>
-        </label>
-        <label for="season">
-            Сезон:
-            <select name="season" id="season">
-                @foreach (var option in VideoList.DistinctBy(video => video.Season))
-                {
-                    <option value="@option">@option</option>
-                }
-            </select>
-        </label>
-        <label for="grandPrix">
-            Гран-при:
-            <select name="grandPrix" id="grandPrix">
-                @foreach (var option in VideoList.DistinctBy(video => video.GrandPrix))
-                {
-                    <option value="@option">@option</option>
-                }
-            </select>
-        </label>
-        <label for="type">
-            Тип:
-            <select name="type" id="type">
-                @foreach (var option in VideoList.DistinctBy(video => video.Type))
-                {
-                    <option value="@option">@option</option>
-                }
-            </select>
-        </label>
-    </section>
+    <FilterForm T="Video" ExcludedProperties="FilterExcluded" OrderedProperties="FilterOrdered"/>
     <section class="video-list">
-        <VideoList List="@VideoList"/>
+        <VideoList List="@VideoList" />
     </section>
 </main>
 
 @code
 {
-    private List<Video> VideoList { get; set; } = null!;
+    private List<Video> VideoList { get; set; } = new();
+
+    private string[] FilterExcluded { get; } = {"Id", "File", "Title", "Preview"};
+
+    private string[] FilterOrdered { get; } = {"Championship", "Season"};
     
     [Parameter]
     [SupplyParameterFromQuery]
