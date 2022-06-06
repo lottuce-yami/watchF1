@@ -1,4 +1,5 @@
 @page "/"
+@using F1Project.Data
 
 <PageTitle>watchF1 - Главная</PageTitle>
 <head>
@@ -13,11 +14,11 @@
     <p>На данный момент и в будущем доступ к записям будет оставаться свободным, но мы будем рады любой, даже минимальной, материальной поддержке и можем гарантировать, что вырученные средства пойдут на обеспечение стабильной работы и улучшение сайта.</p>
 </section>
 <section id="support">
-    <a href="https://t.me/watchF1" target="_blank" role="button">
+    <a href="@SettingsService.GetSetting("supportLink")" target="_blank" role="button">
         <i class="fa-brands fa-telegram"></i> 
         Поддержка
     </a>
-    <a href="https://www.donationalerts.com/r/watchf1_" target="_blank" role="button">
+    <a href="@SettingsService.GetSetting("donationLink")" target="_blank" role="button">
         <i class="fa-solid fa-dollar-sign"></i> 
         Пожертвование
     </a>

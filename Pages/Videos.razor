@@ -7,46 +7,6 @@
     <link rel="stylesheet" href="css/videos/videos.css">
 </head>
 
-@*<section id="filters">
-    <label for="championship">
-        Чемпионат:
-        <select name="championship" id="championship" disabled>
-            <option value="f1" selected>F1</option>
-        </select>
-    </label>
-    <label for="season">
-        Сезон:
-        <select name="season" id="season" disabled>
-            <option value="2022">2022</option>
-        </select>
-    </label>
-    <label for="grandPrix">
-        Гран-при:
-        <select name="grandPrix" id="grandPrix" disabled>
-            <option value="all" selected>Все</option>
-            <option value="australia">Гран-при Австралии</option>
-            <option value="emilia-romagna">Гран-при Эмилии-Романьи</option>
-        </select>
-    </label>
-    <label for="type">
-        Тип:
-        <select name="type" id="type" disabled>
-            <option value="all" selected>Все</option>
-            <option value="practice">Свободный заезд</option>
-            <option value="qualifying">Квалификация</option>
-            <option value="sprint-qualifying">Спринт-квалификация</option>
-            <option value="race">Гонка</option>
-        </select>
-    </label>
-    <label for="sound">
-        Звуковая дорожка:
-        <select name="sound" id="sound" disabled>
-            <option value="all" selected>Все</option>
-            <option value="fx">Интершум</option>
-            <option value="commentaries">Комментарии</option>
-        </select>
-    </label>
-</section>*@
 @if (SettingsService.GetSetting("live") != "true")
 {
     <section id="videos-list">
