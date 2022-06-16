@@ -1,0 +1,131 @@
+﻿@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Text
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject IWebHostEnvironment HostEnvironment
+@inject SettingService Settings
+@inject NavigationManager Nav
+
+<article>
+    <div role="form">
+        <label for="subCount">
+            Количество Гран При:
+            <input id="subCount" type="number" min="1" max="@MaxSub" @bind="SubsCount" @bind:event="oninput"/>
+        </label>
+        <div class="templates">
+            <button @onclick="() => SubsCount = 1">
+                1 Гран При
+            </button>
+            <button @onclick="() => SubsCount = 2">
+                2 Гран При
+            </button>
+            <button @onclick="() => SubsCount = MaxSub">
+                До конца сезона
+            </button>
+        </div>
+        <h2>
+            Сумма: @TotalPrice у.е.
+        </h2>
+        <input type="submit" value="Оплатить" @onclick="CreatePayment"/>
+    </div>
+    <ol>
+        <li>
+            В форме выберите количество Гран При, на которое хотели бы
+            приобрести доступ (вплоть до конца сезона) и нажмите на кнопку оплатить.
+        </li>
+        <li>
+            На странице оплаты поля "Имя" и "Комментарий"
+            можно заполнить в свободной форме или вовсе оставить пустыми.
+        </li>
+        <li>
+            После оплаты статус вашей подписки будет отображен
+            на этой странице вверху, под ID.
+            Желаем приятного просмотра!
+        </li>
+    </ol>
+</article>
+
+@code {
+    [CascadingParameter(Name = "User")]
+    private User User { get; set; } = null!;
+
+    private int MaxSub => int.Parse(Settings.Get("maxSub").Value) - User.Subscribed;
+    private int SubsCount { get; set; } 
+    private long TotalPrice => SubsCount * int.Parse(Settings.Get("subPrice").Value);
+
+    private async void CreatePayment()
+    {
+        if (User.Subscribed >= MaxSub) SubsCount = 0;
+        if (SubsCount <= 0) return;
+        if (SubsCount > MaxSub) SubsCount = MaxSub;
+        var paymentRequest = new Payment
+        {
+            Amount = new Payment.AmountModel
+            {
+                Amount = TotalPrice * 100,
+                Currency = "CURRENCY"
+            },
+            Custom = new Payment.CustomModel
+            {
+                UserId = User.Id,
+                Quantity = SubsCount
+            },
+            ProjectCode = "example.com",
+            Test = HostEnvironment.IsDevelopment()
+        };
+        var serializedRequest = JsonSerializer.Serialize(paymentRequest);
+
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Add(
+            "Authorization",
+            "Bearer ***REMOVED***"
+            );
+        var response = await client.PostAsync(
+            "PAYMENT_PROVIDER_URL", 
+            new StringContent(
+                serializedRequest, 
+                Encoding.UTF8,
+                "application/json"
+                )
+            ).
+            ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+        
+        var payment = await response.Content.ReadAsStringAsync();
+        Nav.NavigateTo(JsonDocument.Parse(payment).RootElement.GetProperty("payUrl").ToString());
+    }
+
+    public class Payment
+    {
+        public class AmountModel
+        {
+            [JsonPropertyName("amount")]
+            public long Amount { get; set; }
+
+            [JsonPropertyName("currency")]
+            public string Currency { get; set; } = null!;
+        }
+
+        public class CustomModel
+        {
+            [JsonPropertyName("userId")]
+            public string? UserId { get; set; }
+            
+            [JsonPropertyName("quantity")]
+            public int Quantity { get; set; }
+        }
+
+        [JsonPropertyName("amount")]
+        public AmountModel Amount { get; set; } = null!;
+        
+        [JsonPropertyName("custom")]
+        public CustomModel? Custom { get; set; }
+
+        [JsonPropertyName("projectCode")]
+        public string ProjectCode { get; set; } = null!;
+        
+        [JsonPropertyName("test")]
+        public bool Test { get; set; }
+    }
+}

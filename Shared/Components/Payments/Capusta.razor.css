@@ -1,0 +1,57 @@
+﻿article {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+@media screen and (orientation: landscape) {
+    article {
+        flex-flow: row nowrap;
+    }
+}
+
+div[role=form] {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: .5em;
+    padding: .5em;
+    background-color: #141414;
+    border: thin solid #3a3a3a;
+}
+@media screen and (orientation: landscape){
+    div[role=form] {
+        width: 30%;
+    }
+    ol {
+        width: 70%;
+    }
+}
+
+input, button {
+    font-family: Rubik, sans-serif;
+    font-size: 1.05em;
+    color: #FCEEEF;
+    background-color: #3a3a3a;
+    border: thin solid #3a3a3a;
+    border-radius: .25em;
+}
+
+input[type=submit], button {
+    cursor: pointer;
+}
+
+.templates {
+    display: flex;
+    flex-flow: row wrap;
+    gap: .25em;
+}
+
+button {
+    background-color: #262626;
+}
+
+input[type=submit] {
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+    color: #1a1a1a;
+}

@@ -4,24 +4,25 @@
 @inject SettingService Settings
 @inject IJSRuntime Js
 
-<section id="video">
-    <div id="player">
-        @if (Live)
-        {
-            <iframe src="@Source" allow="fullscreen"></iframe>
-        }
-    </div>
-    <div class="video-info">
-        <h2>@Title</h2>
-        @if (!Live)
-        {
-            <a @onclick="Download" role="button">
-                <i class="fa-solid fa-download"></i>
-                <p>Скачать</p>
-            </a>
-        }
-    </div>
-</section>
+<main>
+    <section id="video">
+        <div id="player">
+            @if (Live)
+            {
+                <iframe src="@Source" allow="fullscreen"></iframe>
+            }
+        </div>
+        <div class="video-info">
+            <h2>@Title</h2>
+            @if (!Live)
+            {
+                <a @onclick="Download" role="button" title="Скачать">
+                    <i class="fa-solid fa-download"></i>
+                </a>
+            }
+        </div>
+    </section>
+</main>
 
 @code
 {

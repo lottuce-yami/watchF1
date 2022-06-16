@@ -1,0 +1,68 @@
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Text
+@inject IJSRuntime Js
+@inject SettingService Settings
+
+<section class="manual">
+    <h2>
+        Как получить доступ к трансляции?
+    </h2>
+    <p>
+        Это страница вашей учётной записи, 
+        которая непосредственно связана с вашим аккаунтом в Telegram. 
+        Здесь вы можете посмотреть и скопировать свой уникальный ID, 
+        а также узнать статус своего доступа к трансляциям. 
+        Для получения доступа к трансляции на время 
+        одного гоночного уик-энда (полноценного Гран При) 
+        необходимо внести добровольное пожертвование на сумму 
+        <strong>не менее @Settings.Get("subPrice").Value у.е..</strong>
+    </p>
+    <div class="payment-methods">
+        <table>
+            <tr role="tablist">
+                <th class="@(PaymentTab == "Capusta" ? "active" : "")" role="tab" 
+                    @onclick='() => PaymentTab = "Capusta"'>
+                    Основной способ
+                </th>
+                <th class="@(PaymentTab == "DonationAlerts" ? "active" : "")" role="tab" 
+                    @onclick='() => PaymentTab = "DonationAlerts"'>
+                    Доп. способ
+                </th>
+            </tr>
+            <tr>
+                <td role="tabpanel" colspan="2">
+                    <CascadingValue Value="User" Name="User">
+                        @switch (PaymentTab)
+                        {
+                            case "Capusta":
+                                <Capusta/>
+                                break;
+                            case "DonationAlerts":
+                                <DonationAlerts/>
+                                break;
+                        }
+                    </CascadingValue>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <p>
+        В случае возникновения сложностей обращайтесь в 
+        <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>.
+    </p>
+</section>
+
+@code {
+    [CascadingParameter(Name = "User")]
+    private User User { get; set; } = null!;
+
+    private string PaymentTab { get; set; } = "Capusta";
+    
+    private void CopyId()
+    {
+        Js.InvokeVoidAsync("clipboardCopy.copyText", User.Id);
+    }
+}

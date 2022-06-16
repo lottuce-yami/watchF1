@@ -1,0 +1,20 @@
+.video-list {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
+}
+
+@media screen and (orientation: landscape) {
+    .video-list {
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        gap: 1%;
+        row-gap: 1em;
+    }
+    
+    ::deep .video-list a {
+        width: 19.2%;
+        background-color: #262626;
+        padding: .25em;
+    }
+}

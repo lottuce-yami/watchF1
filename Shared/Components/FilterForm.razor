@@ -1,47 +1,69 @@
 ﻿@using F1Project.Data.Database.Services
-@typeparam T where T : F1Project.Data.Database.Types.DatabaseType, new()
-@inject Service<T> Service
+@using System.Runtime.InteropServices
 @inject NavigationManager Nav
 
 <section class="filters">
-    @foreach (var property in TypeProperties)
-    {
-        <label for="@property">
-            <select name="@property" id="@property">
-                @foreach (var option in Service.GetUniqueBy(property, OrderedProperties.Contains(property)))
+    <div role="form">
+        @foreach (var property in Properties.Keys)
+        {
+            <select @bind="@Filter[property]">
+                <option value="" selected>
+                    @Lang[property]
+                </option>
+                @foreach (var option in Properties[property])
                 {
-                    <option @onchange="() => ToQuery(property, option.ToString())">
+                    <option value="@option">
                         @option
                     </option>
                 }
             </select>
-        </label>
-    }
+        }
+        <div>
+            <input type="reset" value="Сбросить" @onclick="Reset">
+            <input type="submit" value="Применить" @onclick="ToQuery">
+        </div>
+    </div>
 </section>
 
 @code
 {
     [Parameter]
-    public List<T> List { get; set; } = null!;
+    public Dictionary<string, object[]> Properties { get; set; } = null!;
 
     [Parameter]
-    public string[] ExcludedProperties { get; set; } = {};
-    
-    [Parameter]
-    public string[] OrderedProperties { get; set; } = {};
-    
-    private string[] TypeProperties { get; set; } = {};
+    public Dictionary<string, string?> Filter { get; set; } = new();
+
+    private Dictionary<string, string> Lang => new()
+    {
+        {"Championship", "Чемпионат"},
+        {"Season", "Сезон"},
+        {"GrandPrix", "Гран При"},
+        {"Type", "Тип"}
+    };
+
+    private void ToQuery()
+    {
+        Nav.NavigateTo(Nav.GetUriWithQueryParameters(
+            Filter.ToDictionary(
+                kvp => kvp.Key, 
+                kvp => string.IsNullOrWhiteSpace(kvp.Value) ? null : (object?) kvp.Value)
+            ));
+    }
+
+    private void Reset()
+    {
+        foreach (var key in Filter.Keys)
+        {
+            Filter[key] = null;
+        }
+        Nav.NavigateTo(Nav.Uri.Split('?')[0]);
+    }
 
     protected override void OnParametersSet()
     {
-        TypeProperties = typeof(T).GetProperties().
-            Where(p => !ExcludedProperties.Contains(p.Name)).
-            Select(p => p.Name).
-            ToArray();
-    }
-
-    private void ToQuery(string property, string? value)
-    {
-        Nav.NavigateTo(Nav.GetUriWithQueryParameter(property, value));
+        foreach (var property in Properties.Keys.Where(property => !Filter.ContainsKey(property)))
+        {
+            Filter.Add(property, null);
+        }
     }
 }

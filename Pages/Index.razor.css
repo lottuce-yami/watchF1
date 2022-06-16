@@ -1,45 +1,35 @@
-.flex, section {
+section {
     display: flex;
     flex-flow: column nowrap;
-}
-
-.flex {
-    gap: 2em;
-}
-
-section {
     gap: 1em;
 }
 
 main {
-    
+    margin-bottom: 1em;
 }
+
 @media (orientation: landscape) {
+    .flex {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
     main {
-        width: 75%;
+        width: 70%;
+    }
+    ::deep .link-buttons {
+        width: 20%;
     }
 }
 
 .greeting {
-    font-size: 1.5em;
-    margin-bottom: .25em;
+    margin-bottom: 1.5em;
 }
-
 .greeting span {
     font-family: Righteous, sans-serif;
     letter-spacing: .1em;
 }
-
-.about a, .greeting span b {
+.greeting span b {
     color: #DE363D;
-}
-
-.about {
-    line-height: 1.25em;
-    letter-spacing: .025em;
-    text-align: justify;
-}
-
-hr {
-    margin: 1em 0;
 }

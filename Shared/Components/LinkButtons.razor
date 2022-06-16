@@ -9,13 +9,13 @@
             switch (link)
             {
                 case Link.Support:
-                    <a href="https://t.me/watchF1" target="_blank" role="button">
+                    <a href="@Settings.Get("supportLink").Value" target="_blank" role="button">
                         <i class="fa-brands fa-telegram"></i>
                         Поддержка
                     </a>
                     break;
                 case Link.Donation:
-                    <a href="https://www.donationalerts.com/r/watchf1_" target="_blank" role="button">
+                    <a href="@Settings.Get("donationLink").Value" target="_blank" role="button">
                         <i class="fa-solid fa-dollar-sign"></i>
                         Пожертвование
                     </a>

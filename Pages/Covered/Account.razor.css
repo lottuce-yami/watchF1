@@ -1,0 +1,40 @@
+﻿main {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+@media screen and (orientation: landscape) {
+    main {
+        flex-direction: row;
+    }
+}
+
+.account-info {
+    height: min-content;
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    border: thin solid #3a3a3a;
+    padding: .5em;
+}
+@media screen and (orientation: landscape) {
+    .account-info {
+        width: 20%;
+    }
+}
+
+.user-id {
+    cursor: pointer;
+}
+.true {
+    color: deepskyblue;
+}
+.false {
+    color: #DE363D;
+}
+b {
+    font-weight: bold;
+}
+i {
+    font-style: italic;
+}

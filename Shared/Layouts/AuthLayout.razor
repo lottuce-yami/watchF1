@@ -1,0 +1,71 @@
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inherits LayoutComponentBase
+@layout MainLayout
+@inject UserService UserServ
+@inject ProtectedLocalStorage LocalStorage
+
+@if (IsConnected)
+{
+    if (IsAuthorized && User != null)
+    {
+        <CascadingValue Value="User" Name="User">
+            @Body
+        </CascadingValue>
+    }
+    else
+    {
+        <div class="auth-request">
+            <h2>Авторизуйтесь, чтобы получить доступ к этой странице.</h2>
+            <LinkButtons LinksArray="new [] {LinkButtons.Link.Login}"/>
+        </div>
+        
+    }
+}
+else
+{
+    <div class="loading">
+        <h2>Загрузка...</h2>
+    </div>
+}
+
+@code {
+    private bool IsConnected { get; set; }
+    private bool IsAuthorized { get; set; }
+    private User? User { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IsConnected = true;
+            await LoadAuthAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadAuthAsync()
+    {
+        try
+        {
+            var authFile = await LocalStorage.GetAsync<string>("tgAuth");
+            var authValue = authFile.Success ? authFile.Value : null;
+            if (authValue is null || string.IsNullOrWhiteSpace(authValue))
+            {
+                IsAuthorized = false;
+            }
+            else
+            {
+                IsAuthorized = UserServ.ValidateAuthKey(authValue.Split('#'));
+                if (IsAuthorized)
+                {
+                    User = UserServ.Get(authValue.Split('#')[0]);
+                }
+            }
+        }
+        catch
+        {
+            IsAuthorized = false;
+        }
+    }
+}

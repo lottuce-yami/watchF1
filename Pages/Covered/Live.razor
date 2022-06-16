@@ -1,0 +1,38 @@
+﻿@page "/Live"
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject SettingService Settings
+
+<PageTitle>@Title - watchF1</PageTitle>
+
+<div class="flex">
+    @if (User.Subscribed > 0 || Settings.Get("test").Value == "true")
+    {
+        <VideoPlayer Live Title="@Title"/>
+        <LinkButtons LinksArray="@(new [] {LinkButtons.Link.BackupLive, LinkButtons.Link.Support})"/>
+    }
+    else
+    {
+        <h2>Оплатите доступ, чтобы смотреть трансляцию.</h2>
+        <LinkButtons LinksArray="@(new [] {LinkButtons.Link.Manual})"/>
+    }
+</div>
+<hr>
+<Schedule/>
+
+@code
+{
+    [CascadingParameter(Name = "User")]
+    private User User { get; set; } = null!;
+    
+    [Parameter]
+    public string Title { get; set; } = "Прямая трансляция";
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrWhiteSpace(Settings.Get("liveTitle").Value))
+        {
+            Title = Settings.Get("liveTitle").Value;
+        }
+    }
+}

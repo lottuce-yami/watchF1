@@ -1,0 +1,44 @@
+﻿@page "/Account"
+@using F1Project.Data.Database.Types
+@using F1Project.Data.Database.Services
+@using F1Project.Shared.Components.Payments
+@inject IJSRuntime Js
+@inject SettingService Settings
+
+<PageTitle>Аккаунт - watchF1</PageTitle>
+
+<main>
+    <section class="account-info">
+        <p>
+            ID:
+            <b @onclick="CopyId" class="user-id">@User.Id</b>
+        </p>
+        <p>
+            Доступ к трансляции:
+            @if (User.Subscribed > 0)
+            {
+                <span class="true">оплачен <br> на <b>@User.Subscribed Гран При</b></span>
+            }
+            else
+            {
+                <span class="false">не оплачен</span>
+            }
+        </p>
+        <i>
+            Статус на текущий этап - @Settings.Get("currentGrandPrix").Value
+        </i>
+    </section>
+    <CascadingValue Value="User" Name="User">
+        <Manual/>
+    </CascadingValue>
+</main>
+
+@code {
+    [CascadingParameter(Name = "User")]
+    private User User { get; set; } = null!;
+    
+    private void CopyId()
+    {
+        Js.InvokeVoidAsync("clipboardCopy.copyText", User.Id);
+    }
+}

@@ -1,0 +1,14 @@
+﻿.user-id {
+    cursor: pointer;
+}
+
+img {
+    display: block;
+}
+
+@media screen and (orientation: landscape) {
+    img {
+        width: 40% !important;
+    }
+}
+

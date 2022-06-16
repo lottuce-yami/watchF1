@@ -1,0 +1,22 @@
+@media screen and (orientation: portrait) {
+    ::deep main {
+        margin-bottom: 1em;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .flex {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: flex-start;
+        gap: 1em;
+    }
+    
+    ::deep main {
+        width: 80%;
+    }
+    
+    ::deep .link-buttons {
+        width: 20%;
+    }
+}

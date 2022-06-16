@@ -4,15 +4,16 @@
 @inject NavigationManager Nav
 @inject VideoService VideoServ
 
-<PageTitle>watchF1 - @Video.Title</PageTitle>
+<PageTitle>@Video.Title - watchF1</PageTitle>
 
-<VideoPlayer Source="@Video.File" Preview="@Video.Preview" Title="@Video.Title"/>
-<hr>
-<section id="other-videos">
-    <h2>Другие видео:</h2>
-    <br>
-    <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id)"/>
-</section>
+<div class="flex">
+    <VideoPlayer Source="@Video.File" Preview="@Video.Preview" Title="@Video.Title"/>
+    <hr>
+    <section class="other-videos">
+        <h2>Другие видео:</h2>
+        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id)"/>
+    </section>
+</div>
 
 @code {
     [Parameter]
@@ -39,20 +40,4 @@
             Nav.NavigateTo("videos");
         }
     }
-
-    /*protected override void OnInitialized()
-    {
-        if (!string.IsNullOrWhiteSpace(VideoId)) return;
-        Nav.NavigateTo("videos");
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await Js.InvokeVoidAsync("getPlayer", Video.File, Video.Preview);
-    }
-
-    private async void DownloadVideo()
-    {
-        await Js.InvokeVoidAsync("download", Video.File, Video.Title);
-    }*/
 }

@@ -9,7 +9,7 @@ a {
     line-height: 3em;
     text-align: center;
     text-decoration: none;
-    color: #FCEEEF;
+    color: #FCEEEF !important;
     background-color: #262626;
     border: medium solid #3a3a3a;
     border-radius: .5em;

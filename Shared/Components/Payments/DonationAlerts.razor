@@ -1,0 +1,65 @@
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject IJSRuntime Js
+@inject SettingService Settings
+
+<article>
+    <ol>
+        <li>
+            Перейти на сайт для оплаты -
+            <a href="@Settings.Get("donationLink").Value" target="_blank">DonationAlerts</a>
+        </li>
+        <li>
+            В форме заполнить все поля согласно следующей инструкции:
+            <ul>
+                <li>
+                    <b>Имя:</b> вставьте в это поле ваш ID -
+                    <strong @onclick="CopyId" class="user-id">@User.Id</strong>
+                    <i>(нажмите, чтобы скопировать)</i>.
+                    <strong>Важно:</strong> если вы укажете неверный ID или не укажете его вовсе,
+                    то доступ не будет предоставлен в автоматическом режиме
+                    и вам придётся связаться с поддержкой.
+                    <img src="/storage/images/manual/donation-alerts/name.png"
+                         alt="Поле &quot;Имя&quot; с указанным ID"/>
+                </li>
+                <li>
+                    <b>Сумма:</b> не менее @Settings.Get("subPrice").Value у.е., в качестве валюты
+                    <strong>обязательно</strong> должен быть выбран CURRENCY -
+                    если вы оплачиваете со счёта в другой валюте,
+                    то позже сможете выбрать соответствующий способ оплаты.
+                    Вы можете ввести большую сумму,
+                    за что мы будем вам глубоко благодарны, 
+                    но это 
+                    не даёт вам права доступа к трансляциям 
+                    больше чем на один Гран При, а значит 
+                    <strong>
+                        этим способом нельзя оплатить доступ сразу на несколько Гран При вперёд!
+                    </strong>
+                    <img src="/storage/images/manual/donation-alerts/sum.png"
+                         alt="Поле &quot;Сумма&quot; с указанной суммой 150 у.е."/>
+                </li>
+                <li>
+                    <b>Сообщение:</b> можно оставить пустым,
+                    но рекомендуем указать ссылку на ваш профиль Telegram или электронную почту.
+                    По этим данным мы сможем связаться с вами в будущем,
+                    если возникнут какие-то проблемы.
+                    <img src="/storage/images/manual/donation-alerts/message.png"
+                         alt="Поле &quot;Сообщение&quot; с указанным именем пользователя"/>
+                </li>
+            </ul>
+        </li>
+        <li>
+            Нажать на кнопку "Отправить" и после выбора удобного способа оплаты произвести её.
+        </li>
+    </ol>
+</article>
+
+@code {
+    [CascadingParameter(Name = "User")]
+    private User User { get; set; } = null!;
+    
+    private void CopyId()
+    {
+        Js.InvokeVoidAsync("clipboardCopy.copyText", User.Id);
+    }
+}

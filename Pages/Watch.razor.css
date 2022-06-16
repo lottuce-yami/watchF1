@@ -1,0 +1,31 @@
+::deep .video-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.other-videos {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: .5em;
+}
+
+@media screen and (orientation: landscape){
+    .flex {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: 1em;
+    }
+
+    hr {
+        display: none;
+    }
+
+    ::deep main {
+        width: 80%;
+    }
+
+    .other-videos {
+        width: 20%;
+    }
+}

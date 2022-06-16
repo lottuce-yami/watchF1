@@ -6,7 +6,7 @@ namespace F1Project.Data.Database.Services;
 
 public abstract class Service<T> where T : DatabaseType, new()
 {
-    protected virtual string Table => typeof(T).Name + 's';
+    protected static string Table => typeof(T).Name + 's';
     private static IEnumerable<PropertyInfo> TypeProperties => typeof(T).GetProperties();
     
     protected static T Deserialize(DataRow row)
@@ -39,7 +39,7 @@ public abstract class Service<T> where T : DatabaseType, new()
     public int Add(T added)
     {
         var query = $"INSERT INTO {Table} VALUES({string.Join(", ", TypeProperties.Select(p => '@' + p.Name))})";
-        var args = added.GetType().GetProperties().ToDictionary(p => '@' + p.Name, p => p.GetValue(this));
+        var args = added.GetType().GetProperties().ToDictionary(p => '@' + p.Name, p => p.GetValue(added));
 
         return Database.Write(query, args);
     }
@@ -85,7 +85,8 @@ public abstract class Service<T> where T : DatabaseType, new()
     public List<T> GetByMany(Dictionary<string, object?> args)
     {
         var selection = string.Join(" AND ", args.Select(p => $"{p.Key} = @{p.Key}"));
-        var query = $"SELECT FROM {Table} WHERE {selection}";
+        var query = $"SELECT * FROM {Table}";
+        query += string.IsNullOrWhiteSpace(selection) ? "" : $" WHERE {selection}";
         var data = Database.Read(query, args);
         
         return (from DataRow row in data.Rows select Deserialize(row)).ToList();
@@ -94,7 +95,7 @@ public abstract class Service<T> where T : DatabaseType, new()
     public List<object> GetUniqueBy(string property, bool order)
     {
         var query = $"SELECT DISTINCT {property} FROM {Table}";
-        query += order ? $"ORDER BY {property}" : "";
+        query += order ? $" ORDER BY {property}" : "";
         var args = new Dictionary<string, object?>();
         var data = Database.Read(query, args);
         
@@ -106,7 +107,7 @@ public abstract class Service<T> where T : DatabaseType, new()
         var properties = string.Join(
             ", ", TypeProperties.Skip(1).Select(p => p.Name + " = @" + p.Name));
         var args = edited.GetType().GetProperties().ToDictionary(
-            p => '@' + p.Name, p => p.GetValue(this));
+            p => '@' + p.Name, p => p.GetValue(edited));
         var query = $"UPDATE {Table} SET {properties} WHERE Id = @id";
         
         return Database.Write(query, args);

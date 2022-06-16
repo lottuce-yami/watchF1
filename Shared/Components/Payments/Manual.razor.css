@@ -1,0 +1,56 @@
+﻿.manual {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+@media screen and (orientation: landscape) {
+    .manual {
+        width: 80%;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .payment-methods {
+        max-height: 36em;
+        overflow: auto;
+    }
+}
+table {
+    border: thin solid #3a3a3a;
+}
+
+[role=tab] {
+    cursor: pointer;
+    line-height: 2em;
+    border: thin solid #3a3a3a;
+    background-color: #262626;
+}
+[role=tab].active {
+    cursor: initial;
+    border-bottom: none;
+    background-color: initial;
+}
+
+[role=tabpanel] {
+    padding: .5em;
+}
+
+::deep ol {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    list-style-type: decimal;
+    list-style-position: inside;
+}
+::deep ul {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    list-style-type: circle;
+    list-style-position: inside;
+    padding-inline-start: 1em;
+}
+
+::deep img {
+    border-radius: .25em;
+}

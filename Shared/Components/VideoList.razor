@@ -3,9 +3,8 @@
 @foreach(var video in List.Where(video => !string.IsNullOrWhiteSpace(video.Id)))
 {
     <a href="watch?v=@video.Id">
-        <img src="@video.Preview" alt=""><br>
-        <h2>@video.Title</h2>
-        <br>
+        <img src="@video.Preview" alt="">
+        @video.Title
     </a>
 }
 

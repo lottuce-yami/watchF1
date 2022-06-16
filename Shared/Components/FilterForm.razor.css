@@ -1,0 +1,29 @@
+﻿section {
+    margin-bottom: 1em;
+}
+div[role=form] {
+    display: flex;
+    flex-flow: row wrap;
+    gap: .25em;
+}
+
+select, input {
+    font-family: Rubik, sans-serif;
+    color: #FCEEEF;
+    background-color: #3a3a3a;
+    border: none;
+    border-radius: .25em;
+}
+
+select {
+    width: 10em;
+    font-size: .9em;
+}
+
+input {
+    cursor: pointer;
+    width: 6em;
+    font-size: .95em;
+    color: #FCEEEF;
+    border-bottom: medium solid #DE363D;
+}

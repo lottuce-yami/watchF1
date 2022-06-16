@@ -1,27 +1,24 @@
 @page "/"
 
-<PageTitle>watchF1</PageTitle>
-
 <div class="flex">
     <main>
         <section class="greeting" data-nosnippet>
             <h2>
-                Добро пожаловать на <span class="logo-url">watch-<b>F1</b>.ru</span>
+                Добро пожаловать на <br>
+                <span class="logo-url">watch-<b>F1</b>.ru</span>
             </h2>
         </section>
-
         <section class="about">
             <p>
-                Этот ресурс создан, чтобы вы могли удобно смотреть трансляции и скачивать записи Гран-при Формулы 1.
+                Этот ресурс создан, чтобы вы могли удобно смотреть трансляции 
+                и скачивать записи Гран При Формулы 1.
             </p>
-
             <p>
                 Сайт работает в тестовом режиме,
                 в доступе имеются только записи этапов <a href="videos">сезона 2022</a>,
                 а так же возможность просматривать <a href="live">прямые трансляции</a>,
                 приобретая платную подписку.
             </p>
-
             <p>
                 С вашей поддержкой мы планируем улучшать и дорабатывать сервис.
                 По любым вопросам, связанным с работой сайта,
@@ -30,9 +27,7 @@
             </p>
         </section>
     </main>
-    <div class="links">
-        <LinkButtons LinksArray="@(new [] {LinkButtons.Link.Support, LinkButtons.Link.Donation})"/>
-    </div>
+    <LinkButtons LinksArray="@(new [] {LinkButtons.Link.Support, LinkButtons.Link.Donation})"/>
 </div>
 <hr>
 <Schedule/>

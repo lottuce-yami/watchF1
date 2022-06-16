@@ -1,0 +1,9 @@
+﻿h2 {
+    margin-bottom: 1em;
+}
+
+@media screen and (orientation: landscape) {
+    ::deep .link-buttons {
+        width: 30%;
+    }
+}

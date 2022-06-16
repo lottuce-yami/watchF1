@@ -1,96 +1,51 @@
-﻿using System.Data;
-using F1Project.Data.Database.Types;
+﻿using F1Project.Data.Database.Types;
 
 namespace F1Project.Data.Database.Services;
 
 internal class UserService : Service<User>
 {
-    /*private static User Deserialize(DataRow row)
+    public static int Subscribe(string userId, int quantity)
     {
-        return new User
+        var query = $"UPDATE {Table} SET Subscribed = Subscribed + @sub WHERE Id = @id";
+        var args = new Dictionary<string, object?>
         {
-            Id = row["Id"].ToString() ?? "",
-            Subscribed = int.Parse(row["Subscribed"].ToString() ?? "0") > 0,
-            FirstName = row["FirstName"].ToString() ?? "",
-            LastName = row["LastName"].ToString() ?? "",
-            Username = row["Username"].ToString() ?? "",
-            Photo = row["Photo"].ToString() ?? "",
-            AuthDate = int.Parse(row["AuthDate"].ToString() ?? "0"),
-            Hash = row["Hash"].ToString() ?? ""
+            {"@id", userId},
+            {"@sub", quantity}
         };
+        
+        return Database.Write(query, args);
     }
-
-    public static int AddUser(User user)
+    
+    /*public static int Unsubscribe(string userId, int quantity)
     {
-        const string query =
-            "INSERT INTO Users VALUES(@id, @subscribed, @firstName, @lastName, @username, @photo, @authDate, @hash)";
-        var args = new Dictionary<string, object>
+        var query = $"UPDATE {Table} SET Subscribed = Subscribed - @sub WHERE Id = @id";
+        var args = new Dictionary<string, object?>
         {
-            {"@id", user.Id},
-            {"@subscribed", user.Subscribed? 1 : 0},
-            {"@firstName", user.FirstName},
-            {"@lastName", user.LastName ?? ""},
-            {"@username", user.Username ?? ""},
-            {"@photo", user.Photo ?? ""},
-            {"@authDate", user.AuthDate ?? 0},
-            {"@hash", user.Hash ?? ""}
+            {"@id", userId},
+            {"@sub", quantity}
         };
-
-        return Data.Database.Write(query, args);
-    }
-
-    public static int EditUser(User user)
-    {
-        const string query =
-            "UPDATE Users SET FirstName = @firstName, LastName = @lastName, Username = @username, Photo = @photo, AuthDate = @authDate, Hash = @hash WHERE Id = @id";
-        var args = new Dictionary<string, object>
-        {
-            {"@id", user.Id},
-            {"@firstName", user.FirstName},
-            {"@lastName", user.LastName ?? ""},
-            {"@username", user.Username ?? ""},
-            {"@photo", user.Photo ?? ""},
-            {"@authDate", user.AuthDate ?? 0},
-            {"@hash", user.Hash ?? ""}
-        };
-
-        return Data.Database.Write(query, args);
-    }
-
-    public static int DeleteUser(string userId)
-    {
-        const string query =
-            "DELETE FROM Users WHERE Id = @id";
-        var args = new Dictionary<string, object>
-        {
-            {"@id", userId}
-        };
-
-        return Data.Database.Write(query, args);
-    }
-
-    public static User GetUser(string userId)
-    {
-        const string query =
-            "SELECT * FROM Users WHERE Id = @id";
-        var args = new Dictionary<string, object>
-        {
-            {"@id", userId}
-        };
-        var data = Data.Database.Read(query, args);
-
-        return data.Rows.Count > 0 ? Deserialize(data.Rows[0]) : new User();
+        
+        return Database.Write(query, args);
     }*/
 
+    public static int ExpireAllSubs()
+    {
+        var query = $"UPDATE {Table} SET Subscribed = Subscribed - 1 WHERE Subscribed > 0";
+        var args = new Dictionary<string, object?>();
+        
+        return Database.Write(query, args);
+    }
+    
     public void Authorize(User user)
     {
-        if (string.IsNullOrWhiteSpace(Get(user.Id).Id))
+        try
+        {
+            user.Subscribed = Get(user.Id).Subscribed;
+            Edit(user);
+        }
+        catch
         {
             Add(user);
-        }
-        else
-        {
-            Edit(user);
         }
     }
 

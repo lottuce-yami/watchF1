@@ -49,6 +49,9 @@
       <_ContentIncludedByDefault Remove="wwwroot\js\telegram-auth\onAuth.js" />
       <_ContentIncludedByDefault Remove="Components\Schedule.razor" />
       <_ContentIncludedByDefault Remove="Components\VideoPlayer.razor" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.scss" />
     </ItemGroup>
 
     <ItemGroup>
