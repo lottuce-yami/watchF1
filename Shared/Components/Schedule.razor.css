@@ -1,29 +1,35 @@
 ﻿@media screen and (orientation: landscape) {
-    .schedule {
+    section {
         line-height: 0.8em;
         margin: 0 auto;
         width: max-content;
     }
 }
-.schedule h3 {
-    font-size: larger;
+
+.day {
+    margin: 1em 0;
 }
-.schedule ol {
+.day ol {
+    margin-top: .5em;
+}
+
+ol {
     list-style-type: none;
     list-style-position: inside;
 }
 @media screen and (orientation: landscape) {
-    .schedule ol {
+    ol {
         text-align: center;
     }
 }
-.schedule li > ol {
+
+li > ol {
     list-style-type: disc;
     padding-inline-start: 1em;
     line-height: 1.15em;
 }
 @media screen and (orientation: landscape) {
-    .schedule li > ol {
+    li > ol {
         text-align: initial;
     }
 }

@@ -1,11 +1,13 @@
 ﻿.link-buttons {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-flow: row wrap;
+    justify-content: flex-start;
     gap: 1em;
+    column-gap: 4%;
 }
 
 a {
+    width: 100%;
     line-height: 3em;
     text-align: center;
     text-decoration: none;
@@ -13,6 +15,10 @@ a {
     background-color: #262626;
     border: medium solid #3a3a3a;
     border-radius: .5em;
+}
+
+.donate {
+    width: 48%;
 }
 
 @media (hover) {

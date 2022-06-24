@@ -10,15 +10,4 @@ public class User : DatabaseType
     public string? Photo { get; set; }
     public int? AuthDate { get; set; }
     public string Hash { get; set; } = null!;
-
-    /*public User(){}
-    public User(string id, bool subscribed, string firstName, string lastName, string username, string photo)
-    {
-        Id = id;
-        Subscribed = subscribed;
-        FirstName = firstName;
-        LastName = lastName;
-        Username = username;
-        Photo = photo;
-    }*/
 }

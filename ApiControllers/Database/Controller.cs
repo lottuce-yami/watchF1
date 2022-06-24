@@ -10,12 +10,11 @@ namespace F1Project.ApiControllers.Database;
 public abstract class Controller<T> : ControllerBase where T : DatabaseType, new()
 {
     protected string Auth => "***REMOVED***";
-    protected static Service<T> Service => null!;
-
-    public class ItemList
+    protected abstract Service<T> Service { get; }
+    
+    private class ItemCollection
     {
-        [JsonPropertyName("list")]
-        public string[] List { get; set; } = null!;
+        public T[] Items { get; set; } = null!;
         
         [JsonPropertyName("pages")]
         public int PagesCount { get; set; }
@@ -35,12 +34,11 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
             pagesCount++;
         }
 
-        var items = new ItemList
+        var items = new ItemCollection
         {
-            List = Service.Get().
+            Items = Service.Get().
                 Skip(pageSize * page).
                 Take(pageSize).
-                Select(i => i.Id).
                 ToArray(),
             PagesCount = pagesCount
         };
@@ -55,8 +53,8 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
         }
     }
 
-    [HttpGet("~/api/[controller]")]
-    public IActionResult Index(string id)
+    [HttpGet]
+    public IActionResult Get(string id)
     {
         if (Request.Headers.Authorization != Auth) return Unauthorized();
 
@@ -70,14 +68,16 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
         }
     }
 
-    [HttpPost("")]
-    public IActionResult Add([FromBody] T item)
+    [HttpPost]
+    public IActionResult Add([FromBody] T[] items)
     {
         if (Request.Headers.Authorization != Auth) return Unauthorized();
 
         try
         {
-            Service.Add(item);
+            foreach (var item in items) 
+                Service.Add(item);
+            
             return Ok();
         }
         catch
@@ -86,14 +86,16 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
         }
     }
 
-    [HttpPost("")]
-    public IActionResult Edit([FromBody] T item)
+    [HttpPost]
+    public IActionResult Edit([FromBody] T[] items)
     {
         if (Request.Headers.Authorization != Auth) return Unauthorized();
 
         try
         {
-            Service.Edit(item);
+            foreach (var item in items) 
+                Service.Edit(item);
+            
             return Ok();
         }
         catch
@@ -102,7 +104,7 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
         }
     }
 
-    [HttpPost("")]
+    [HttpPost]
     public IActionResult Delete(string id)
     {
         if (Request.Headers.Authorization != Auth) return Unauthorized();

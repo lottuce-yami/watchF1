@@ -33,7 +33,7 @@
     [Parameter]
     public Dictionary<string, string?> Filter { get; set; } = new();
 
-    private Dictionary<string, string> Lang => new()
+    private static Dictionary<string, string> Lang => new()
     {
         {"Championship", "Чемпионат"},
         {"Season", "Сезон"},

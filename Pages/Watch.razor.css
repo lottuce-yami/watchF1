@@ -1,9 +1,3 @@
-::deep .video-info {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;
-}
-
 .other-videos {
     display: flex;
     flex-flow: column nowrap;

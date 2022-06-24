@@ -33,3 +33,9 @@ main {
 .greeting span b {
     color: #DE363D;
 }
+
+@media screen and (orientation: landscape) {
+    br {
+        display: none;
+    }
+}

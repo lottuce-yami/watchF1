@@ -3,22 +3,48 @@
 @inject ServerService ServerServ
 @inject SettingService Settings
 @inject IJSRuntime Js
+@inject IHostEnvironment Environment
+
+<PageTitle>@Title - watchF1</PageTitle>
 
 <main>
     <section id="video">
         <div id="player">
             @if (Live)
             {
-                <iframe src="@Source" allow="fullscreen"></iframe>
+                <iframe src="@PlayerSource" allow="fullscreen"></iframe>
             }
         </div>
         <div class="video-info">
             <h2>@Title</h2>
             @if (!Live)
             {
-                <a @onclick="Download" role="button" title="Скачать">
-                    <i class="fa-solid fa-download"></i>
-                </a>
+                <div>
+                    <a @onclick="Download" role="button" title="Скачать">
+                        <i class="fa-solid fa-download"></i>
+                        Скачать
+                    </a>
+                    @if (Source!.Qualities.Any())
+                    {
+                        <select @bind="@DownloadedFile">
+                            @foreach (var quality in Source!.Qualities)
+                            {
+                                <optgroup label="@quality.QualityName">
+                                    @foreach (var audio in quality.Audios)
+                                    {
+                                        <option value="@audio.Value">
+                                            @audio.Key
+                                        </option>
+                                    }
+                                </optgroup>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        DownloadedFile = PlayerSource;
+                    }
+                </div>
             }
         </div>
     </section>
@@ -30,43 +56,45 @@
     public bool Live { get; set; }
     
     [Parameter]
-    public string? Source { get; set; }
-    
-    [Parameter]
-    public string? Preview { get; set; }
-    
-    [Parameter]
-    public string? Title { get; set; }
+    public Video? Video { get; set; }
 
-    protected override void OnInitialized()
+    private Random Random => new();
+    
+    private string? Title { get; set; }
+    private string? PlayerSource { get; set; }
+    private Video.SourceModel? Source { get; set; }
+    
+    private string? DownloadedFile { get; set; }
+
+    protected override void OnParametersSet()
     {
-        if (!Live) return;
-        Source ??= RandomServer().Url;
-        Title ??= Settings.Get("liveTitle").Value;
+        if (!Live) Source = Video!.Source(Environment.IsDevelopment() ? "./wwwroot/storage/" : "/home/anton/storage/");
+        PlayerSource = Live ? RandomServer() : Source!.PlayerSource;
+        Title = Live ? Settings.Get("liveTitle").Value : Video!.Title;
+        if (!Live && Source!.Qualities.Any()) DownloadedFile = Source!.Qualities.Last().Audios.Last().Value;
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Live) return;
-        await Js.InvokeVoidAsync("getPlayer", Source, Preview);
+        await Js.InvokeVoidAsync("getPlayer", PlayerSource, Source!.Preview);
     }
     
     private async void Download()
     {
-        await Js.InvokeVoidAsync("download", Source, Title);
+        await Js.InvokeVoidAsync("download", DownloadedFile, Title);
     }
 
-    private Server RandomServer()
+    private string RandomServer()
     {
         var servers = ServerServ.Get();
         try
         {
-            return servers.Single();
+            return servers.Single().Url;
         }
-        catch
+        catch (InvalidOperationException)
         {
-            var random = new Random();
-            return servers[random.Next(servers.Count)];
+            return servers[Random.Next(servers.Count)].Url;
         }
     }
 }

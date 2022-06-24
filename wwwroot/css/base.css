@@ -11,6 +11,84 @@ html, body {
     font-family: Rubik, sans-serif;
 }
 
+#components-reconnect-modal {
+    transition: visibility 0s linear 1000ms;
+    position: absolute;
+    z-index: 500;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.8);
+    text-align: center;
+    padding: 5em 1em;
+}
+#components-reconnect-modal, #components-reconnect-modal p, .components-reconnect-hide {
+    display: none;
+}
+
+.components-reconnect-show, .components-reconnect-failed, .components-reconnect-rejected {
+    display: block !important;
+}
+.components-reconnect-failed p, .components-reconnect-rejected p {
+    display: initial !important;
+}
+.components-reconnect-failed .spinner, .components-reconnect-rejected .spinner {
+    display: none;
+}
+
+.spinner {
+    -webkit-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+    z-index: 55;
+    width: 3em;
+    height: 3em;
+}
+.spinner .path {
+    stroke: #FCEEEF;
+    stroke-linecap: round;
+    -webkit-animation: dash 1.5s ease-in-out infinite;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+@-webkit-keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
 #tg-login-widget {
     position: absolute;
 }

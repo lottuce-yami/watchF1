@@ -15,15 +15,13 @@ select, input {
     border-radius: .25em;
 }
 
-select {
+select, input {
     width: 10em;
     font-size: .9em;
 }
 
 input {
     cursor: pointer;
-    width: 6em;
-    font-size: .95em;
     color: #FCEEEF;
     border-bottom: medium solid #DE363D;
 }

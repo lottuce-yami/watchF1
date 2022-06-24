@@ -50,9 +50,9 @@
     [CascadingParameter(Name = "User")]
     private User User { get; set; } = null!;
 
-    private int MaxSub => int.Parse(Settings.Get("maxSub").Value) - User.Subscribed;
+    private int MaxSub => int.Parse(Settings.Get("maxSub").Value ?? "1") - User.Subscribed;
     private int SubsCount { get; set; } 
-    private long TotalPrice => SubsCount * int.Parse(Settings.Get("subPrice").Value);
+    private long TotalPrice => SubsCount * int.Parse(Settings.Get("subPrice").Value ?? "150");
 
     private async void CreatePayment()
     {

@@ -15,18 +15,6 @@ internal class UserService : Service<User>
         
         return Database.Write(query, args);
     }
-    
-    /*public static int Unsubscribe(string userId, int quantity)
-    {
-        var query = $"UPDATE {Table} SET Subscribed = Subscribed - @sub WHERE Id = @id";
-        var args = new Dictionary<string, object?>
-        {
-            {"@id", userId},
-            {"@sub", quantity}
-        };
-        
-        return Database.Write(query, args);
-    }*/
 
     public static int ExpireAllSubs()
     {

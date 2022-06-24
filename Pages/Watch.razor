@@ -4,10 +4,8 @@
 @inject NavigationManager Nav
 @inject VideoService VideoServ
 
-<PageTitle>@Video.Title - watchF1</PageTitle>
-
 <div class="flex">
-    <VideoPlayer Source="@Video.File" Preview="@Video.Preview" Title="@Video.Title"/>
+    <VideoPlayer Video="Video"/>
     <hr>
     <section class="other-videos">
         <h2>Другие видео:</h2>

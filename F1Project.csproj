@@ -52,6 +52,16 @@
       <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css" />
       <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css.map" />
       <_ContentIncludedByDefault Remove="wwwroot\css\live\live.scss" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\aboba\aboba.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\aboba\aboba.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus\amobus.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus\amobus.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus_fx\amobus_fx.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus_fx\amobus_fx.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus\amogus.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus\amogus.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus_fx\amogus_fx.mp4" />
+      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus_fx\amogus_fx.png" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,6 +4,12 @@ using F1Project.Data.Database.Types;
 
 namespace F1Project.Data.Database.Services;
 
+/// <summary>
+/// An abstraction for a service
+/// that provides methods to manipulate with
+/// objects of type <typeparamref name="T"/> in database.
+/// </summary>
+/// <typeparam name="T">type that inherits <c>DatabaseType</c></typeparam>
 public abstract class Service<T> where T : DatabaseType, new()
 {
     protected static string Table => typeof(T).Name + 's';

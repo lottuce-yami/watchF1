@@ -14,50 +14,30 @@ public class PaymentController : ControllerBase
     private const string BotUrl =
         "https://example.com/botBOT_TOKEN/subscription_notice";
     private HttpClient _httpClient = new();
-    private int SubPrice { get; } = int.Parse(new SettingService().Get("subPrice").Value);
+    private int SubPrice { get; } = int.Parse(new SettingService().Get("subPrice").Value ?? "150");
 
     public class Payment
     {
         public class AmountModel
         {
-            [JsonPropertyName("amount")]
             public long Amount { get; set; }
-            
-            [JsonPropertyName("commission")]
-            public long Commission { get; set; }
-            
-            [JsonPropertyName("currency")]
             public string Currency { get; set; } = null!;
         }
 
         public class CustomModel
         {
-            [JsonPropertyName("userId")]
             public string? UserId { get; set; }
-            
-            [JsonPropertyName("quantity")]
             public int Quantity { get; set; }
         }
-
-        [JsonPropertyName("transactionId")]
         public string TransactionId { get; set; } = null!;
-        
-        [JsonPropertyName("amount")]
         public AmountModel Amount { get; set; } = null!;
-        
-        [JsonPropertyName("custom")]
         public CustomModel? Custom { get; set; }
-        
-        [JsonPropertyName("status")]
         public string Status { get; set; } = null!;
     }
 
     public class Notification
     {
-        [JsonPropertyName("text")]
-        public string Message { get; set; } = "";
-
-        [JsonPropertyName("user_id")]
+        public string Text { get; set; } = "";
         public string UserId { get; set; } = "";
     }
     
@@ -80,7 +60,7 @@ public class PaymentController : ControllerBase
             );
         var notification = new Notification
         {
-            Message = message,
+            Text = message,
             UserId = payment.Custom.UserId
         };
 

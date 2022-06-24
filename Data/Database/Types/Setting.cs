@@ -3,5 +3,5 @@
 public class Setting : DatabaseType
 {
     public override string Id { get; init; } = null!;
-    public string Value { get; set; } = null!;
+    public string? Value { get; set; }
 }

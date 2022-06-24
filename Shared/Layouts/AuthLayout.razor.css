@@ -2,6 +2,13 @@
     margin-bottom: 1em;
 }
 
+.loading {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (orientation: landscape) {
     ::deep .link-buttons {
         width: 30%;

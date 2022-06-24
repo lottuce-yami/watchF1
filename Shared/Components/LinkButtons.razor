@@ -1,38 +1,42 @@
 ﻿@using F1Project.Data.Database.Services
 @inject SettingService Settings
 
-@if (LinksArray != null)
+@if (Links != null)
 {
     <section class="link-buttons">
-        @foreach (var link in LinksArray)
+        @foreach (var link in Links)
         {
             switch (link)
             {
-                case Link.Support:
+                case "Support":
                     <a href="@Settings.Get("supportLink").Value" target="_blank" role="button">
                         <i class="fa-brands fa-telegram"></i>
                         Поддержка
                     </a>
                     break;
-                case Link.Donation:
-                    <a href="@Settings.Get("donationLink").Value" target="_blank" role="button">
+                case "Donate":
+                    <a class="donate" href="@Settings.Get("capustaLink").Value" target="_blank" role="button">
+                        <i class="fa-solid fa-ruble-sign"></i>
+                        Донат
+                    </a>
+                    <a class="donate" href="@Settings.Get("donationLink").Value" target="_blank" role="button">
                         <i class="fa-solid fa-dollar-sign"></i>
-                        Пожертвование
+                        Донат
                     </a>
                     break;
-                case Link.Login:
+                case "Login":
                     <a href="login" role="button">
                         <i class="fa-brands fa-telegram"></i>
                         Войти через Telegram
                     </a>
                     break;
-                case Link.Manual:
+                case "Manual":
                     <a href="account" role="button">
-                        <i class="fa-solid fa-file-lines"></i> 
-                        Инструкция
+                        <i class="fa-solid fa-circle-play"></i>
+                        Получить доступ
                     </a>
                     break;
-                case Link.BackupLive:
+                case "BackupLive":
                     <a href="@Settings.Get("backupStream").Value" target="_blank" role="button">
                         <i class="fa-solid fa-wheelchair-move"></i>
                         Резервная трансляция
@@ -47,14 +51,5 @@
 
 @code {
     [Parameter]
-    public Link[]? LinksArray { get; set; }
-
-    public enum Link
-    {
-        Support,
-        Donation,
-        Login,
-        Manual,
-        BackupLive
-    }
+    public string[]? Links { get; set; }
 }

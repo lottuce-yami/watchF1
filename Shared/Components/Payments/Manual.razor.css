@@ -9,12 +9,6 @@
     }
 }
 
-@media screen and (orientation: landscape) {
-    .payment-methods {
-        max-height: 36em;
-        overflow: auto;
-    }
-}
 table {
     border: thin solid #3a3a3a;
 }
