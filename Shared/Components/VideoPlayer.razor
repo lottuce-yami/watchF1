@@ -59,6 +59,7 @@
     public Video? Video { get; set; }
 
     private Random Random => new();
+    private string Storage => Environment.IsDevelopment() ? "./wwwroot/storage/" : "/home/anton/storage/";
     
     private string? Title { get; set; }
     private string? PlayerSource { get; set; }
@@ -68,7 +69,7 @@
 
     protected override void OnParametersSet()
     {
-        if (!Live) Source = Video!.Source(Environment.IsDevelopment() ? "./wwwroot/storage/" : "/home/anton/storage/");
+        if (!Live) Source = Video!.Source(Storage);
         PlayerSource = Live ? RandomServer() : Source!.PlayerSource;
         Title = Live ? Settings.Get("liveTitle").Value : Video!.Title;
         if (!Live && Source!.Qualities.Any()) DownloadedFile = Source!.Qualities.Last().Audios.Last().Value;
@@ -77,7 +78,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (Live) return;
-        await Js.InvokeVoidAsync("getPlayer", PlayerSource, Source!.Preview);
+        await Js.InvokeVoidAsync("getPlayer", PlayerSource, Video!.Preview(Storage));
     }
     
     private async void Download()

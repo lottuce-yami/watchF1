@@ -12,11 +12,6 @@ public class Video : DatabaseType
     public SourceModel Source(string storageDirectory)
     {
         var source = new SourceModel();
-
-        if (File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}.webp")))
-            source.Preview = $"{BaseFile}.webp";
-        if (File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}.jpg")))
-            source.Preview = $"{BaseFile}.jpg";
         
         foreach (var (q, qualityName) in QualityTemplates)
         {
@@ -35,8 +30,12 @@ public class Video : DatabaseType
                 source.Qualities.Add(quality);
         }
 
-        if (!source.Qualities.Any()) 
-            source.PlayerSource = $"{BaseFile}.mp4";
+        if (!source.Qualities.Any())
+        {
+            source.PlayerSource = 
+                File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}1080.mp4")) ? 
+                    $"{BaseFile}1080.mp4" : $"{BaseFile}.mp4";
+        }
         else
         {
             source.PlayerSource =
@@ -53,12 +52,23 @@ public class Video : DatabaseType
         return source;
     }
 
+    public string Preview(string storageDirectory)
+    {
+        if (File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}.webp")))
+            return $"{BaseFile}.webp";
+        if (File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}.jpg")))
+            return $"{BaseFile}.jpg";
+        
+        return "storage/images/skeleton/preview.jpg";
+    }
+
     private string BaseFile => $"storage/videos/{Id}/{Id}";
     
     private static Dictionary<string, string> QualityTemplates => new()
     {
         {"1080", "Высокое - 1080p"},
-        {"720", "Среднее - 720p"}
+        {"720", "Среднее - 720p"},
+        {"480", "Низкое - 480p"}
     };
 
     private static Dictionary<string, string> AudioTemplates => new()
@@ -70,7 +80,6 @@ public class Video : DatabaseType
 
     public class SourceModel
     {
-        public string Preview { get; set; } = "storage/images/skeleton/preview.jpg";
         public string PlayerSource { get; set; } = "";
         public List<Quality> Qualities { get; set; } = new();
 
