@@ -1,22 +1,88 @@
-@media screen and (orientation: portrait) {
-    ::deep main {
+ol {
+    list-style: decimal inside;
+}
+li {
+    margin: .25em 0;
+}
+
+#past-lives {
+    border: thin solid #3a3a3a;
+}
+#past-lives .caption, #past-lives .content {
+    padding: .5em;
+}
+#past-lives .caption {
+    background-color: #262626;
+}
+@media (orientation: portrait) {
+    #past-lives .content {
+        display: flex;
+        flex-flow: column nowrap;
+        gap: 1em;
+    }
+    #past-lives {
         margin-bottom: 1em;
     }
 }
 
+#troubleshoot .caption {
+    margin-bottom: .5em;
+}
+#troubleshoot p {
+    margin-bottom: .25em;
+}
+#troubleshoot .content {
+    font-size: .9em;
+}
+#troubleshoot h3, #troubleshoot a {
+    text-decoration: underline dotted;
+}
+@media screen and (orientation: portrait) {
+    #troubleshoot {
+        margin-top: 1em;
+    }
+}
+
+@media (hover: hover) {
+    #troubleshoot h3{
+        cursor: pointer;
+    }
+    #troubleshoot h3.active{
+        cursor: unset;
+    }
+    #troubleshoot a:hover {
+        text-decoration: underline;
+    }
+}
+
+
+
 @media screen and (orientation: landscape) {
-    .flex {
+    .layout {
         display: flex;
         flex-flow: row nowrap;
-        align-items: flex-start;
+        justify-content: space-between;
+    }
+    
+    .left {
+        width: 70%;
+    }
+    
+    .right {
+        padding-left: 1em;
+        width: 30%;
+    }
+
+    ::deep #schedule {
+        margin-bottom: 1em;
+    }
+    
+    #past-lives .content {
+        display: flex;
+        flex-flow: row wrap;
         gap: 1em;
     }
-    
-    ::deep main {
-        width: 80%;
-    }
-    
-    ::deep .link-buttons {
-        width: 20%;
+    ::deep #past-lives .content a {
+        flex: 1;
     }
 }

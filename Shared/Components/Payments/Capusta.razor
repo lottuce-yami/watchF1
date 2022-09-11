@@ -6,6 +6,7 @@
 @inject IWebHostEnvironment HostEnvironment
 @inject SettingService Settings
 @inject NavigationManager Nav
+@inject IJSRuntime Js
 
 <article>
     <div role="form">
@@ -51,14 +52,20 @@
     private User User { get; set; } = null!;
 
     private int MaxSub => int.Parse(Settings.Get("maxSub").Value ?? "1") - User.Subscribed;
-    private int SubsCount { get; set; } 
+    private int SubsCount { get; set; } = 1;
     private long TotalPrice => SubsCount * int.Parse(Settings.Get("subPrice").Value ?? "150");
 
     private async void CreatePayment()
     {
         if (User.Subscribed >= MaxSub) SubsCount = 0;
-        if (SubsCount <= 0) return;
         if (SubsCount > MaxSub) SubsCount = MaxSub;
+        if (SubsCount <= 0)
+        {
+            await Js.InvokeVoidAsync("alert",
+                "Невозможно оплатить доступ на 0 Гран При. " +
+                "Возможно, вы уже приобрели доступ на весь сезон или ввели некорректное значение.");
+            return;
+        }
         var paymentRequest = new Payment
         {
             Amount = new Payment.AmountModel

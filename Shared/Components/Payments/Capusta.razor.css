@@ -51,7 +51,5 @@ button {
 }
 
 input[type=submit] {
-    background-color: deepskyblue;
-    border-color: deepskyblue;
-    color: #1a1a1a;
+    border-bottom: medium solid #DE363D;
 }

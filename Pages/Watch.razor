@@ -4,12 +4,12 @@
 @inject NavigationManager Nav
 @inject VideoService VideoServ
 
-<div class="flex">
+<div class="left">
     <VideoPlayer Video="Video"/>
     <hr>
     <section class="other-videos">
         <h2>Другие видео:</h2>
-        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id)"/>
+        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id).TakeLast(4).Reverse()"/>
     </section>
 </div>
 
@@ -20,7 +20,7 @@
 
     private Video Video { get; set; } = null!;
 
-    private IList<Video> OtherVideos { get; set; } = null!;
+    private List<Video> OtherVideos { get; set; } = null!;
 
     protected override void OnParametersSet()
     {

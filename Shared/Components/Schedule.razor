@@ -4,25 +4,25 @@
 @inject SettingService Settings
 @inject IJSRuntime Js
 
-<section id="schedule">
-    <h2>@(ScheduleObject.Flag) @(ScheduleObject.Title):</h2>
+<article id="schedule">
+    <h2>@(ScheduleObject.Flag) @(ScheduleObject.Title)</h2>
     <ol>
         @foreach (var day in ScheduleObject.Days)
         {
             <li class="day">
-                📆 @(day.Name):
+                <b>📆 @(day.Name):</b>
                 <ol>
-                    @foreach (var livestream in day.Events)
+                    @foreach (var e in day.Events)
                     {
                         <li>
-                            @livestream
+                            @e
                         </li>
-                    } 
+                    }
                 </ol>
             </li>
         }
     </ol>
-</section>
+</article>
 
 @code
 {
@@ -49,7 +49,7 @@
         public Day[] Days { get; set; } = {};
     }
 
-    protected override void OnParametersSet()
+    protected override void OnInitialized()
     {
         try
         {

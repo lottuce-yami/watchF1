@@ -2,24 +2,73 @@
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
 @inject SettingService Settings
+@inject VideoService VideoServ
 
-<div class="flex">
-    @if (User.Subscribed > 0 || Settings.Get("test").Value == "true")
-    {
+<div class="layout">
+    <div class="left">
         <VideoPlayer Live/>
-        <LinkButtons Links="@(new [] {"BackupLive", "Support"})"/>
-    }
-    else
-    {
-        <h2>Оплатите доступ, чтобы смотреть трансляцию.</h2>
-        <LinkButtons Links="@(new [] {"Manual"})"/>
-    }
+        <hr>
+        <article id="past-lives">
+            <section class="caption">
+                <h2>
+                    <i class="fa-solid fa-photo-film"></i>
+                    Прошедшие трансляции
+                </h2>
+            </section>
+            <section class="content">
+                <VideoList List="@VideoServ.Get().TakeLast(4).Reverse()"/>
+            </section>
+        </article>
+    </div>
+    <div class="right">
+        <Schedule/>
+        <article id="troubleshoot">
+            <section class="caption">
+                <h3 @onclick="() => Opened = true" class="@(Opened ? "active" : "")">
+                    Проблемы с трансляцией?
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </h3>
+            </section>
+            @if (Opened)
+            {
+                <section class="content">
+                    <p>
+                        Что делать, если трансляция не грузится, тормозит,
+                        появляется кружок загрузки или другие проблемы?
+                    </p>
+                    <ol>
+                        <li>
+                            Обновите страницу
+                        </li>
+                        <li>
+                            Закройте сайт, очистите кэш в браузере и заново зайдите на сайт
+                        </li>
+                        <li>
+                            Смените браузер (рекомендуем использовать Firefox или Chrome)
+                        </li>
+                        <li>
+                            Смените устройство и/или интернет подключение
+                            (на среднем качестве достаточно высокоскоростной мобильной сети)
+                        </li>
+                        <li>
+                            В случае, если вышеперечисленное не помогло,
+                            замерьте скорость своего интернет-соединения 
+                            <a href="https://www.speedtest.net/" target="_blank">здесь</a>
+                            и обратитесь в 
+                            <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>,
+                            прикрепив скриншот результата измерения
+                        </li>
+                    </ol>
+                </section>
+            }
+        </article>
+    </div>
 </div>
-<hr>
-<Schedule/>
 
 @code
 {
     [CascadingParameter(Name = "User")]
     private User User { get; set; } = null!;
+    
+    private bool Opened { get; set; }
 }

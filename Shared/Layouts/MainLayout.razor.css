@@ -19,7 +19,7 @@ footer {
     width: 100%;
     max-width: 100%;
     height: 100%;
-    padding: 3.5em 1em;
+    padding: 3em .5em;
     overflow: auto;
 }
 @media screen and (orientation: portrait) and (min-width: 600px) {
@@ -42,8 +42,7 @@ footer {
 }
 @media screen and (orientation: landscape) and (min-width: 992px) {
     .page {
-        padding-left: 6em;
-        padding-right: 6em;
+        padding: 3.5em 6em;
     }
 }
 @media screen and (orientation: landscape) and (min-width: 1200px) {
@@ -59,11 +58,34 @@ footer {
     }
 }
 
+.live-alert {
+    border: thin solid #DE363D;
+    border-radius: .25em;
+    padding: .5em;
+    margin-bottom: 1em;
+    line-height: 1.25em;
+}
+.live-alert strong {
+    color: #FCEEEF;
+    font-weight: bold;
+}
+.live-alert a {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    text-decoration: none;
+}
+@media (hover: hover) {
+    .live-alert a:hover {
+        text-decoration: underline;
+    }
+}
+
 header h1 {
     font-family: Righteous, sans-serif;
     font-size: 2em;
     text-align: center;
-    letter-spacing: 0.25em;
+    letter-spacing: .25em;
 }
 header a {
     text-decoration: none;

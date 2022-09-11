@@ -1,0 +1,38 @@
+﻿<article class="section-link" id="@Id">
+    <div class="content">
+        @ChildContent
+    </div>
+    <div class="caption">
+        <h2>
+            <i class="fa-solid fa-@Icon"></i>
+            @Heading
+        </h2>
+        <a href="@Link" target="@(TargetBlank ? "_blank" : "_self")">
+            @LinkText
+            <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+    </div>
+</article>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = null!;
+    
+    [Parameter]
+    public string Link { get; set; } = null!;
+    
+    [Parameter]
+    public bool TargetBlank { get; set; }
+
+    [Parameter]
+    public string LinkText { get; set; } = "Подробнее";
+
+    [Parameter]
+    public string Icon { get; set; } = null!;
+    
+    [Parameter]
+    public string Heading { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

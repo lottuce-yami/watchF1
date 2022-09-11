@@ -1,33 +1,119 @@
 @page "/"
+@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@inject VideoService VideoServ
+@inject SettingService Settings
+@inject IHostEnvironment Environment
 
-<div class="flex">
-    <main>
-        <section class="greeting" data-nosnippet>
-            <h2>
-                Добро пожаловать на <br>
-                <span class="logo-url">watch-<b>F1</b>.ru</span>
-            </h2>
-        </section>
-        <section class="about">
+<div class="index">
+    <div class="left">
+        <SectionLink
+            Id="livestream-promotion"
+            Link="account"
+            LinkText="Подписаться"
+            Icon="tower-cell"
+            Heading="Трансляции">
+            <ul>
+                <li>
+                    Все сессии Формулы 1 и младших серий в прямом эфире
+                </li>
+                <li>
+                    На выбор комментарии на русском и английском
+                </li>
+                <li>
+                    Удобный просмотр в браузере на любом устройстве
+                </li>
+                <li>
+                    1 Гран При = 150 у.е.
+                </li>
+            </ul>
+        </SectionLink>
+        <SectionLink
+            Link="videos"
+            LinkText="Смотреть"
+            Icon="video"
+            Heading="Записи">
+            <ul>
+                <li>
+                    Просмотр и скачивание записей в высоком качестве
+                </li>
+                <li>
+                    Публикация записи сразу после окончания трансляции
+                </li>
+                <li>
+                    Архив за весь текущий сезон
+                </li>
+            </ul>
+        </SectionLink>
+        <SectionLink
+            Id="tg-promotion"
+            Link="https://t.me/watchF1_news"
+            TargetBlank
+            LinkText="Перейти"
+            Icon="comments"
+            Heading="Telegram">
+            <ul>
+                <li>
+                    Авторизация через Телеграм - 
+                    никаких забытых логинов, паролей и подтверждений по почте!
+                </li>
+                <li>
+                    Наш канал с оповещениями о трансляциях, расписанием, 
+                    опросами пользователей и новостями об обновлениях сайта 
+                </li>
+            </ul>
+        </SectionLink>
+        <article id="support" class="caption">
             <p>
-                Этот ресурс создан, чтобы вы могли удобно смотреть трансляции 
-                и скачивать записи Гран При Формулы 1.
+                Техническая поддержка сайта на связи!
             </p>
-            <p>
-                Сайт работает в тестовом режиме,
-                в доступе имеются только записи этапов <a href="videos">сезона 2022</a>,
-                а так же возможность просматривать <a href="live">прямые трансляции</a>,
-                приобретая платную подписку.
-            </p>
-            <p>
-                С вашей поддержкой мы планируем улучшать и дорабатывать сервис.
-                По любым вопросам, связанным с работой сайта,
-                а также для отправки ваших предложений по улучшениям,
-                вы можете обращаться в наш Telegram-аккаунт.
-            </p>
-        </section>
-    </main>
-    <LinkButtons Links="@(new [] {"Manual", "Support", "Donate"})"/>
+            <a href="https://t.me/watchF1" target="_blank">
+                Написать
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </article>
+        <Standings/>
+    </div>
+    <div class="right">
+        <Schedule/>
+        <article id="donate">
+            <a href="@Settings.Get("capustaLink").Value" target="_blank" role="button">
+                <i class="fa-solid fa-ruble-sign"></i>
+                Донат
+                <span class="arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </span>
+            </a>
+            <a href="@Settings.Get("donationLink").Value" target="_blank" role="button">
+                <i class="fa-solid fa-dollar-sign"></i>
+                Донат
+                <span class="arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </span>
+            </a>
+        </article>
+        @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
+        {
+            <SectionLink
+                Link="@("watch?v=" + LastVideo.Id)"
+                LinkText="Смотреть"
+                Icon="photo-film"
+                Heading="Последнее видео">
+                <a href="watch?v=@LastVideo.Id">
+                    <img src="@LastVideo.Preview(Storage)" alt=""/>
+                </a>
+            </SectionLink>
+        }
+    </div>
 </div>
-<hr>
-<Schedule/>
+
+@code
+{
+    private string Storage => Environment.IsDevelopment() ? "./wwwroot/storage/" : "/home/anton/storage/";
+    private Video? LastVideo { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        LastVideo = VideoServ.Get().Last();
+    }
+}

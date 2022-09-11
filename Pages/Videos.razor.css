@@ -4,6 +4,23 @@
     gap: 1em;
 }
 
+section[role=navigation] {
+    text-align: center;
+}
+section[role=navigation] a {
+    margin: 0 .5em;
+    color: #FCEEEF;
+    text-decoration: underline dotted;
+}
+@media (hover: hover) {
+    section[role=navigation] a:hover {
+        text-decoration: underline;
+    }
+}
+section[role=navigation] a.active {
+    text-decoration: underline #DE363D;
+}
+
 @media screen and (orientation: landscape) {
     .video-list {
         flex-flow: row wrap;

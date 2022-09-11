@@ -1,41 +1,193 @@
-section {
-    display: flex;
-    flex-flow: column nowrap;
-    gap: 1em;
-}
-
-main {
-    margin-bottom: 1em;
-}
-
 @media (orientation: landscape) {
-    .flex {
+    .index {
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
         align-items: flex-start;
     }
-    main {
+}
+
+.left {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
+}
+.right {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1em;
+}
+@media (orientation: portrait) {
+    .left {
+        margin-bottom: 1em;
+    }
+}
+@media (orientation: landscape) {
+    .left {
+        width: 70%;
+        flex-flow: row wrap;
+    }
+    .right {
+        padding-left: 1em;
+        width: 30%;
+    }
+
+    ::deep #livestream-promotion, #support {
+        flex: 0 0 100%;
+    }
+    ::deep article {
+        flex: 1;
+    }
+}
+
+::deep article {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    border: thin solid #3a3a3a;
+    border-bottom-left-radius: .25em;
+    border-bottom-right-radius: .25em;
+}
+
+::deep .content, ::deep .caption {
+    padding: .5em;
+}
+::deep .caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #262626;
+}
+
+ul {
+    font-size: .85em;
+    list-style: circle inside;
+}
+li {
+    line-height: 1.2em;
+}
+
+::deep a {
+    text-decoration: none;
+}
+@media (hover: hover) {
+    ::deep a:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+::deep #livestream-promotion {
+    background-image: url("https://example.com/storage/images/index-live.webp");
+    background-position: center;
+    background-size: cover;
+}
+::deep #livestream-promotion .content {
+    margin-top: 30%;
+    padding: .75em 0 .75em .75em;
+    background-image: linear-gradient(to right, rgba(20, 20, 20, 1), rgba(20, 20, 20, 0));
+}
+@media (orientation: landscape) {
+    ::deep #livestream-promotion {
+        background-position: unset;
+    }
+    ::deep #livestream-promotion .content {
+        font-size: 1.2em;
+    }
+}
+
+#support, #donate {
+    flex-flow: row nowrap;
+    border: none;
+    border-radius: 0;
+}
+@media (orientation: portrait) {
+    #support p {
         width: 70%;
     }
-    ::deep .link-buttons {
-        width: 20%;
-    }
 }
 
-.greeting {
-    margin-bottom: 1.5em;
+#donate {
+    display: flex;
+    gap: 1em;
 }
-.greeting span {
-    font-family: Righteous, sans-serif;
-    letter-spacing: .1em;
+#donate a {
+    flex: 1;
+    padding: .25em;
+    background-color: #262626;
+    border-radius: .25em;
+    color: #FCEEEF;
 }
-.greeting span b {
+.arrow {
     color: #DE363D;
+    float: right;
+}
+@media (orientation: portrait) {
+    #donate {
+        
+    }
 }
 
-@media screen and (orientation: landscape) {
-    br {
-        display: none;
-    }
+::deep #standings {
+    border-radius: .25em .25em 0 0;
+}
+::deep #standings .content {
+    padding: .25em .25em 0;
+}
+
+::deep #standings table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 .25em;
+}
+::deep #standings tr {
+    background-color: #262626;
+}
+::deep #standings td {
+    padding: .25em 0;
+}
+
+::deep [role=tablist] {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+}
+::deep [role=tab] {
+    cursor: pointer;
+    padding: .25em;
+    background-color: #262626;
+    border: solid thin #3a3a3a;
+    border-radius: .25em;
+}
+::deep [role=tab].active {
+    cursor: unset;
+    background-color: unset;
+}
+
+::deep .n-1 {
+    font-size: 1.25em;
+}
+::deep .n-2, ::deep .n-3 {
+    font-size: 1.15em;
+}
+
+::deep .team {
+    color: #808080;
+}
+
+::deep .position {
+    width: 2em;
+    text-align: center;
+}
+::deep .points {
+    padding: 0 .25em !important;
+    text-align: right;
+}
+
+::deep .logo {
+    height: 1.5em;
+    width: 1.5em;
+    vertical-align: -0.35em;
+    background-color: #FFFFFF;
+    border-radius: .25em;
 }

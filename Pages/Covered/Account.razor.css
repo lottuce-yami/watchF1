@@ -32,9 +32,25 @@
 .false {
     color: #DE363D;
 }
+
+::deep a {
+    text-decoration: underline dotted;
+}
+@media (hover: hover) {
+    ::deep a:hover {
+        text-decoration: underline;
+    }
+}
+
 b {
     font-weight: bold;
 }
 i {
     font-style: italic;
+}
+i + p {
+    border-top: thin solid #3a3a3a;
+    padding-top: .25em;
+    line-height: 1.1em;
+    font-size: .85em;
 }

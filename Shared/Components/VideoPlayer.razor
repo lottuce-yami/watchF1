@@ -8,14 +8,14 @@
 <PageTitle>@Title - watchF1</PageTitle>
 
 <main>
-    <section id="video">
-        <div id="player">
+    <article id="video">
+        <section id="player">
             @if (Live)
             {
                 <iframe src="@PlayerSource" allow="fullscreen"></iframe>
             }
-        </div>
-        <div class="video-info">
+        </section>
+        <section class="video-info">
             <h2>@Title</h2>
             @if (!Live)
             {
@@ -46,8 +46,8 @@
                     }
                 </div>
             }
-        </div>
-    </section>
+        </section>
+    </article>
 </main>
 
 @code

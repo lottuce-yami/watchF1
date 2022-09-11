@@ -1,0 +1,167 @@
+﻿@using System.Text.Json.Serialization
+@using System.Text.Json
+@using F1Project.Data.Database.Services
+@inject SettingService Settings
+@inject IJSRuntime Js
+
+<article id="standings">
+    @if (StandingsObject.Drivers.Length < 3 || StandingsObject.Teams.Length < 3)
+    {
+        <p>
+            Турнирная таблица пуста.
+        </p>
+    }
+    else
+    {
+        <div class="caption">
+            <h2>
+                <i class="fa-solid fa-chart-simple"></i>
+                Турнирная таблица
+            </h2>
+            @switch (Opened)
+            {
+                case false:
+                    <a @onclick="() => Opened = true">
+                        Больше
+                        <i class="fa-solid fa-arrow-down-long"></i>
+                    </a>
+                    break;
+                case true:
+                    <a @onclick="() => Opened = false">
+                        Меньше
+                        <i class="fa-solid fa-arrow-up-long"></i>
+                    </a>
+                    break;
+            }
+        </div>
+        <div class="content">
+            <div role="tablist">
+                <h3 role="tab"
+                    class="@(StandingsTab == "Drivers" ? "active" : "")"
+                    @onclick='() => { StandingsTab = "Drivers"; SelectedList = StandingsObject.Drivers; }'>
+                    Личный зачёт
+                </h3>
+                <h3 role="tab"
+                    class="@(StandingsTab == "Teams" ? "active" : "")"
+                    @onclick='() => { StandingsTab = "Teams"; SelectedList = StandingsObject.Teams; }'>
+                    Кубок конструкторов
+                </h3>
+            </div>
+            <table role="tabpanel">
+                @for (var i = 0; i < (Opened ? SelectedList.Length : 3); i++)
+                {
+                    <tr class="n-@(i + 1)">
+                        <td class="position">
+                            @(i + 1).
+                        </td>
+                        @switch (StandingsTab)
+                        {
+                            case "Drivers":
+                                <td class="name">
+                                    @StandingsObject.Drivers[i].Driver
+                                    @StandingsObject.Drivers[i].Flag
+                                    <span class="team">
+                                        @StandingsObject.Drivers[i].Team
+                                    </span>
+                                </td>
+                                break;
+                            case "Teams":
+                                <td class="name">
+                                    @StandingsObject.Teams[i].Team
+                                    <img src="@StandingsObject.Teams[i].Logo" class="logo" alt=""/>
+                                </td>
+                                break;
+                        }
+                        <td class="points">
+                            @if (i == 0)
+                            {
+                                <span>
+                                    🏆
+                                </span>
+                            }
+                            @switch (StandingsTab)
+                            {
+                                case "Drivers":
+                                    <span>
+                                        @StandingsObject.Drivers[i].Pts
+                                    </span>
+                                    break;
+                                case "Teams":
+                                    <span>
+                                        @StandingsObject.Teams[i].Pts
+                                    </span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</article>
+
+@code {
+    private StandingsModel StandingsObject { get; set; } = null!;
+
+    private bool Opened { get; set; }
+    private string? StandingsTab { get; set; } = "Drivers";
+    private Array SelectedList { get; set; } = null!;
+
+    public class StandingsModel
+    {
+        public class DriverModel
+        {
+            [JsonPropertyName("driver")]
+            public string? Driver { get; set; }
+            
+            [JsonPropertyName("flag")]
+            public string? Flag { get; set; }
+            
+            [JsonPropertyName("team")]
+            public string? Team { get; set; }
+            
+            [JsonPropertyName("pts")]
+            public int Pts { get; set; }
+        }
+
+        public class TeamModel
+        {
+            [JsonPropertyName("constructor")]
+            public string? Team { get; set; }
+            
+            [JsonPropertyName("logo")]
+            public string? Logo { get; set; }
+            
+            [JsonPropertyName("pts")]
+            public int Pts { get; set; }
+        }
+
+        [JsonPropertyName("drivers")]
+        public DriverModel[] Drivers { get; set; } = {};
+        
+        [JsonPropertyName("constructors")]
+        public TeamModel[] Teams { get; set; } = {};
+    }
+    
+    protected override void OnInitialized()
+    {
+        try
+        {
+            StandingsObject = 
+                JsonSerializer.Deserialize<StandingsModel>(Settings.Get("standings").Value ?? "{}")
+                ?? 
+                new StandingsModel();
+        }
+        catch (JsonException)
+        {
+            StandingsObject = new StandingsModel();
+        }
+
+        SelectedList = StandingsObject.Drivers;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Js.InvokeVoidAsync("parseEmoji", "standings");
+    }
+}

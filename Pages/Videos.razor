@@ -2,19 +2,50 @@
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
 @inject VideoService VideoServ
+@inject NavigationManager Nav
 
 <PageTitle>Записи - watchF1</PageTitle>
 
-<main>
+<div>
     <FilterForm Properties="Properties"/>
-    <section class="video-list">
-        <VideoList List="VideoList" />
+    <main class="video-list">
+        <VideoList List="VideoList"/>
+    </main>
+</div>
+@if (PageCount > 1)
+{
+    <section role="navigation">
+        @if (Page != 0)
+        {
+            <a href="@Nav.GetUriWithQueryParameter("page", Page - 1)">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+        }
+        @for (var i = Page > 4 ? Page - 4 : 0; i < PageCount && i < Page + 4; i++)
+        {
+            <a href="@Nav.GetUriWithQueryParameter("page", i)" class="@(Page == i ? "active" : "")">
+                @(i + 1)
+            </a>
+        }
+        @if (Page != PageCount - 1)
+        {
+            <a href="@Nav.GetUriWithQueryParameter("page", Page + 1)">
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        }
     </section>
-</main>
+}
 
 @code
 {
     private List<Video> VideoList { get; set; } = new();
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int Page { get; set; }
+
+    private const int PageSize = 20;
+    private int PageCount { get; set; }
 
     private Dictionary<string, object[]> Properties { get; set; } = new();
 
@@ -35,20 +66,23 @@
     [Parameter]
     [SupplyParameterFromQuery]
     public string? Type { get; set; }
-
+    
     private void UpdateVideos()
     {
         var filters = GetType().GetProperties().
-            Where(p => p.GetValue(this) != null).
+            Where(p => p.GetValue(this) != null && p.Name != "Page").
             ToDictionary(p => p.Name, p => p.GetValue(this));
         
         VideoList = VideoServ.GetByMany(filters);
+        PageCount = Math.DivRem(VideoList.Count, PageSize, out var remainder);
+        if (remainder > 0) PageCount++;
         VideoList.Reverse();
+        VideoList = VideoList.Skip(Page * PageSize).Take(PageSize).ToList();
     }
     
     protected override void OnParametersSet()
     {
-        Properties = GetType().GetProperties().ToDictionary(
+        Properties = GetType().GetProperties().Where(p => p.Name != "Page").ToDictionary(
             p => p.Name, 
             p => VideoServ.GetUniqueBy(p.Name, OrderedProperties.Contains(p.Name)).ToArray()
                 );

@@ -5,7 +5,7 @@
 }
 
 @media screen and (orientation: landscape){
-    .flex {
+    .left {
         display: flex;
         flex-flow: row nowrap;
         gap: 1em;

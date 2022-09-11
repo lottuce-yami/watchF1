@@ -35,20 +35,32 @@ public class Video : DatabaseType
             source.PlayerSource = 
                 File.Exists(Path.GetFullPath($"{storageDirectory}videos/{Id}/{Id}1080.mp4")) ? 
                     $"{BaseFile}1080.mp4" : $"{BaseFile}.mp4";
+            return source;
         }
-        else
+
+        if (source.Qualities.Count == 1)
         {
-            source.PlayerSource =
-                string.Join(
-                    ',',
-                    source.Qualities.Select(
-                        q => 
-                            $"[{q.QualityName}]" +
-                            $"{string.Join(';', q.Audios.Select(a => $"{{{a.Key}}}{a.Value}"))}"
-                    )
-                );
+            var quality = source.Qualities.Single();
+            source.PlayerSource = quality.Audios.Count == 1 ? 
+                quality.Audios.Single().Value 
+                : 
+                string.Join(';', quality.Audios.Select(a => $"{{{a.Key}}}{a.Value}"));
+            return source;
         }
-        
+
+        source.PlayerSource =
+            string.Join(
+                ',',
+                source.Qualities.Select(
+                    q => 
+                        $"[{q.QualityName}]" +
+                        string.Join(';', 
+                            q.Audios.Count == 1 ? 
+                                q.Audios.Single().Value
+                                : 
+                                q.Audios.Select(a => $"{{{a.Key}}}{a.Value}"))
+                )
+            );
         return source;
     }
 

@@ -39,6 +39,7 @@ public class PaymentController : ControllerBase
     {
         public string Text { get; set; } = "";
         public string UserId { get; set; } = "";
+        public int GrandPrixCount { get; set; }
     }
     
     [HttpPost]
@@ -49,7 +50,7 @@ public class PaymentController : ControllerBase
         if (payment.Status != "SUCCESS") return Ok();
         if (payment.Amount.Currency != "CURRENCY") return Ok();
         if (payment.Custom?.UserId == null) return Ok();
-        if (payment.Amount.Amount < payment.Custom.Quantity * SubPrice) return Ok();
+        if (payment.Amount.Amount < payment.Custom.Quantity * SubPrice * 100) return Ok();
 
         var message = string.Format(
             "ID: {0} - Доступ выдан.\n(<b>{1}</b> Гран При, <b>{2}</b> у.е.)\n<pre>{3}</pre>",
@@ -61,7 +62,8 @@ public class PaymentController : ControllerBase
         var notification = new Notification
         {
             Text = message,
-            UserId = payment.Custom.UserId
+            UserId = payment.Custom.UserId,
+            GrandPrixCount = payment.Custom.Quantity
         };
 
         try

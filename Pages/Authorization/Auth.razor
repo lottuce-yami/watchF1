@@ -8,6 +8,7 @@
 @using Microsoft.Extensions.Options
 @inject IOptions<BotOptions> Bot
 @inject UserService UserServ
+@inject SettingService Settings
 @inject ProtectedLocalStorage LocalStorage
 @inject NavigationManager Nav
 
@@ -65,7 +66,9 @@
                 UserServ.Authorize(user);
                 await LocalStorage.SetAsync("tgAuth", $"{user.Id}#{Hash}");
         
-                Nav.NavigateTo("account");
+                Nav.NavigateTo(
+                    UserServ.Get(user.Id).Subscribed > 0 && Settings.Get("live").Value == "true" ? 
+                        "live" : "account");
             }
         }
     }

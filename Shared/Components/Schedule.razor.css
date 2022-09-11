@@ -1,16 +1,23 @@
-﻿@media screen and (orientation: landscape) {
-    section {
-        line-height: 0.8em;
-        margin: 0 auto;
-        width: max-content;
-    }
+﻿article {
+    border: thin solid #3a3a3a;
+    padding: .5em;
+}
+
+h2 {
+    font-size: 1em !important;
+    margin-bottom: .25em;
 }
 
 .day {
-    margin: 1em 0;
+    border-top: thin solid #3a3a3a;
+    padding: .5em;
+    font-size: .9em;
 }
 .day ol {
     margin-top: .5em;
+}
+.day b {
+    font-weight: bold;
 }
 
 ol {
@@ -24,7 +31,7 @@ ol {
 }
 
 li > ol {
-    list-style-type: disc;
+    list-style-type: circle;
     padding-inline-start: 1em;
     line-height: 1.15em;
 }

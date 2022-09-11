@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using F1Project.Data.Database.Services
+@inherits LayoutComponentBase
+@inject SettingService Settings
+@inject NavigationManager Nav
 
 <PageTitle>watchF1</PageTitle>
 
@@ -6,8 +9,31 @@
     <a href=""><h1>watch<span>F1</span></h1></a>
 </header>
 <div class="page">
+    @if (Settings.Get("live").Value == "true" && !Page.Contains("live") && !Page.Contains("auth"))
+    {
+        <div class="live-alert">
+            <p>
+                <i class="fa-solid fa-bell"></i>
+                В эфире: <strong>@Settings.Get("liveTitle").Value</strong>
+            </p>
+            <a href="live">
+                Смотреть (требуется подписка)
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+    }
     @Body
 </div>
 <footer>
     <NavMenu/>
 </footer>
+
+@code
+{
+    private string Page { get; set; } = null!;
+
+    protected override void OnParametersSet()
+    {
+        Page = Nav.ToBaseRelativePath(Nav.Uri);
+    }
+}
