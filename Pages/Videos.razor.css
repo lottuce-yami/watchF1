@@ -5,6 +5,7 @@
 }
 
 section[role=navigation] {
+    margin-top: 1em;
     text-align: center;
 }
 section[role=navigation] a {

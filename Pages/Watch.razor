@@ -9,7 +9,7 @@
     <hr>
     <section class="other-videos">
         <h2>Другие видео:</h2>
-        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id).TakeLast(4).Reverse()"/>
+        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id).Take(4)"/>
     </section>
 </div>
 
@@ -21,6 +21,7 @@
     private Video Video { get; set; } = null!;
 
     private List<Video> OtherVideos { get; set; } = null!;
+    private readonly Random _random = new();
 
     protected override void OnParametersSet()
     {
@@ -32,6 +33,7 @@
         {
             Video = VideoServ.Get(Id ?? "");
             OtherVideos = VideoServ.GetBy("GrandPrix", Video.GrandPrix);
+            OtherVideos = OtherVideos.OrderBy(_ => _random.Next()).ToList();
         }
         catch
         {

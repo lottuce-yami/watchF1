@@ -188,6 +188,5 @@ li {
     height: 1.5em;
     width: 1.5em;
     vertical-align: -0.35em;
-    background-color: #FFFFFF;
-    border-radius: .25em;
+    filter: invert(100%);
 }

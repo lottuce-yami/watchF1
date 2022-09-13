@@ -43,11 +43,11 @@
 
     private void ToQuery()
     {
-        Nav.NavigateTo(Nav.GetUriWithQueryParameters(
-            Filter.ToDictionary(
-                kvp => kvp.Key, 
-                kvp => string.IsNullOrWhiteSpace(kvp.Value) ? null : (object?) kvp.Value)
-            ));
+        var parameters = Filter.ToDictionary(
+            kvp => kvp.Key,
+            kvp => string.IsNullOrWhiteSpace(kvp.Value) ? null : (object?) kvp.Value);
+        parameters.Add("page", null);
+        Nav.NavigateTo(Nav.GetUriWithQueryParameters(parameters));
     }
 
     private void Reset()
