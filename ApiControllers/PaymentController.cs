@@ -13,8 +13,14 @@ public class PaymentController : ControllerBase
         "***REMOVED***";
     private const string BotUrl =
         "https://example.com/botBOT_TOKEN/subscription_notice";
-    private HttpClient _httpClient = new();
+    private readonly HttpClient _httpClient = new();
+    private readonly ILogger _logger;
     private int SubPrice { get; } = int.Parse(new SettingService().Get("subPrice").Value ?? "150");
+
+    public PaymentController(ILogger<PaymentController> logger)
+    {
+        _logger = logger;
+    }
 
     public class Payment
     {
@@ -47,10 +53,34 @@ public class PaymentController : ControllerBase
     public IActionResult Index([FromBody] Payment payment)
     {
         if (Request.Headers.Authorization != $"Bearer {Auth}") return Unauthorized();
-        if (payment.Status != "SUCCESS") return Ok();
-        if (payment.Amount.Currency != "CURRENCY") return Ok();
-        if (payment.Custom?.UserId == null) return Ok();
-        if (payment.Amount.Amount < payment.Custom.Quantity * SubPrice * 100) return Ok();
+        if (payment.Status != "SUCCESS")
+        {
+            _logger.LogWarning(
+                "[{id}] Payment rejected: status {s} != SUCCESS.", 
+                payment.TransactionId, payment.Status);
+            return Ok();
+        }
+        if (payment.Amount.Currency != "CURRENCY") 
+        {
+            _logger.LogWarning(
+                "[{id}] Payment rejected: currency {c} != CURRENCY.", 
+                payment.TransactionId, payment.Amount.Currency);
+            return Ok();
+        }
+        if (payment.Custom?.UserId == null) 
+        {
+            _logger.LogWarning(
+                "[{id}] Payment rejected: no user ID.", 
+                payment.TransactionId);
+            return Ok();
+        }
+        if (payment.Amount.Amount < payment.Custom.Quantity * SubPrice * 100) 
+        {
+            _logger.LogWarning(
+                "[{id}] Payment rejected: partial amount. Quantity: {q}, amount: {a} {c}.", 
+                payment.TransactionId, payment.Custom.Quantity, payment.Amount.Amount, payment.Amount.Currency);
+            return Ok();
+        }
 
         var message = string.Format(
             "ID: {0} - Доступ выдан.\n(<b>{1}</b> Гран При, <b>{2}</b> у.е.)\n<pre>{3}</pre>",
@@ -69,20 +99,25 @@ public class PaymentController : ControllerBase
         try
         {
             UserService.Subscribe(payment.Custom.UserId, payment.Custom.Quantity);
-            
         }
-        catch
+        catch (Exception e)
         {
-            Console.WriteLine($"!- SUB ERROR -! ID: {payment.Custom.UserId} [{payment.TransactionId}]");
+            _logger.LogError(
+                "[DB] Subscription for {id}: {e}", 
+                payment.Custom.UserId, e.Message);
+            return Ok();
         }
         
         try
         {
             _httpClient.PostAsJsonAsync(BotUrl, notification);
         }
-        catch
+        catch (Exception e)
         {
-            Console.WriteLine("!- BOT ERROR -!");
+            _logger.LogError(
+                "[Bot] Subscription for {id}: {e}", 
+                payment.Custom.UserId, e.Message);
+            return Ok();
         }
         
         return Ok();

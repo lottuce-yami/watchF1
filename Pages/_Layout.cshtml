@@ -16,17 +16,17 @@
         <meta name="yandex-verification" content="ad40844eac6c9b18" />
     </environment>
     <base href="~/"/>
-    <title>watchF1</title>
     <link rel="icon" type="image/svg" href="favicon.svg">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="F1Project.styles.css">
+    <meta name="color-scheme" content="dark">
     <!-- Emojis by Twemoji -->
     <!-- https://github.com/twitter/twemoji -->
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered"/>
 </head>
 <body>
-<div id="components-reconnect-modal">
+<div id="components-reconnect-modal" data-nosnippet>
     <svg class="spinner" viewBox="0 0 50 50">
         <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
     </svg>
@@ -35,7 +35,7 @@
     </p>
 </div>
 
-<div id="tg-login-widget">
+<div id="tg-login-widget" data-nosnippet>
     <script 
         async 
         src="https://telegram.org/js/telegram-widget.js?19"

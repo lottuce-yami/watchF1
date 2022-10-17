@@ -4,10 +4,14 @@
 @inject NavigationManager Nav
 @inject VideoService VideoServ
 
+<HeadContent>
+    <meta name="description" content="Смотрите запись @Video.Title или скачайте бесплатно на watchF1">
+</HeadContent>
+
 <div class="left">
     <VideoPlayer Video="Video"/>
     <hr>
-    <section class="other-videos">
+    <section class="other-videos" data-nosnippet>
         <h2>Другие видео:</h2>
         <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id).Take(4)"/>
     </section>

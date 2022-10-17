@@ -52,13 +52,12 @@ public class Video : DatabaseType
             string.Join(
                 ',',
                 source.Qualities.Select(
-                    q => 
-                        $"[{q.QualityName}]" +
-                        string.Join(';', 
-                            q.Audios.Count == 1 ? 
-                                q.Audios.Single().Value
-                                : 
-                                q.Audios.Select(a => $"{{{a.Key}}}{a.Value}"))
+                    q => q.Audios.Count == 1 ?
+                        $"[{q.QualityName}]" + 
+                        q.Audios.Single().Value
+                        :
+                        $"[{q.QualityName}]" + 
+                        string.Join(';', q.Audios.Select(a => $"{{{a.Key}}}{a.Value}"))
                 )
             );
         return source;
