@@ -8,7 +8,7 @@ namespace F1Project.ApiControllers.Database;
 
 [ApiController]
 [Route("~/api/[controller]/[action]")]
-[Authorize]
+[Authorize(Roles = "admin")]
 public abstract class Controller<T> : ControllerBase where T : DatabaseType, new()
 {
     protected abstract Service<T> Service { get; }
