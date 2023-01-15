@@ -1,15 +1,16 @@
 ﻿using System.Text.Json.Serialization;
 using F1Project.Data.Database.Services;
 using F1Project.Data.Database.Types;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1Project.ApiControllers.Database;
 
 [ApiController]
 [Route("~/api/[controller]/[action]")]
+[Authorize]
 public abstract class Controller<T> : ControllerBase where T : DatabaseType, new()
 {
-    protected string Auth => "***REMOVED***";
     protected abstract Service<T> Service { get; }
     
     private class ItemCollection
@@ -23,7 +24,6 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
     [HttpGet("~/api/[controller]")]
     public IActionResult Index(int page)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
         if (page < 0) return BadRequest();
 
         var itemsCount = Service.Get().Count;
@@ -56,8 +56,6 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
     [HttpGet]
     public IActionResult Get(string id)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-
         try
         {
             return new JsonResult(Service.Get(id));
@@ -71,8 +69,6 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
     [HttpPost]
     public IActionResult Add([FromBody] T[] items)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-
         try
         {
             foreach (var item in items) 
@@ -89,8 +85,6 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
     [HttpPost]
     public IActionResult Edit([FromBody] T[] items)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-
         try
         {
             foreach (var item in items) 
@@ -107,8 +101,6 @@ public abstract class Controller<T> : ControllerBase where T : DatabaseType, new
     [HttpPost]
     public IActionResult Delete(string id)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-
         try
         {
             Service.Delete(id);

@@ -13,8 +13,6 @@ public class UsersController : Controller<User>
     [HttpGet]
     public IActionResult Statistics()
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-        
         try
         {
             using var conn = new SQLiteConnection($"Data Source={Data.Database.Database.DatabaseFile}");
@@ -38,8 +36,6 @@ public class UsersController : Controller<User>
     [HttpPost]
     public IActionResult Subscribe(string id, int quantity)
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-
         try
         {
             UserService.Subscribe(id, quantity);
@@ -55,8 +51,6 @@ public class UsersController : Controller<User>
     [HttpPost]
     public IActionResult Expire()
     {
-        if (Request.Headers.Authorization != Auth) return Unauthorized();
-        
         try
         {
             UserService.ExpireAllSubs();
