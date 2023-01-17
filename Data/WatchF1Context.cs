@@ -14,7 +14,7 @@ public partial class WatchF1Context : DbContext
     {
     }
 
-    public virtual DbSet<Schedule> Schedules { get; set; } = null!;
+    public virtual DbSet<Event> Events { get; set; } = null!;
 
     public virtual DbSet<User> Users { get; set; } = null!;
 
@@ -25,9 +25,9 @@ public partial class WatchF1Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Schedule>(entity =>
+        modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("schedule_pkey");
+            entity.HasKey(e => e.Id).HasName("events_pkey");
         });
 
         modelBuilder.Entity<User>(entity =>
