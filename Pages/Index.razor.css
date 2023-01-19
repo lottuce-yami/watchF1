@@ -134,6 +134,9 @@ li {
 ::deep #standings .content {
     padding: .25em .25em 0;
 }
+::deep #standings .empty {
+    margin: .25em;
+}
 
 ::deep #standings table {
     width: 100%;

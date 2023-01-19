@@ -5,20 +5,14 @@
 @inject IJSRuntime Js
 
 <article id="standings">
-    @if (StandingsObject.Drivers.Length < 3 || StandingsObject.Teams.Length < 3)
-    {
-        <p>
-            Турнирная таблица пуста.
-        </p>
-    }
-    else
-    {
-        <div class="caption">
-            <h2>
-                <i class="fa-solid fa-chart-simple"></i>
-                Турнирная таблица
-            </h2>
-            @switch (Opened)
+    <div class="caption">
+        <h2>
+            <i class="fa-solid fa-chart-simple"></i>
+            Турнирная таблица
+        </h2>
+        @if (Populated)
+        {
+            switch (Opened)
             {
                 case false:
                     <a @onclick="() => Opened = true">
@@ -33,19 +27,28 @@
                     </a>
                     break;
             }
-        </div>
-        <div class="content">
+        }
+    </div>
+    <div class="content">
+        @if (!Populated)
+        {
+            <p class="empty">
+                Турнирная таблица пуста. Ожидайте начала сезона!
+            </p>
+        }
+        else
+        {
             <div role="tablist">
-                <h3 role="tab"
-                    class="@(StandingsTab == "Drivers" ? "active" : "")"
-                    @onclick='() => { StandingsTab = "Drivers"; SelectedList = StandingsObject.Drivers; }'>
-                    Личный зачёт
-                </h3>
-                <h3 role="tab"
-                    class="@(StandingsTab == "Teams" ? "active" : "")"
-                    @onclick='() => { StandingsTab = "Teams"; SelectedList = StandingsObject.Teams; }'>
-                    Кубок конструкторов
-                </h3>
+            <h3 role="tab"
+                class="@(StandingsTab == "Drivers" ? "active" : "")"
+                @onclick='() => { StandingsTab = "Drivers"; SelectedList = StandingsObject.Drivers; }'>
+                Личный зачёт
+            </h3>
+            <h3 role="tab"
+                class="@(StandingsTab == "Teams" ? "active" : "")"
+                @onclick='() => { StandingsTab = "Teams"; SelectedList = StandingsObject.Teams; }'>
+                Кубок конструкторов
+            </h3>
             </div>
             <table role="tabpanel">
                 @for (var i = 0; i < (Opened ? SelectedList.Length : 3); i++)
@@ -73,7 +76,7 @@
                                 break;
                         }
                         <td class="points">
-                            @if (i == 0)
+                            @if (i == 0 && Conclusive)
                             {
                                 <span>
                                     🏆
@@ -96,8 +99,8 @@
                     </tr>
                 }
             </table>
-        </div>
-    }
+        }
+    </div>
 </article>
 
 @code {
@@ -106,6 +109,8 @@
     private bool Opened { get; set; }
     private string? StandingsTab { get; set; } = "Drivers";
     private Array SelectedList { get; set; } = null!;
+    private bool Populated { get; set; }
+    private bool Conclusive { get; set; }
 
     public class StandingsModel
     {
@@ -157,7 +162,9 @@
             StandingsObject = new StandingsModel();
         }
 
+        Populated = StandingsObject.Drivers.Length > 2 || StandingsObject.Teams.Length > 2;
         SelectedList = StandingsObject.Drivers;
+        Conclusive = Settings.Get("standingsLock").Value == "true";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
