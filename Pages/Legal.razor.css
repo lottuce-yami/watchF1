@@ -7,12 +7,25 @@
   }
 }
 
-h2, h3, li {
+h2, ul {
+  margin-bottom: 1em;
+}
+li {
   margin-bottom: .5em;
 }
 
 ul + p {
+  margin-bottom: 1em;
   font-size: .8em;
   font-style: italic;
   color: rgba(252, 238, 239, 0.5);
+}
+
+.payments img {
+  height: 2em;
+  filter: grayscale(100) invert(100);
+}
+.payments ul {
+  display: flex;
+  gap: 1em;
 }
