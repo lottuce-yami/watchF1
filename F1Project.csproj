@@ -5,83 +5,12 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <ScopedCssEnabled>true</ScopedCssEnabled>
+        <DefaultItemExcludes>$(DefaultItemExcludes);wwwroot\storage\**;wwwroot\data\**;</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
       <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\composition.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\index.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\index.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index\index.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\composition.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\composition.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\composition.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\layout.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\layout.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\layout.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\reset.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\svg\bot-frame.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\layout\svg\top-frame.svg" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\composition.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\composition.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\composition.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\videos.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\videos.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\videos\videos.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\composition.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\composition.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\composition.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\watch.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\watch.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\watch\watch.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\_components.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\composition.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\index.old\index.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\telegram-auth\onAuth.js" />
-      <_ContentIncludedByDefault Remove="Components\Schedule.razor" />
-      <_ContentIncludedByDefault Remove="Components\VideoPlayer.razor" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.css.map" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\live\live.scss" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\aboba\aboba.mp4" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\aboba\aboba.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus\amobus.mp4" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus\amobus.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus_fx\amobus_fx.mp4" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amobus_fx\amobus_fx.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus\amogus.mp4" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus\amogus.png" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus_fx\amogus_fx.mp4" />
-      <_ContentIncludedByDefault Remove="wwwroot\videos\amogus_fx\amogus_fx.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Data\VideoService.cs.old" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Data\SettingsService.cs" />
-      <Compile Remove="Data\ServerService.cs" />
-      <Compile Remove="Data\VideoService.cs" />
-      <Compile Remove="Data\UserService.cs" />
-      <Compile Remove="Data\Database.cs" />
-      <Compile Remove="Data\Video.cs" />
-      <Compile Remove="Data\User.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Shared\Components\Schedule.razor" />
-      <AdditionalFiles Include="Shared\Components\VideoPlayer.razor" />
     </ItemGroup>
 
 </Project>
