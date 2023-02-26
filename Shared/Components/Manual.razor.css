@@ -1,0 +1,10 @@
+﻿.manual {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+}
+@media screen and (orientation: landscape) {
+    .manual {
+        width: 80%;
+    }
+}

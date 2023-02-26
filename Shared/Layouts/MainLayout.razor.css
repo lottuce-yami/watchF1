@@ -58,27 +58,6 @@ footer {
     }
 }
 
-#legal {
-    position: absolute;
-    float: right;
-    bottom: 2.75em;
-    right: .5em;
-    padding: .5em;
-    font-size: 1.25em;
-    border: thin solid #3a3a3a;
-    border-radius: .15em;
-    transition: all .25s ease-out;
-}
-@media (hover: hover) {
-    #legal:hover {
-        border-radius: .25em;
-        transition: all .25s ease-in;
-    }
-}
-#legal a {
-    color: #FCEEEF;
-}
-
 .live-alert {
     border: thin solid #DE363D;
     border-radius: .25em;

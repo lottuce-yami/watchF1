@@ -1,0 +1,24 @@
+﻿@using F1Project.Data.Database.Services
+@using F1Project.Data.Database.Types
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using System.Text
+@inject IJSRuntime Js
+@inject SettingService Settings
+
+<section class="manual">
+    <p>
+        Это страница вашей учётной записи, 
+        которая непосредственно связана с вашим аккаунтом в Telegram. 
+        В данный момент здесь можно просто посмотреть и скопировать свой уникальный ID,
+        но в будущем функционал расширится!
+    </p>
+    <p>
+        В случае возникновения сложностей с сайтом обращайтесь в 
+        <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>.
+    </p>
+</section>
+
+@code {
+    
+}

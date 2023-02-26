@@ -47,9 +47,6 @@ li {
     #troubleshoot h3{
         cursor: pointer;
     }
-    #troubleshoot h3.active{
-        cursor: unset;
-    }
     #troubleshoot a:hover {
         text-decoration: underline;
     }

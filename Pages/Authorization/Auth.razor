@@ -66,9 +66,7 @@
                 UserServ.Authorize(user);
                 await LocalStorage.SetAsync("tgAuth", $"{user.Id}#{Hash}");
         
-                Nav.NavigateTo(
-                    UserServ.Get(user.Id).Subscribed > 0 && Settings.Get("live").Value == "true" ? 
-                        "live" : "account");
+                Nav.NavigateTo("live");
             }
         }
     }
