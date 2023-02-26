@@ -4,29 +4,14 @@
 @layout MainLayout
 @inject UserService UserServ
 @inject ProtectedLocalStorage LocalStorage
-@inject NavigationManager Nav
-@inject SettingService Settings
 
 @if (IsConnected)
 {
     if (IsAuthorized && User != null)
     {
-        if (Nav.ToBaseRelativePath(Nav.Uri) == "live" &&
-            !(User.Subscribed > 0 || Settings.Get("test").Value == "true"))
-        {
-            <h2>Оплатите доступ, чтобы смотреть трансляцию.</h2>
-            <a href="account" role="button">
-                <i class="fa-solid fa-user"></i>
-                Аккаунт
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        }
-        else
-        {
-            <CascadingValue Value="User" Name="User">
-                @Body
-            </CascadingValue>
-        }
+        <CascadingValue Value="User" Name="User">
+            @Body
+        </CascadingValue>
     }
     else
     {
@@ -34,12 +19,6 @@
             <h2>
                 Авторизуйтесь, чтобы получить доступ к этой странице.
             </h2>
-            @if (Nav.ToBaseRelativePath(Nav.Uri) == "live")
-            {
-                <p>
-                    Для просмотра трансляции также необходимо иметь подписку.
-                </p>
-            }
             <a href="login" role="button">
                 <i class="fa-brands fa-telegram"></i>
                 Войти через Telegram

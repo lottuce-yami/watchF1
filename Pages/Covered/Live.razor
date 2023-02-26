@@ -24,7 +24,7 @@
         <Schedule/>
         <article id="troubleshoot">
             <section class="caption">
-                <h3 @onclick="() => Opened = true" class="@(Opened ? "active" : "")">
+                <h3 @onclick="() => Opened = !Opened" class="@(Opened ? "active" : "")">
                     Проблемы с трансляцией?
                     <i class="fa-solid fa-triangle-exclamation"></i>
                 </h3>

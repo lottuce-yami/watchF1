@@ -1,9 +1,6 @@
 ﻿@page "/Account"
 @using F1Project.Data.Database.Types
-@using F1Project.Data.Database.Services
-@using F1Project.Shared.Components.Payments
 @inject IJSRuntime Js
-@inject SettingService Settings
 
 <PageTitle>
     Аккаунт | watchF1
@@ -17,22 +14,7 @@
         </p>
         <p>
             Доступ к трансляции:
-            @if (User.Subscribed > 0)
-            {
-                <span class="true">оплачен <br> на <b>@User.Subscribed Гран При</b></span>
-            }
-            else
-            {
-                <span class="false">не оплачен</span>
-            }
-        </p>
-        <i>
-            Статус на текущий этап - @Settings.Get("currentGrandPrix").Value
-        </i>
-        <p>
-            Статус на текущий этап - показывает какой этап сейчас проходит. 
-            Обратите на него внимание при покупке доступа, 
-            чтобы по ошибке не приобрести доступ на только что закончившийся этап.
+            <span class="true">бесплатный</span>
         </p>
     </section>
     <CascadingValue Value="User" Name="User">
