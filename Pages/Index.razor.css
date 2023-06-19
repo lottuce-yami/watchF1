@@ -32,31 +32,12 @@
         width: 30%;
     }
 
-    ::deep #livestream-promotion, #support {
+    ::deep .livestream-promotion, ::deep .support {
         flex: 0 0 100%;
     }
     ::deep article {
         flex: 1;
     }
-}
-
-::deep article {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    border: thin solid #3a3a3a;
-    border-bottom-left-radius: .25em;
-    border-bottom-right-radius: .25em;
-}
-
-::deep .content, ::deep .caption {
-    padding: .5em;
-}
-::deep .caption {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #262626;
 }
 
 ul {
@@ -67,64 +48,22 @@ li {
     line-height: 1.2em;
 }
 
-::deep a {
-    text-decoration: none;
-}
-@media (hover: hover) {
-    ::deep a:hover {
-        cursor: pointer;
-        text-decoration: underline;
-    }
-}
-
-::deep #livestream-promotion {
+::deep .livestream-promotion {
     background-image: url("https://example.com/storage/images/index-live.webp");
     background-position: center;
     background-size: cover;
 }
-::deep #livestream-promotion .content {
+::deep .livestream-promotion .content {
     margin-top: 30%;
     padding: .75em 0 .75em .75em;
     background-image: linear-gradient(to right, rgba(20, 20, 20, 1), rgba(20, 20, 20, 0));
 }
 @media (orientation: landscape) {
-    ::deep #livestream-promotion {
+    ::deep .livestream-promotion {
         background-position: unset;
     }
-    ::deep #livestream-promotion .content {
+    ::deep .livestream-promotion .content {
         font-size: 1.2em;
-    }
-}
-
-#support, #donate {
-    flex-flow: row nowrap;
-    border: none;
-    border-radius: 0;
-}
-@media (orientation: portrait) {
-    #support p {
-        width: 70%;
-    }
-}
-
-#donate {
-    display: flex;
-    gap: 1em;
-}
-#donate a {
-    flex: 1;
-    padding: .25em;
-    background-color: #262626;
-    border-radius: .25em;
-    color: #FCEEEF;
-}
-.arrow {
-    color: #DE363D;
-    float: right;
-}
-@media (orientation: portrait) {
-    #donate {
-        
     }
 }
 

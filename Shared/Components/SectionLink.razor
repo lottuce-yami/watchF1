@@ -1,14 +1,14 @@
-﻿<article class="section-link" id="@Id">
+﻿@using System.Diagnostics.CodeAnalysis
+<article class="@Class section-link">
     <div class="content">
-        @ChildContent
+        @Content
     </div>
     <div class="caption">
         <h2>
-            <i class="fa-solid fa-@Icon"></i>
-            @Heading
+            @Caption
         </h2>
         <a href="@Link" target="@(TargetBlank ? "_blank" : "_self")">
-            @LinkText
+            Перейти
             <i class="fa-solid fa-arrow-right-long"></i>
         </a>
     </div>
@@ -16,23 +16,17 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; } = null!;
+    public RenderFragment? Content { get; set; }
+    
+    [Parameter]
+    public RenderFragment? Caption { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = null!;
     
     [Parameter]
     public string Link { get; set; } = null!;
     
     [Parameter]
     public bool TargetBlank { get; set; }
-
-    [Parameter]
-    public string LinkText { get; set; } = "Подробнее";
-
-    [Parameter]
-    public string Icon { get; set; } = null!;
-    
-    [Parameter]
-    public string Heading { get; set; } = null!;
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
 }

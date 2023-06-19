@@ -1,0 +1,23 @@
+﻿@code {
+    public static RenderFragment<string?> Donate = link =>
+        @<article class="donate">
+            <a href="@link" target="_blank">
+                <i class="fa-solid fa-dollar-sign"></i>
+                Донат
+                <span class="arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </span>
+            </a>
+        </article>;
+
+    public static RenderFragment<string?> Support = link =>
+        @<article class="support">
+            <p>
+                Техническая поддержка сайта на связи!
+                <a class="arrow" href="@link" target="_blank">
+                    Написать
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </a>
+            </p>
+        </article>;
+}

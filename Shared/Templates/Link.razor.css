@@ -1,0 +1,32 @@
+﻿article {
+  background-color: #262626;
+}
+a {
+  text-decoration: none;
+}
+@media (hover: hover) {
+  a:hover {
+    text-decoration: underline;
+  }
+}
+p, .donate a {
+  display: block;
+}
+.arrow {
+  float: right;
+  color: #DE363D;
+}
+
+.donate {
+  padding: .25em;
+  border-radius: .25em;
+}
+.donate a {
+  color: #FCEEEF;
+}
+
+.support {
+  padding: .5em;
+  border: none;
+  border-radius: 0;
+}
