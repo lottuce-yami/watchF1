@@ -76,15 +76,7 @@
     </div>
     <div class="right">
         <Schedule/>
-        <article id="donate">
-            <a href="@Settings.Get("donationLink").Value" target="_blank" role="button">
-                <i class="fa-solid fa-dollar-sign"></i>
-                Донат
-                <span class="arrow">
-                    <i class="fa-solid fa-arrow-right-long"></i>
-                </span>
-            </a>
-        </article>
+        @DonateButton(Settings.Get("donationLink").Value)
         @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
         {
             <SectionLink
@@ -109,4 +101,15 @@
     {
         LastVideo = VideoServ.Get().Last();
     }
+    
+    public static RenderFragment<string?> DonateButton = link =>
+        @<article id="donate">
+            <a href="@link" target="_blank" role="button">
+                <i class="fa-solid fa-dollar-sign"></i>
+                Донат
+                <span class="arrow">
+                    <i class="fa-solid fa-arrow-right-long"></i>
+                </span>
+            </a>
+        </article>;
 }

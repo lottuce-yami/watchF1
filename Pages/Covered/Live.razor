@@ -1,6 +1,7 @@
 ﻿@page "/Live"
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
+@using Index = F1Project.Pages.Index
 @inject SettingService Settings
 @inject VideoService VideoServ
 
@@ -22,6 +23,7 @@
     </div>
     <div class="right">
         <Schedule/>
+        @Index.DonateButton(Settings.Get("donationLink").Value)
         <article id="troubleshoot">
             <section class="caption">
                 <h3 @onclick="() => Opened = !Opened" class="@(Opened ? "active" : "")">

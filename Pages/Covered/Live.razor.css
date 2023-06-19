@@ -70,7 +70,7 @@ li {
         width: 30%;
     }
 
-    ::deep #schedule {
+    ::deep #schedule, ::deep #donate {
         margin-bottom: 1em;
     }
     
