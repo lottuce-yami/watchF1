@@ -1,0 +1,65 @@
+﻿#standings {
+  border-radius: .25em .25em 0 0;
+}
+#standings .content {
+  padding: .25em .25em 0;
+}
+#standings .empty {
+  margin: .25em;
+}
+
+#standings table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 .25em;
+}
+#standings tr {
+  background-color: #262626;
+}
+#standings td {
+  padding: .25em 0;
+}
+
+[role=tablist] {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+}
+[role=tab] {
+  cursor: pointer;
+  padding: .25em;
+  background-color: #262626;
+  border: solid thin #3a3a3a;
+  border-radius: .25em;
+}
+[role=tab].active {
+  cursor: unset;
+  background-color: unset;
+}
+
+.n-1 {
+  font-size: 1.25em;
+}
+.n-2, .n-3 {
+  font-size: 1.15em;
+}
+
+.team {
+  color: #808080;
+}
+
+.position {
+  width: 2em;
+  text-align: center;
+}
+.points {
+  padding: 0 .25em !important;
+  text-align: right;
+}
+
+.logo {
+  height: 1.5em;
+  width: 1.5em;
+  vertical-align: -0.35em;
+  filter: invert(100%);
+}

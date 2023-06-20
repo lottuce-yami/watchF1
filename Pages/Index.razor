@@ -7,7 +7,7 @@
 
 <div class="index">
     <div class="left">
-        <SectionLink Class="livestream-promotion" Link="live">
+        <CardLink Class="livestream-promotion" Link="live">
             <Content>
                 <ul>
                     <li>
@@ -28,8 +28,8 @@
                 <i class="fa-solid fa-tower-cell"></i>
                 Трансляции
             </Caption>
-        </SectionLink>
-        <SectionLink Class="recordings" Link="videos">
+        </CardLink>
+        <CardLink Class="recordings" Link="videos">
             <Content>
                 <ul>
                     <li>
@@ -47,8 +47,8 @@
                 <i class="fa-solid fa-video"></i>
                 Записи
             </Caption>
-        </SectionLink>
-        <SectionLink Class="tg-promotion" Link="@Settings.Get("tgLink").Value" TargetBlank>
+        </CardLink>
+        <CardLink Class="tg-promotion" Link="@Settings.Get("tgLink").Value" TargetBlank>
             <Content>
                 <ul>
                     <li>
@@ -65,7 +65,7 @@
                 <i class="fa-solid fa-comments"></i>
                 Telegram
             </Caption>
-        </SectionLink>
+        </CardLink>
         @Link.Support(Settings.Get("supportLink").Value)
         <Standings/>
     </div>
@@ -74,7 +74,7 @@
         @Link.Donate(Settings.Get("donationLink").Value)
         @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
         {
-            <SectionLink Link="@("watch?v=" + LastVideo.Id)">
+            <CardLink Link="@("watch?v=" + LastVideo.Id)">
                 <Content>
                     <a href="watch?v=@LastVideo.Id">
                         <img src="@LastVideo.Preview(Storage)" alt=""/>
@@ -84,7 +84,7 @@
                     <i class="fa-solid fa-photo-film"></i>
                     Последнее видео
                 </Caption>
-            </SectionLink>
+            </CardLink>
         }
     </div>
 </div>

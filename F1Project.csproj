@@ -12,5 +12,10 @@
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
       <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <None Update="Shared/Components/CardLink.razor.css" CssScope="card-template" />
+        <None Update="Shared/Components/Standings.razor.css" CssScope="card-template" />
+    </ItemGroup>
 
 </Project>
