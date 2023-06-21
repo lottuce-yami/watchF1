@@ -4,7 +4,7 @@
 @inject SettingService Settings
 @inject IJSRuntime Js
 
-<article id="standings" class="card-link">
+<article @ref="_standings" class="standings card-link">
     <div class="caption">
         <h2>
             <i class="fa-solid fa-chart-simple"></i>
@@ -104,6 +104,7 @@
 </article>
 
 @code {
+    private ElementReference _standings;
     private StandingsModel StandingsObject { get; set; } = null!;
 
     private bool Opened { get; set; }
@@ -169,6 +170,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Js.InvokeVoidAsync("parseEmoji", "standings");
+        await Js.InvokeVoidAsync("parseEmoji", _standings);
     }
 }
