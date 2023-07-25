@@ -2,7 +2,7 @@
 
 namespace F1Project.Data.Database.Services;
 
-internal class VideoService : Service<Video>
+public class VideoService : Service<Video>
 {
     
 }

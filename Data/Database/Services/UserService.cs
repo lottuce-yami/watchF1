@@ -2,7 +2,7 @@
 
 namespace F1Project.Data.Database.Services;
 
-internal class UserService : Service<User>
+public class UserService : Service<User>
 {
     public static int Subscribe(string userId, int quantity)
     {

@@ -2,7 +2,7 @@
 
 namespace F1Project.Data.Database.Services;
 
-internal class SettingService : Service<Setting>
+public class SettingService : Service<Setting>
 {
     
 }

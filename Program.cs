@@ -1,4 +1,5 @@
 using System.Text;
+using F1Project.Data;
 using F1Project.Data.AppSettings;
 using F1Project.Data.Database.Services;
 using Microsoft.AspNetCore.DataProtection;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+builder.Configuration.AddJsonFile("standingsDictionary.json", optional: false, reloadOnChange: true);
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -29,6 +31,9 @@ builder.Services.AddSingleton<SettingService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<VideoService>();
 builder.Services.AddSingleton<ServerService>();
+builder.Services.AddHttpClient<StandingsController>();
+builder.Services.AddHttpClient<ScheduleController>();
+builder.Services.AddHostedService<TimedHostedService>();
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =

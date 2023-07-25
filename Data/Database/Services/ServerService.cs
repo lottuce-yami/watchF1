@@ -2,7 +2,7 @@
 
 namespace F1Project.Data.Database.Services;
 
-internal class ServerService : Service<Server>
+public class ServerService : Service<Server>
 {
     
 }
