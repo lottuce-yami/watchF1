@@ -1,0 +1,29 @@
+﻿.card-link {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  border: thin solid #3a3a3a;
+  border-bottom-left-radius: .25em;
+  border-bottom-right-radius: .25em;
+}
+
+.content, .caption {
+  padding: .5em;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #262626;
+}
+
+a {
+  text-decoration: none;
+}
+@media (hover: hover) {
+  a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

@@ -7,95 +7,84 @@
 
 <div class="index">
     <div class="left">
-        <SectionLink
-            Id="livestream-promotion"
-            Link="live"
-            LinkText="Смотреть"
-            Icon="tower-cell"
-            Heading="Трансляции">
-            <ul>
-                <li>
-                    Все сессии Формулы 1 в прямом эфире
-                </li>
-                <li>
-                    На выбор комментарии на русском и английском
-                </li>
-                <li>
-                    Удобный просмотр в браузере на любом устройстве
-                </li>
-                <li>
-                    Бесплатно!
-                </li>
-            </ul>
-        </SectionLink>
-        <SectionLink
-            Link="videos"
-            LinkText="Смотреть"
-            Icon="video"
-            Heading="Записи">
-            <ul>
-                <li>
-                    Просмотр и скачивание записей в высоком качестве
-                </li>
-                <li>
-                    Публикация записи сразу после окончания трансляции
-                </li>
-                <li>
-                    Архив за весь текущий сезон
-                </li>
-            </ul>
-        </SectionLink>
-        <SectionLink
-            Id="tg-promotion"
-            Link="https://t.me/watchF1_news"
-            TargetBlank
-            LinkText="Перейти"
-            Icon="comments"
-            Heading="Telegram">
-            <ul>
-                <li>
-                    Авторизация через Телеграм - 
-                    никаких забытых логинов, паролей и подтверждений по почте!
-                </li>
-                <li>
-                    Наш канал с оповещениями о трансляциях, расписанием, 
-                    опросами пользователей и новостями об обновлениях сайта 
-                </li>
-            </ul>
-        </SectionLink>
-        <article id="support" class="caption">
-            <p>
-                Техническая поддержка сайта на связи!
-            </p>
-            <a href="https://t.me/watchF1" target="_blank">
-                Написать
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        </article>
+        <CardLink Class="livestream-promotion" Link="live">
+            <Content>
+                <ul>
+                    <li>
+                        Все сессии Формулы 1 в прямом эфире
+                    </li>
+                    <li>
+                        На выбор комментарии на русском и английском
+                    </li>
+                    <li>
+                        Удобный просмотр в браузере на любом устройстве
+                    </li>
+                    <li>
+                        Бесплатно!
+                    </li>
+                </ul>
+            </Content>
+            <Caption>
+                <i class="fa-solid fa-tower-cell"></i>
+                Трансляции
+            </Caption>
+        </CardLink>
+        <CardLink Class="recordings" Link="videos">
+            <Content>
+                <ul>
+                    <li>
+                        Просмотр и скачивание записей в высоком качестве
+                    </li>
+                    <li>
+                        Публикация записи сразу после окончания трансляции
+                    </li>
+                    <li>
+                        Архив за весь текущий сезон
+                    </li>
+                </ul>
+            </Content>
+            <Caption>
+                <i class="fa-solid fa-video"></i>
+                Записи
+            </Caption>
+        </CardLink>
+        <CardLink Class="tg-promotion" Link="@Settings.Get("tgLink").Value" TargetBlank>
+            <Content>
+                <ul>
+                    <li>
+                        Авторизация через Telegram -
+                        никаких забытых логинов, паролей и подтверждений по почте!
+                    </li>
+                    <li>
+                        Наш канал с оповещениями о трансляциях, расписанием,
+                        опросами пользователей и новостями об обновлениях сайта
+                    </li>
+                </ul>
+            </Content>
+            <Caption>
+                <i class="fa-solid fa-comments"></i>
+                Telegram
+            </Caption>
+        </CardLink>
+        @Link.Support(Settings.Get("supportLink").Value)
         <Standings/>
     </div>
     <div class="right">
         <Schedule/>
-        <article id="donate">
-            <a href="@Settings.Get("donationLink").Value" target="_blank" role="button">
-                <i class="fa-solid fa-dollar-sign"></i>
-                Донат
-                <span class="arrow">
-                    <i class="fa-solid fa-arrow-right-long"></i>
-                </span>
-            </a>
-        </article>
+        @Link.Donate(Settings.Get("donationLink").Value)
         @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
         {
-            <SectionLink
-                Link="@("watch?v=" + LastVideo.Id)"
-                LinkText="Смотреть"
-                Icon="photo-film"
-                Heading="Последнее видео">
-                <a href="watch?v=@LastVideo.Id">
-                    <img src="@LastVideo.Preview(Storage)" alt=""/>
-                </a>
-            </SectionLink>
+            <CardLink Link="@("watch?v=" + LastVideo.Id)">
+                <Content>
+                    <a href="watch?v=@LastVideo.Id">
+                        <img src="@LastVideo.Preview(Storage)" alt=""/>
+                    </a>
+                </Content>
+                <Caption>
+                    <i class="fa-solid fa-photo-film"></i>
+                    Последнее видео
+                </Caption>
+            </CardLink>
         }
     </div>
 </div>

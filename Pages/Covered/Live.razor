@@ -22,6 +22,7 @@
     </div>
     <div class="right">
         <Schedule/>
+        @Link.Donate(Settings.Get("donationLink").Value)
         <article id="troubleshoot">
             <section class="caption">
                 <h3 @onclick="() => Opened = !Opened" class="@(Opened ? "active" : "")">

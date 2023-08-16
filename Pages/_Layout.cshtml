@@ -38,9 +38,11 @@
 <div id="tg-login-widget" data-nosnippet>
     <script 
         async 
-        src="https://telegram.org/js/telegram-widget.js?19"
+        src="https://telegram.org/js/telegram-widget.js?21"
         data-telegram-login="@BotOptions.Value.Username"
         data-size="medium"
+        data-radius="0"
+        data-userpic="false"
         data-auth-url="auth"
         data-request-access="write">
     </script>
@@ -98,8 +100,8 @@
 
 <!-- Functions -->
 <script>
-    function parseEmoji(id) {
-        twemoji.parse(document.getElementById(id))
+    function parseEmoji(ref) {
+        twemoji.parse(ref)
     }
 
     function download(file, name) {

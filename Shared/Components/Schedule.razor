@@ -4,7 +4,7 @@
 @inject SettingService Settings
 @inject IJSRuntime Js
 
-<article id="schedule">
+<article @ref="_schedule" class="schedule">
     <h2>@(ScheduleObject.Flag) @(ScheduleObject.Title)</h2>
     <ol>
         @foreach (var day in ScheduleObject.Days)
@@ -26,6 +26,7 @@
 
 @code
 {
+    private ElementReference _schedule;
     private ScheduleModel ScheduleObject { get; set; } = null!;
 
     public class ScheduleModel
@@ -66,6 +67,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Js.InvokeVoidAsync("parseEmoji", "schedule");
+        await Js.InvokeVoidAsync("parseEmoji", _schedule);
     }
 }

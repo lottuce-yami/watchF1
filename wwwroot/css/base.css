@@ -91,4 +91,10 @@ html, body {
 
 #tg-login-widget {
     position: absolute;
+    width: 100%;
+    top: .75em;
+    text-align: center;
+}
+#tg-login-widget iframe {
+    border-radius: .25em;
 }

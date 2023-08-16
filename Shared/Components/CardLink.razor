@@ -1,0 +1,33 @@
+﻿@using System.Diagnostics.CodeAnalysis
+
+<article class="@Class card-link">
+    <div class="content">
+        @Content
+    </div>
+    <div class="caption">
+        <h2>
+            @Caption
+        </h2>
+        <a href="@Link" target="@(TargetBlank ? "_blank" : "_self")">
+            Перейти
+            <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+    </div>
+</article>
+
+@code {
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+    
+    [Parameter]
+    public RenderFragment? Caption { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = null!;
+    
+    [Parameter]
+    public string Link { get; set; } = null!;
+    
+    [Parameter]
+    public bool TargetBlank { get; set; }
+}
