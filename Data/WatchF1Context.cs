@@ -1,4 +1,6 @@
-﻿using F1Project.Models;
+﻿using System;
+using System.Collections.Generic;
+using F1Project.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace F1Project.Data;
@@ -14,17 +16,31 @@ public partial class WatchF1Context : DbContext
     {
     }
 
-    public virtual DbSet<Event> Events { get; set; } = null!;
+    public virtual DbSet<ConstructorStanding> ConstructorStandings { get; set; }
 
-    public virtual DbSet<User> Users { get; set; } = null!;
+    public virtual DbSet<DriverStanding> DriverStandings { get; set; }
 
-    public virtual DbSet<Video> Videos { get; set; } = null!;
+    public virtual DbSet<Event> Events { get; set; }
+
+    public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<Video> Videos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql("Name=ConnectionStrings:PostgreSQL");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ConstructorStanding>(entity =>
+        {
+            entity.HasKey(e => e.Name).HasName("constructor_standings_pkey");
+        });
+
+        modelBuilder.Entity<DriverStanding>(entity =>
+        {
+            entity.HasKey(e => e.Name).HasName("driver_standings_pkey");
+        });
+
         modelBuilder.Entity<Event>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("events_pkey");
