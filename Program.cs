@@ -1,7 +1,7 @@
 using System.Text;
 using F1Project.Data;
-using F1Project.Data.AppSettings;
 using F1Project.Data.Database.Services;
+using F1Project.Data.Options;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +28,11 @@ builder.Services.AddDbContext<WatchF1Context>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
+builder.Services.Configure<LiveOptions>(builder.Configuration.GetSection(LiveOptions.Live));
+builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(PricingOptions.Pricing));
+builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
+builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOptions.Misc));
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
-builder.Services.AddSingleton<SettingService>();
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<VideoService>();
 builder.Services.AddSingleton<ServerService>();

@@ -1,4 +1,4 @@
-﻿namespace F1Project.Data.AppSettings;
+﻿namespace F1Project.Data.Options;
 
 public class BotOptions
 {

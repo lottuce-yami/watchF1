@@ -1,8 +1,10 @@
 @page "/"
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
 @inject VideoService VideoServ
-@inject SettingService Settings
+@inject IOptionsMonitor<LinksOptions> Links
 @inject IHostEnvironment Environment
 
 <div class="index">
@@ -48,7 +50,7 @@
                 Записи
             </Caption>
         </CardLink>
-        <CardLink Class="tg-promotion" Link="@Settings.Get("tgLink").Value" TargetBlank>
+        <CardLink Class="tg-promotion" Link="@Links.CurrentValue.TelegramLink" TargetBlank>
             <Content>
                 <ul>
                     <li>
@@ -66,12 +68,12 @@
                 Telegram
             </Caption>
         </CardLink>
-        @Link.Support(Settings.Get("supportLink").Value)
+        @Link.Support(Links.CurrentValue.SupportLink)
         <Standings/>
     </div>
     <div class="right">
         <Schedule/>
-        @Link.Donate(Settings.Get("donationLink").Value)
+        @Link.Donate(Links.CurrentValue.DonationLink)
         @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
         {
             <CardLink Link="@("watch?v=" + LastVideo.Id)">

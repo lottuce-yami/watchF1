@@ -1,7 +1,8 @@
 ﻿@page "/Live"
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
-@inject SettingService Settings
+@using F1Project.Data.Options
+@inject LinksOptions Links
 @inject VideoService VideoServ
 
 <div class="layout">
@@ -22,7 +23,7 @@
     </div>
     <div class="right">
         <Schedule/>
-        @Link.Donate(Settings.Get("donationLink").Value)
+        @Link.Donate(Links.DonationLink)
         <article id="troubleshoot">
             <section class="caption">
                 <h3 @onclick="() => Opened = !Opened" class="@(Opened ? "active" : "")">
@@ -56,7 +57,7 @@
                             замерьте скорость своего интернет-соединения 
                             <a href="https://www.speedtest.net/" target="_blank">здесь</a>
                             и обратитесь в 
-                            <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>,
+                            <a href="@Links.SupportLink" target="_blank">поддержку</a>,
                             прикрепив скриншот результата измерения
                         </li>
                     </ol>

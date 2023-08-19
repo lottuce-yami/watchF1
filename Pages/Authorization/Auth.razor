@@ -2,13 +2,12 @@
 @using System.Security.Cryptography
 @using System.Text
 @using System.Web
-@using F1Project.Data.AppSettings
 @using F1Project.Data.Database.Services
 @using F1Project.Data.Database.Types
+@using F1Project.Data.Options
 @using Microsoft.Extensions.Options
 @inject IOptions<BotOptions> Bot
 @inject UserService UserServ
-@inject SettingService Settings
 @inject ProtectedLocalStorage LocalStorage
 @inject NavigationManager Nav
 

@@ -1,13 +1,15 @@
 ﻿@using F1Project.Data
 @using F1Project.Data.Database.Services
-@inject SettingService Settings
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<LinksOptions> Links
 
 <nav>
     <NavLink id="home" href="" Match="NavLinkMatch.All">
         <i class="fa-solid fa-house"></i>
         <h3>Главная</h3>
     </NavLink>
-    <NavLink id="tg" href="@Settings.Get("tgLink").Value" target="_blank">
+    <NavLink id="tg" href="@Links.CurrentValue.TelegramLink" target="_blank">
         <i class="fa-brands fa-telegram"></i>
         <h3>Telegram</h3>
     </NavLink>

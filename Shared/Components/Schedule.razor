@@ -1,7 +1,6 @@
 ﻿@using F1Project.Data.Database.Services
 @using System.Text.Json.Serialization
 @using System.Text.Json
-@inject SettingService Settings
 @inject IJSRuntime Js
 
 <article @ref="_schedule" class="schedule">
@@ -55,7 +54,7 @@
         try
         {
             ScheduleObject = 
-                JsonSerializer.Deserialize<ScheduleModel>(Settings.Get("schedule").Value ?? "{}")
+                JsonSerializer.Deserialize<ScheduleModel>("{}")
                 ?? 
                 new ScheduleModel();
         }
