@@ -2,7 +2,6 @@
 @using F1Project.Data.Database.Types
 @using F1Project.Data.Options
 @using Microsoft.Extensions.Options
-@inject ServerService ServerServ
 @inject IOptionsMonitor<LiveOptions> LiveOptions
 @inject IJSRuntime Js
 @inject IHostEnvironment Environment
@@ -92,14 +91,14 @@
 
     private string RandomServer()
     {
-        var servers = ServerServ.Get();
+        var servers = LiveOptions.CurrentValue.Servers;
         try
         {
-            return servers.Single().Url;
+            return servers[Random.Next(servers.Length)];
         }
-        catch (InvalidOperationException)
+        catch (IndexOutOfRangeException)
         {
-            return servers[Random.Next(servers.Count)].Url;
+            return string.Empty;
         }
     }
 }

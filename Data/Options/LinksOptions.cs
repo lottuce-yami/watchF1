@@ -4,7 +4,7 @@ public class LinksOptions
 {
     public const string Links = "Links";
 
-    public string TelegramLink { get; set; } = null!;
-    public string DonationLink { get; set; } = null!;
-    public string SupportLink { get; set; } = null!;
+    public string TelegramLink { get; set; } = string.Empty;
+    public string DonationLink { get; set; } = string.Empty;
+    public string SupportLink { get; set; } = string.Empty;
 }

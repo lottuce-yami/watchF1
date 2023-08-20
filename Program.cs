@@ -35,7 +35,6 @@ builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOpt
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
 builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<VideoService>();
-builder.Services.AddSingleton<ServerService>();
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
