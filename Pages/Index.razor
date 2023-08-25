@@ -1,9 +1,9 @@
 @page "/"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
 @using F1Project.Data.Options
 @using Microsoft.Extensions.Options
-@inject VideoService VideoServ
+@using F1Project.Data
+@using Video = F1Project.Models.Video
+@inject WatchF1Context DbContext
 @inject IOptionsMonitor<LinksOptions> Links
 @inject IHostEnvironment Environment
 
@@ -74,7 +74,7 @@
     <div class="right">
         <Schedule/>
         @Link.Donate(Links.CurrentValue.DonationLink)
-        @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
+        @if (LastVideo != null)
         {
             <CardLink Link="@("watch?v=" + LastVideo.Id)">
                 <Content>
@@ -98,6 +98,15 @@
     
     protected override void OnParametersSet()
     {
-        LastVideo = VideoServ.Get().Last();
+        try
+        {
+            LastVideo = DbContext.Videos
+                .AsEnumerable()
+                .Last();
+        }
+        catch (InvalidOperationException)
+        {
+            LastVideo = null;
+        }
     }
 }

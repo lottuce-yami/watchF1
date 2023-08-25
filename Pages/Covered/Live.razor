@@ -1,10 +1,11 @@
 ﻿@page "/Live"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
 @using F1Project.Data.Options
 @using Microsoft.Extensions.Options
+@using F1Project.Data
+@using F1Project.Models
+@using User = F1Project.Data.Database.Types.User
 @inject IOptionsMonitor<LinksOptions> Links
-@inject VideoService VideoServ
+@inject WatchF1Context DbContext
 
 <div class="layout">
     <div class="left">
@@ -18,7 +19,7 @@
                 </h2>
             </section>
             <section class="content">
-                <VideoList List="@VideoServ.Get().TakeLast(4).Reverse()"/>
+                <VideoList List="@LastVideos"/>
             </section>
         </article>
     </div>
@@ -74,4 +75,14 @@
     private User User { get; set; } = null!;
     
     private bool Opened { get; set; }
+    private List<Video>? LastVideos { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        LastVideos = DbContext.Videos
+            .AsEnumerable()
+            .TakeLast(4)
+            .Reverse()
+            .ToList();
+    }
 }

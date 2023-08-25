@@ -1,7 +1,9 @@
 ﻿@page "/Videos"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@inject VideoService VideoServ
+@using F1Project.Models
+@using F1Project.Data
+@using System.Reflection
+@using Microsoft.EntityFrameworkCore
+@inject WatchF1Context DbContext
 @inject NavigationManager Nav
 
 <PageTitle>
@@ -12,7 +14,7 @@
 </HeadContent>
 
 <div>
-    <FilterForm Properties="Properties"/>
+    <FilterForm Options="Options"/>
     <main class="video-list">
         <VideoList List="VideoList"/>
     </main>
@@ -52,9 +54,13 @@
     private const int PageSize = 20;
     private int PageCount { get; set; }
 
-    private Dictionary<string, object[]> Properties { get; set; } = new();
-
-    private string[] OrderedProperties { get; } = {"Championship", "Season"};
+    private Dictionary<string, string?[]> Options { get; } = new()
+    {
+        {"championship", Array.Empty<string>()}, 
+        {"season", Array.Empty<string>()}, 
+        {"grand_prix", Array.Empty<string>()}, 
+        {"type", Array.Empty<string>()}
+    };
     
     [Parameter]
     [SupplyParameterFromQuery]
@@ -65,7 +71,7 @@
     public string? Season { get; set; }
     
     [Parameter]
-    [SupplyParameterFromQuery]
+    [SupplyParameterFromQuery(Name = "grand_prix")]
     public string? GrandPrix { get; set; }
     
     [Parameter]
@@ -76,21 +82,32 @@
     {
         var filters = GetType().GetProperties().
             Where(p => p.GetValue(this) != null && p.Name != "Page").
-            ToDictionary(p => p.Name, p => p.GetValue(this));
+            ToDictionary(p => p.Name, p => p.GetValue(this)!.ToString());
+
+        var videos = DbContext.Videos.AsEnumerable();
+        foreach (var filter in filters)
+        {
+            videos = videos
+                .Where(v => v[filter.Key].GetValue(v)!.ToString() == filter.Value);
+        }
+        VideoList = videos.ToList();
+        VideoList.Reverse();
         
-        VideoList = VideoServ.GetByMany(filters);
         PageCount = Math.DivRem(VideoList.Count, PageSize, out var remainder);
         if (remainder > 0) PageCount++;
-        VideoList.Reverse();
+        
         VideoList = VideoList.Skip(Page * PageSize).Take(PageSize).ToList();
     }
     
     protected override void OnParametersSet()
     {
-        Properties = GetType().GetProperties().Where(p => p.Name != "Page").ToDictionary(
-            p => p.Name, 
-            p => VideoServ.GetUniqueBy(p.Name, OrderedProperties.Contains(p.Name)).ToArray()
-                );
+        foreach (var option in Options.Keys)
+        {
+            Options[option] = DbContext.Database
+                .SqlQueryRaw<string>($"select distinct {option} from videos")
+                .ToArray();
+        }
+        
         UpdateVideos();
     }
 }

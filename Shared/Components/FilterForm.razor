@@ -4,13 +4,13 @@
 
 <section class="filters" data-nosnippet>
     <div role="form">
-        @foreach (var property in Properties.Keys)
+        @foreach (var property in Options.Keys)
         {
             <select @bind="@Filter[property]">
                 <option value="" selected>
-                    @Lang[property]
+                    @_lang[property]
                 </option>
-                @foreach (var option in Properties[property])
+                @foreach (var option in Options[property])
                 {
                     <option value="@option">
                         @option
@@ -28,17 +28,17 @@
 @code
 {
     [Parameter]
-    public Dictionary<string, object[]> Properties { get; set; } = null!;
+    public Dictionary<string, string?[]> Options { get; set; } = null!;
 
     [Parameter]
     public Dictionary<string, string?> Filter { get; set; } = new();
 
-    private static Dictionary<string, string> Lang => new()
+    private readonly Dictionary<string, string> _lang = new()
     {
-        {"Championship", "Чемпионат"},
-        {"Season", "Сезон"},
-        {"GrandPrix", "Гран При"},
-        {"Type", "Тип"}
+        {"championship", "Чемпионат"},
+        {"season", "Сезон"},
+        {"grand_prix", "Гран При"},
+        {"type", "Тип"}
     };
 
     private void ToQuery()
@@ -61,9 +61,9 @@
 
     protected override void OnParametersSet()
     {
-        foreach (var property in Properties.Keys.Where(property => !Filter.ContainsKey(property)))
+        foreach (var option in Options.Keys.Where(property => !Filter.ContainsKey(property)))
         {
-            Filter.Add(property, null);
+            Filter.Add(option, null);
         }
     }
 }
