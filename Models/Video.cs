@@ -14,6 +14,10 @@ public partial class Video
     [Column("id")]
     [StringLength(8)]
     public string Id { get; set; } = null!;
+    
+    [Column("index")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Index { get; set; }
 
     [Column("title")]
     [StringLength(128)]
