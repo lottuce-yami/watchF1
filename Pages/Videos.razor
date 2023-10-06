@@ -97,12 +97,27 @@
     
     protected override void OnParametersSet()
     {
-        foreach (var option in Options.Keys)
-        {
-            Options[option] = DbContext.Database
-                .SqlQueryRaw<string>($"select distinct {option} from videos")
-                .ToArray();
-        }
+        var videos = DbContext.Videos;
+
+        Options["championship"] = videos
+            .Select(v => v.Championship)
+            .Distinct()
+            .ToArray();
+
+        Options["season"] = videos
+            .Select(v => v.Season)
+            .Distinct()
+            .ToArray();
+        
+        Options["grand_prix"] = videos
+            .Select(v => v.GrandPrix)
+            .Distinct()
+            .ToArray();
+        
+        Options["type"] = videos
+            .Select(v => v.Type)
+            .Distinct()
+            .ToArray();
         
         UpdateVideos();
     }
