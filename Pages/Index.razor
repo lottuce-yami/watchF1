@@ -98,15 +98,8 @@
     
     protected override void OnParametersSet()
     {
-        try
-        {
-            LastVideo = DbContext.Videos
-                .AsEnumerable()
-                .Last();
-        }
-        catch (InvalidOperationException)
-        {
-            LastVideo = null;
-        }
+        LastVideo = DbContext.Videos
+            .OrderBy(v => v.Index)
+            .LastOrDefault();
     }
 }

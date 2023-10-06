@@ -1,7 +1,6 @@
 ﻿@page "/Videos"
 @using F1Project.Models
 @using F1Project.Data
-@using System.Reflection
 @using Microsoft.EntityFrameworkCore
 @inject WatchF1Context DbContext
 @inject NavigationManager Nav
@@ -80,23 +79,20 @@
     
     private void UpdateVideos()
     {
-        var filters = GetType().GetProperties().
-            Where(p => p.GetValue(this) != null && p.Name != "Page").
-            ToDictionary(p => p.Name, p => p.GetValue(this)!.ToString());
-
-        var videos = DbContext.Videos.AsEnumerable();
-        foreach (var filter in filters)
-        {
-            videos = videos
-                .Where(v => v[filter.Key].GetValue(v)!.ToString() == filter.Value);
-        }
-        VideoList = videos.ToList();
-        VideoList.Reverse();
+        var videos = DbContext.Videos
+            .WhereIf(Championship != null, v =>  v.Championship == Championship)
+            .WhereIf(Season != null, v => v.Season == Season)
+            .WhereIf(GrandPrix != null, v => v.GrandPrix == GrandPrix)
+            .WhereIf(Type != null, v => v.Type == Type);
         
-        PageCount = Math.DivRem(VideoList.Count, PageSize, out var remainder);
+        PageCount = Math.DivRem(videos.Count(), PageSize, out var remainder);
         if (remainder > 0) PageCount++;
         
-        VideoList = VideoList.Skip(Page * PageSize).Take(PageSize).ToList();
+        VideoList = videos
+            .OrderByDescending(v => v.Index)
+            .Skip(Page * PageSize)
+            .Take(PageSize)
+            .ToList();
     }
     
     protected override void OnParametersSet()
