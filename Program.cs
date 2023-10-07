@@ -33,7 +33,6 @@ builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(Pric
 builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
 builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOptions.Misc));
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
-builder.Services.AddSingleton<UserService>();
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
