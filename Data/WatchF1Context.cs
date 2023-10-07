@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using F1Project.Models;
+﻿using F1Project.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace F1Project.Data;
