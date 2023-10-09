@@ -6,5 +6,4 @@ lib
 bin
 obj
 
-wwwroot/data
 wwwroot/storage

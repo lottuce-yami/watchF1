@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <ScopedCssEnabled>true</ScopedCssEnabled>
-        <DefaultItemExcludes>$(DefaultItemExcludes);wwwroot\storage\**;wwwroot\data\**;</DefaultItemExcludes>
+        <DefaultItemExcludes>$(DefaultItemExcludes);wwwroot\storage\**;</DefaultItemExcludes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,16 +16,11 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
-      <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
     </ItemGroup>
     
     <ItemGroup>
         <None Update="Shared/Components/CardLink.razor.css" CssScope="card-template" />
         <None Update="Shared/Components/Standings.razor.css" CssScope="card-template" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Models" />
     </ItemGroup>
 
 </Project>
