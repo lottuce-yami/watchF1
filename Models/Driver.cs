@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace F1Project.Models;
 
 [Table("driver_standings")]
-public partial class DriverStanding
+public partial class Driver
 {
     [Column("position")]
     public short Position { get; set; }

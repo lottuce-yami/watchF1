@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace F1Project.Models;
 
 [Table("constructor_standings")]
-public partial class ConstructorStanding
+public partial class Constructor
 {
     [Column("position")]
     public short Position { get; set; }

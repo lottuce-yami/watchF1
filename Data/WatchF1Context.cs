@@ -14,11 +14,11 @@ public partial class WatchF1Context : DbContext
     {
     }
 
-    public virtual DbSet<ConstructorStanding> ConstructorStandings { get; set; }
+    public virtual DbSet<Constructor> ConstructorStandings { get; set; }
 
-    public virtual DbSet<DriverStanding> DriverStandings { get; set; }
+    public virtual DbSet<Driver> DriverStandings { get; set; }
 
-    public virtual DbSet<Event> Events { get; set; }
+    public virtual DbSet<Event> Schedule { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -29,19 +29,19 @@ public partial class WatchF1Context : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ConstructorStanding>(entity =>
+        modelBuilder.Entity<Constructor>(entity =>
         {
             entity.HasKey(e => e.Name).HasName("constructor_standings_pkey");
         });
 
-        modelBuilder.Entity<DriverStanding>(entity =>
+        modelBuilder.Entity<Driver>(entity =>
         {
             entity.HasKey(e => e.Name).HasName("driver_standings_pkey");
         });
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("events_pkey");
+            entity.HasKey(e => e.Id).HasName("schedule_pkey");
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -5,11 +5,11 @@ namespace F1Project.Controllers.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase
+public class StandingsController : ControllerBase
 {
     private readonly WatchF1Context _context;
     
-    public UsersController(WatchF1Context context)
+    public StandingsController(WatchF1Context context)
     {
         _context = context;
     }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace F1Project.Models;
 
-[Table("events")]
+[Table("schedule")]
 public partial class Event
 {
     [Key]
