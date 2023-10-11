@@ -41,7 +41,7 @@ public partial class WatchF1Context : DbContext
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("schedule_pkey");
+            entity.HasKey(e => e.Time).HasName("schedule_pkey");
         });
 
         modelBuilder.Entity<User>(entity =>
