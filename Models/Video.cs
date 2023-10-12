@@ -10,6 +10,7 @@ public partial class Video
     [Key]
     [Column("id")]
     [StringLength(8)]
+    [RegularExpression("[a-z0-9]{2}(0[1-9]|[1-9][0-9]){2}[a-z0-9]{2}")]
     public string Id { get; set; } = null!;
     
     [Column("index")]
