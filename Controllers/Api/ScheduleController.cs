@@ -1,4 +1,5 @@
 ﻿using F1Project.Data;
+using F1Project.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1Project.Controllers.Api;
@@ -12,5 +13,16 @@ public class ScheduleController : ControllerBase
     public ScheduleController(WatchF1Context context)
     {
         _context = context;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Event>> Get(short id)
+    {
+        var scheduleEvent = await _context.FindAsync<Event>(id);
+
+        if (scheduleEvent == null) 
+            return NotFound();
+
+        return scheduleEvent;
     }
 }
