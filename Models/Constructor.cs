@@ -3,20 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace F1Project.Models;
 
-[Table("driver_standings")]
-public partial class DriverStanding
+[Table("constructor_standings")]
+public partial class Constructor
 {
-    [Column("position")]
-    public short Position { get; set; }
-
     [Key]
+    [Column("id")]
+    [StringLength(16)]
+    public string Id { get; set; } = null!;
+    
     [Column("name")]
     [StringLength(128)]
     public string Name { get; set; } = null!;
 
-    [Column("flag")]
-    [StringLength(32)]
-    public string? Flag { get; set; }
+    [Column("position")]
+    public short Position { get; set; }
+
+    [Column("logo")]
+    public string? Logo { get; set; }
 
     [Column("points")]
     public short Points { get; set; }

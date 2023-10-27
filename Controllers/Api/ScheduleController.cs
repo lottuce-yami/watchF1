@@ -6,23 +6,23 @@ namespace F1Project.Controllers.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController : ControllerBase
+public class ScheduleController : ControllerBase
 {
     private readonly WatchF1Context _context;
     
-    public UsersController(WatchF1Context context)
+    public ScheduleController(WatchF1Context context)
     {
         _context = context;
     }
-    
-    [HttpGet("{id}")]
-    public async Task<ActionResult<User>> Get(long id)
-    {
-        var user = await _context.FindAsync<User>(id);
 
-        if (user == null) 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Event>> Get(short id)
+    {
+        var scheduleEvent = await _context.FindAsync<Event>(id);
+
+        if (scheduleEvent == null) 
             return NotFound();
 
-        return user;
+        return scheduleEvent;
     }
 }

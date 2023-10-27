@@ -3,18 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace F1Project.Models;
 
-[Table("events")]
+[Table("schedule")]
 public partial class Event
 {
     [Key]
     [Column("id")]
-    [StringLength(8)]
-    public string Id { get; set; } = null!;
-
+    public short Id { get; set; }
+    
     [Column("title")]
     [StringLength(128)]
     public string Title { get; set; } = null!;
-
+    
     [Column("time")]
     public DateTime Time { get; set; }
 

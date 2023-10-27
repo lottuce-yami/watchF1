@@ -3,6 +3,7 @@ using System;
 using F1Project.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace F1Project.Migrations
 {
     [DbContext(typeof(WatchF1Context))]
-    partial class WatchF1ContextModelSnapshot : ModelSnapshot
+    [Migration("20231010165525_ChangeNaming")]
+    partial class ChangeNaming
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,20 +27,14 @@ namespace F1Project.Migrations
 
             modelBuilder.Entity("F1Project.Models.Constructor", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("id");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Logo")
                         .HasColumnType("text")
                         .HasColumnName("logo");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnName("name");
 
                     b.Property<short>("Points")
                         .HasColumnType("smallint")
@@ -47,7 +44,7 @@ namespace F1Project.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("position");
 
-                    b.HasKey("Id")
+                    b.HasKey("Name")
                         .HasName("constructor_standings_pkey");
 
                     b.ToTable("constructor_standings");
@@ -55,21 +52,15 @@ namespace F1Project.Migrations
 
             modelBuilder.Entity("F1Project.Models.Driver", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .HasColumnName("id");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Flag")
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)")
                         .HasColumnName("flag");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnName("name");
 
                     b.Property<short>("Points")
                         .HasColumnType("smallint")
@@ -79,7 +70,7 @@ namespace F1Project.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("position");
 
-                    b.HasKey("Id")
+                    b.HasKey("Name")
                         .HasName("driver_standings_pkey");
 
                     b.ToTable("driver_standings");
@@ -87,12 +78,10 @@ namespace F1Project.Migrations
 
             modelBuilder.Entity("F1Project.Models.Event", b =>
                 {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
+                    b.Property<string>("Id")
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)")
                         .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<short>("Id"));
 
                     b.Property<bool?>("Featured")
                         .HasColumnType("boolean")

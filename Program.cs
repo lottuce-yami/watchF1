@@ -1,7 +1,7 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using F1Project.Data;
 using F1Project.Data.Options;
-using F1Project.Data.AppSettings;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -25,9 +26,13 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 });
 builder.Services.AddDbContext<WatchF1Context>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
+
 builder.Services.Configure<LiveOptions>(builder.Configuration.GetSection(LiveOptions.Live));
 builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(PricingOptions.Pricing));
 builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
