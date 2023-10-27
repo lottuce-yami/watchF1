@@ -128,6 +128,4 @@ public partial class Video
             public Dictionary<string, string> Audios { get; set; } = new();
         }
     }
-
-    public PropertyInfo this[string property] => GetType().GetProperties().Single(p => p.Name == property);
 }
