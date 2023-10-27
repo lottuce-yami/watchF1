@@ -1,7 +1,7 @@
 ﻿@page "/Videos"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@inject VideoService VideoServ
+@using F1Project.Models
+@using F1Project.Data
+@inject WatchF1Context DbContext
 @inject NavigationManager Nav
 
 <PageTitle>
@@ -12,7 +12,7 @@
 </HeadContent>
 
 <div>
-    <FilterForm Properties="Properties"/>
+    <FilterForm Options="Options"/>
     <main class="video-list">
         <VideoList List="VideoList"/>
     </main>
@@ -52,9 +52,13 @@
     private const int PageSize = 20;
     private int PageCount { get; set; }
 
-    private Dictionary<string, object[]> Properties { get; set; } = new();
-
-    private string[] OrderedProperties { get; } = {"Championship", "Season"};
+    private Dictionary<string, string?[]> Options { get; } = new()
+    {
+        {"championship", Array.Empty<string>()}, 
+        {"season", Array.Empty<string>()}, 
+        {"grand_prix", Array.Empty<string>()}, 
+        {"type", Array.Empty<string>()}
+    };
     
     [Parameter]
     [SupplyParameterFromQuery]
@@ -65,7 +69,7 @@
     public string? Season { get; set; }
     
     [Parameter]
-    [SupplyParameterFromQuery]
+    [SupplyParameterFromQuery(Name = "grand_prix")]
     public string? GrandPrix { get; set; }
     
     [Parameter]
@@ -74,23 +78,46 @@
     
     private void UpdateVideos()
     {
-        var filters = GetType().GetProperties().
-            Where(p => p.GetValue(this) != null && p.Name != "Page").
-            ToDictionary(p => p.Name, p => p.GetValue(this));
+        var videos = DbContext.Videos
+            .WhereIf(Championship != null, v =>  v.Championship == Championship)
+            .WhereIf(Season != null, v => v.Season == Season)
+            .WhereIf(GrandPrix != null, v => v.GrandPrix == GrandPrix)
+            .WhereIf(Type != null, v => v.Type == Type);
         
-        VideoList = VideoServ.GetByMany(filters);
-        PageCount = Math.DivRem(VideoList.Count, PageSize, out var remainder);
+        PageCount = Math.DivRem(videos.Count(), PageSize, out var remainder);
         if (remainder > 0) PageCount++;
-        VideoList.Reverse();
-        VideoList = VideoList.Skip(Page * PageSize).Take(PageSize).ToList();
+        
+        VideoList = videos
+            .OrderByDescending(v => v.Index)
+            .Skip(Page * PageSize)
+            .Take(PageSize)
+            .ToList();
     }
     
     protected override void OnParametersSet()
     {
-        Properties = GetType().GetProperties().Where(p => p.Name != "Page").ToDictionary(
-            p => p.Name, 
-            p => VideoServ.GetUniqueBy(p.Name, OrderedProperties.Contains(p.Name)).ToArray()
-                );
+        var videos = DbContext.Videos;
+
+        Options["championship"] = videos
+            .Select(v => v.Championship)
+            .Distinct()
+            .ToArray();
+
+        Options["season"] = videos
+            .Select(v => v.Season)
+            .Distinct()
+            .ToArray();
+        
+        Options["grand_prix"] = videos
+            .Select(v => v.GrandPrix)
+            .Distinct()
+            .ToArray();
+        
+        Options["type"] = videos
+            .Select(v => v.Type)
+            .Distinct()
+            .ToArray();
+        
         UpdateVideos();
     }
 }

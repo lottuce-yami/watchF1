@@ -1,13 +1,40 @@
-﻿namespace F1Project.Data.Database.Types;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
 
-public class Video : DatabaseType
+namespace F1Project.Models;
+
+[Table("videos")]
+public partial class Video
 {
-    public override string Id { get; init; } = null!;
+    [Key]
+    [Column("id")]
+    [StringLength(8)]
+    public string Id { get; set; } = null!;
+    
+    [Column("index")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Index { get; set; }
+
+    [Column("title")]
+    [StringLength(128)]
     public string Title { get; set; } = null!;
-    public string Championship { get; set; } = null!;
-    public string Season { get; set; } = null!;
-    public string GrandPrix { get; set; } = null!;
-    public string Type { get; set; } = null!;
+
+    [Column("championship")]
+    [StringLength(64)]
+    public string? Championship { get; set; }
+
+    [Column("season")]
+    [StringLength(4)]
+    public string? Season { get; set; }
+
+    [Column("grand_prix")]
+    [StringLength(64)]
+    public string? GrandPrix { get; set; }
+
+    [Column("type")]
+    [StringLength(32)]
+    public string? Type { get; set; }
     
     public SourceModel Source(string storageDirectory)
     {
@@ -100,4 +127,6 @@ public class Video : DatabaseType
             public Dictionary<string, string> Audios { get; set; } = new();
         }
     }
+
+    public PropertyInfo this[string property] => GetType().GetProperties().Single(p => p.Name == property);
 }

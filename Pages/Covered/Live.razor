@@ -1,8 +1,10 @@
 ﻿@page "/Live"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@inject SettingService Settings
-@inject VideoService VideoServ
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@using F1Project.Data
+@using F1Project.Models
+@inject IOptionsMonitor<LinksOptions> Links
+@inject WatchF1Context DbContext
 
 <div class="layout">
     <div class="left">
@@ -16,13 +18,13 @@
                 </h2>
             </section>
             <section class="content">
-                <VideoList List="@VideoServ.Get().TakeLast(4).Reverse()"/>
+                <VideoList List="@LastVideos"/>
             </section>
         </article>
     </div>
     <div class="right">
         <Schedule/>
-        @Link.Donate(Settings.Get("donationLink").Value)
+        @Link.Donate(Links.CurrentValue.DonationLink)
         <article id="troubleshoot">
             <section class="caption">
                 <h3 @onclick="() => Opened = !Opened" class="@(Opened ? "active" : "")">
@@ -56,7 +58,7 @@
                             замерьте скорость своего интернет-соединения 
                             <a href="https://www.speedtest.net/" target="_blank">здесь</a>
                             и обратитесь в 
-                            <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>,
+                            <a href="@Links.CurrentValue.SupportLink" target="_blank">поддержку</a>,
                             прикрепив скриншот результата измерения
                         </li>
                     </ol>
@@ -72,4 +74,14 @@
     private User User { get; set; } = null!;
     
     private bool Opened { get; set; }
+    private List<Video>? LastVideos { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        LastVideos = DbContext.Videos
+            .AsEnumerable()
+            .TakeLast(4)
+            .Reverse()
+            .ToList();
+    }
 }

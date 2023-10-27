@@ -1,16 +1,16 @@
 using System.Text;
 using F1Project.Data;
+using F1Project.Data.Options;
 using F1Project.Data.AppSettings;
-using F1Project.Data.Database.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Configuration.AddJsonFile("standingsDictionary.json", optional: false, reloadOnChange: true);
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -23,14 +23,16 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
             SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JWTKey")!))
     };
 });
+builder.Services.AddDbContext<WatchF1Context>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
+builder.Services.Configure<LiveOptions>(builder.Configuration.GetSection(LiveOptions.Live));
+builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(PricingOptions.Pricing));
+builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
+builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOptions.Misc));
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
-builder.Services.AddSingleton<SettingService>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<VideoService>();
-builder.Services.AddSingleton<ServerService>();
 builder.Services.AddHttpClient<StandingsController>();
 builder.Services.AddHttpClient<ScheduleController>();
 builder.Services.AddHostedService<TimedHostedService>();

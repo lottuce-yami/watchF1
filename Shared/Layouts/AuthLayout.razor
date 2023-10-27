@@ -1,13 +1,13 @@
-﻿@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
+﻿@using F1Project.Data
+@using F1Project.Models
 @inherits LayoutComponentBase
 @layout MainLayout
-@inject UserService UserServ
+@inject WatchF1Context DbContext
 @inject ProtectedLocalStorage LocalStorage
 
 @if (IsConnected)
 {
-    if (IsAuthorized && User != null)
+    if (IsAuthorized)
     {
         <CascadingValue Value="User" Name="User">
             @Body
@@ -53,26 +53,12 @@ else
 
     private async Task LoadAuthAsync()
     {
-        try
+        var authValue = await LocalStorage.GetAsync<long?>("tgAuth");
+        if (authValue.Success)
         {
-            var authFile = await LocalStorage.GetAsync<string>("tgAuth");
-            var authValue = authFile.Success ? authFile.Value : null;
-            if (authValue is null || string.IsNullOrWhiteSpace(authValue))
-            {
-                IsAuthorized = false;
-            }
-            else
-            {
-                IsAuthorized = UserServ.ValidateAuthKey(authValue.Split('#'));
-                if (IsAuthorized)
-                {
-                    User = UserServ.Get(authValue.Split('#')[0]);
-                }
-            }
-        }
-        catch
-        {
-            IsAuthorized = false;
+            User = await DbContext.Users.FindAsync(authValue.Value);
+            if (User != null)
+                IsAuthorized = true;
         }
     }
 }

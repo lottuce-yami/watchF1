@@ -1,7 +1,8 @@
 ﻿@using System.Text.Json.Serialization
 @using System.Text.Json
-@using F1Project.Data.Database.Services
-@inject SettingService Settings
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<MiscOptions> Misc
 @inject IJSRuntime Js
 
 <article @ref="_standings" class="standings card-link">
@@ -154,7 +155,7 @@
         try
         {
             StandingsObject = 
-                JsonSerializer.Deserialize<StandingsModel>(Settings.Get("standings").Value ?? "{}")
+                JsonSerializer.Deserialize<StandingsModel>("{}")
                 ?? 
                 new StandingsModel();
         }
@@ -165,7 +166,7 @@
 
         Populated = StandingsObject.Drivers.Length > 2 || StandingsObject.Teams.Length > 2;
         SelectedList = StandingsObject.Drivers;
-        Conclusive = Settings.Get("standingsLock").Value == "true";
+        Conclusive = Misc.CurrentValue.StandingsToggle;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

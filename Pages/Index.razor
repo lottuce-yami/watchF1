@@ -1,8 +1,10 @@
 @page "/"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@inject VideoService VideoServ
-@inject SettingService Settings
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@using F1Project.Data
+@using Video = F1Project.Models.Video
+@inject WatchF1Context DbContext
+@inject IOptionsMonitor<LinksOptions> Links
 @inject IHostEnvironment Environment
 
 <div class="index">
@@ -48,7 +50,7 @@
                 Записи
             </Caption>
         </CardLink>
-        <CardLink Class="tg-promotion" Link="@Settings.Get("tgLink").Value" TargetBlank>
+        <CardLink Class="tg-promotion" Link="@Links.CurrentValue.TelegramLink" TargetBlank>
             <Content>
                 <ul>
                     <li>
@@ -66,13 +68,13 @@
                 Telegram
             </Caption>
         </CardLink>
-        @Link.Support(Settings.Get("supportLink").Value)
+        @Link.Support(Links.CurrentValue.SupportLink)
         <Standings/>
     </div>
     <div class="right">
         <Schedule/>
-        @Link.Donate(Settings.Get("donationLink").Value)
-        @if (!string.IsNullOrWhiteSpace(LastVideo?.Id))
+        @Link.Donate(Links.CurrentValue.DonationLink)
+        @if (LastVideo != null)
         {
             <CardLink Link="@("watch?v=" + LastVideo.Id)">
                 <Content>
@@ -96,6 +98,8 @@
     
     protected override void OnParametersSet()
     {
-        LastVideo = VideoServ.Get().Last();
+        LastVideo = DbContext.Videos
+            .OrderBy(v => v.Index)
+            .LastOrDefault();
     }
 }

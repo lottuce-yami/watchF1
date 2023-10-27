@@ -1,9 +1,9 @@
-﻿@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@using System.Text.Json
+﻿@using System.Text.Json
 @using System.Text.Json.Serialization
 @using System.Text
-@inject SettingService Settings
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<LinksOptions> Links
 
 <section class="manual">
     <p>
@@ -14,7 +14,7 @@
     </p>
     <p>
         В случае возникновения сложностей с сайтом обращайтесь в 
-        <a href="@Settings.Get("supportLink").Value" target="_blank">поддержку</a>.
+        <a href="@Links.CurrentValue.SupportLink" target="_blank">поддержку</a>.
     </p>
 </section>
 

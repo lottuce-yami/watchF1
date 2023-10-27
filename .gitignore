@@ -1,5 +1,9 @@
-.idea/
-bin/
-obj/
-wwwroot/data/
-wwwroot/storage/
+.idea
+*DotSettings.user
+
+lib
+
+bin
+obj
+
+wwwroot/storage

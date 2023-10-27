@@ -1,11 +1,11 @@
 ﻿@page "/Watch"
-@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
+@using F1Project.Data
+@using F1Project.Models
 @inject NavigationManager Nav
-@inject VideoService VideoServ
+@inject WatchF1Context DbContext
 
 <HeadContent>
-    <meta name="description" content="Смотрите запись @Video.Title или скачайте бесплатно на watchF1">
+    <meta name="description" content="Смотрите запись @Video!.Title онлайн или скачайте бесплатно на watchF1">
 </HeadContent>
 
 <div class="left">
@@ -13,7 +13,7 @@
     <hr>
     <section class="other-videos" data-nosnippet>
         <h2>Другие видео:</h2>
-        <VideoList List="@OtherVideos.Where(otherVideo => otherVideo.Id != Video.Id).Take(4)"/>
+        <VideoList List="@OtherVideos!.Where(otherVideo => otherVideo.Id != Video!.Id).Take(4)"/>
     </section>
 </div>
 
@@ -22,9 +22,9 @@
     [SupplyParameterFromQuery(Name = "v")]
     public string? Id { get; set; }
 
-    private Video Video { get; set; } = null!;
+    private Video? Video { get; set; }
 
-    private List<Video> OtherVideos { get; set; } = null!;
+    private List<Video>? OtherVideos { get; set; }
     private readonly Random _random = new();
 
     protected override void OnParametersSet()
@@ -35,9 +35,14 @@
         }
         try
         {
-            Video = VideoServ.Get(Id ?? "");
-            OtherVideos = VideoServ.GetBy("GrandPrix", Video.GrandPrix);
-            OtherVideos = OtherVideos.OrderBy(_ => _random.Next()).ToList();
+            Video = DbContext.Videos
+                .Find(Id);
+
+            OtherVideos = DbContext.Videos
+                .Where(v => v.GrandPrix == Video!.GrandPrix)
+                .AsEnumerable()
+                .OrderBy(_ => _random.Next())
+                .ToList();
         }
         catch
         {

@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "defaultProvider": "jsdelivr",
+  "libraries": [
+    {
+      "library": "@fortawesome/fontawesome-free@6.4.2",
+      "destination": "wwwroot/lib/fontawesome",
+      "files": [
+        "js/fontawesome.min.js",
+        "js/brands.min.js",
+        "js/solid.min.js"
+      ]
+    },
+    {
+      "library": "https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js",
+      "provider": "filesystem",
+      "destination": "wwwroot/lib/twemoji"
+    },
+    {
+      "library": "twemoji@14.0.2",
+      "provider": "cdnjs",
+      "destination": "wwwroot/lib/twemoji/assets"
+    },
+    {
+      "library": "https://irk.lottuce.moe/playerjs/player.js",
+      "provider": "filesystem",
+      "destination": "wwwroot/lib/playerjs"
+    }
+  ]
+}

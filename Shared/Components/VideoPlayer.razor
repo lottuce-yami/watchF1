@@ -1,14 +1,13 @@
-﻿@using F1Project.Data.Database.Services
-@using F1Project.Data.Database.Types
-@inject ServerService ServerServ
-@inject SettingService Settings
+﻿@using F1Project.Models
+@using F1Project.Data.Options
+@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<LiveOptions> LiveOptions
 @inject IJSRuntime Js
 @inject IHostEnvironment Environment
 
 <PageTitle>
     @Title | watchF1
 </PageTitle>
-
 <main>
     <article id="video">
         <section id="player">
@@ -73,7 +72,7 @@
     {
         if (!Live) Source = Video!.Source(Storage);
         PlayerSource = Live ? RandomServer() : Source!.PlayerSource;
-        Title = Live ? Settings.Get("liveTitle").Value : Video!.Title;
+        Title = Live ? LiveOptions.CurrentValue.Title : Video!.Title;
         if (!Live && Source!.Qualities.Any()) DownloadedFile = Source!.Qualities.Last().Audios.Last().Value;
     }
     
@@ -90,14 +89,14 @@
 
     private string RandomServer()
     {
-        var servers = ServerServ.Get();
+        var servers = LiveOptions.CurrentValue.Servers;
         try
         {
-            return servers.Single().Url;
+            return servers[Random.Next(servers.Length)];
         }
-        catch (InvalidOperationException)
+        catch (IndexOutOfRangeException)
         {
-            return servers[Random.Next(servers.Count)].Url;
+            return string.Empty;
         }
     }
 }
