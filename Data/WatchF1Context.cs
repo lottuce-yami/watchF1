@@ -31,12 +31,12 @@ public partial class WatchF1Context : DbContext
     {
         modelBuilder.Entity<Constructor>(entity =>
         {
-            entity.HasKey(e => e.Name).HasName("constructor_standings_pkey");
+            entity.HasKey(e => e.Id).HasName("constructor_standings_pkey");
         });
 
         modelBuilder.Entity<Driver>(entity =>
         {
-            entity.HasKey(e => e.Name).HasName("driver_standings_pkey");
+            entity.HasKey(e => e.Id).HasName("driver_standings_pkey");
         });
 
         modelBuilder.Entity<Event>(entity =>

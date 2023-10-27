@@ -7,6 +7,10 @@ namespace F1Project.Models;
 public partial class Constructor
 {
     [Key]
+    [Column("id")]
+    [StringLength(16)]
+    public string Id { get; set; } = null!;
+    
     [Column("name")]
     [StringLength(128)]
     public string Name { get; set; } = null!;
