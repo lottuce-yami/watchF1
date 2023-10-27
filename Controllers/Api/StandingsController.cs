@@ -1,6 +1,7 @@
 ﻿using F1Project.Data;
 using F1Project.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace F1Project.Controllers.Api;
 
@@ -35,5 +36,19 @@ public class StandingsController : ControllerBase
             return NotFound();
 
         return constructor;
+    }
+
+    [HttpGet]
+    public ActionResult<Standings> GetAll()
+    {
+        var standings = new Standings
+        {
+            DriverStandings = _context.DriverStandings
+                .OrderBy(d => d.Position),
+            ConstructorStandings = _context.ConstructorStandings
+                .OrderBy(c => c.Position)
+        };
+        
+        return standings;
     }
 }
