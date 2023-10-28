@@ -26,6 +26,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 });
 builder.Services.AddDbContext<WatchF1Context>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+
 builder.Services.AddRazorPages().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -38,9 +39,11 @@ builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(Pric
 builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
 builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOptions.Misc));
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
-builder.Services.AddHttpClient<StandingsController>();
-builder.Services.AddHttpClient<ScheduleController>();
+
+builder.Services.AddHttpClient<StandingsUpdater>();
+builder.Services.AddHttpClient<ScheduleUpdater>();
 builder.Services.AddHostedService<TimedHostedService>();
+
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
