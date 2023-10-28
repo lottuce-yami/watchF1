@@ -2,16 +2,16 @@
 
 public class TimedHostedService : BackgroundService
 {
-    public TimedHostedService(ILogger<TimedHostedService> logger, StandingsController standingsController, ScheduleController scheduleController)
+    public TimedHostedService(ILogger<TimedHostedService> logger, StandingsUpdater standingsUpdater, ScheduleUpdater scheduleUpdater)
     {
         _logger = logger;
-        _standingsController = standingsController;
-        _scheduleController = scheduleController;
+        _standingsUpdater = standingsUpdater;
+        _scheduleUpdater = scheduleUpdater;
     }
     
     private readonly ILogger _logger;
-    private readonly StandingsController _standingsController;
-    private readonly ScheduleController _scheduleController;
+    private readonly StandingsUpdater _standingsUpdater;
+    private readonly ScheduleUpdater _scheduleUpdater;
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -27,8 +27,8 @@ public class TimedHostedService : BackgroundService
 
     private async Task DoWork()
     {
-        var standingsTask = _standingsController.UpdateAsync();
-        var scheduleTask = _scheduleController.UpdateAsync();
+        var standingsTask = _standingsUpdater.UpdateAsync();
+        var scheduleTask = _scheduleUpdater.UpdateAsync();
 
         await Task.WhenAll(standingsTask, scheduleTask);
     }
