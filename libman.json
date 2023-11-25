@@ -22,7 +22,7 @@
       "destination": "wwwroot/lib/twemoji/assets"
     },
     {
-      "library": "https://irk.lottuce.moe/playerjs/player.js",
+      "library": "https://www.lottuce.moe/playerjs/player.js",
       "provider": "filesystem",
       "destination": "wwwroot/lib/playerjs"
     }
