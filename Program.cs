@@ -34,6 +34,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
 
+builder.Configuration.AddEnvironmentVariables(prefix: "watchF1_");
 builder.Services.Configure<LiveOptions>(builder.Configuration.GetSection(LiveOptions.Live));
 builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(PricingOptions.Pricing));
 builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
