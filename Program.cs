@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+var jwtKey = builder.Configuration
+    .GetSection(JwtOptions.Jwt)
+    .Get<JwtOptions>()!.Key;
 builder.Services.AddAuthentication().AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -19,19 +23,24 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new 
-            SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JWTKey")!))
+            SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
+
 builder.Services.AddDbContext<WatchF1Context>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDataProtection().SetApplicationName("watchF1");
+
 builder.Services.Configure<LiveOptions>(builder.Configuration.GetSection(LiveOptions.Live));
 builder.Services.Configure<PricingOptions>(builder.Configuration.GetSection(PricingOptions.Pricing));
 builder.Services.Configure<LinksOptions>(builder.Configuration.GetSection(LinksOptions.Links));
 builder.Services.Configure<MiscOptions>(builder.Configuration.GetSection(MiscOptions.Misc));
 builder.Services.Configure<BotOptions>(builder.Configuration.GetSection(BotOptions.Bot));
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.Jwt));
+
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
@@ -49,7 +58,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseStaticFiles();
-
 app.UseRouting();
 app.MapControllers();
 app.MapBlazorHub();
